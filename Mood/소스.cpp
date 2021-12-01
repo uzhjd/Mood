@@ -70,6 +70,7 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 
 BITMAPINFOHEADER bitmapInfoHeader1;
 unsigned char* bitmapImage_1 = LoadBitmapFile("Rapunzel.bmp", &bitmapInfoHeader1);
+// 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader2;
 unsigned char* bitmapImage_2 = LoadBitmapFile("GameOver.bmp", &bitmapInfoHeader2);
 BITMAPINFOHEADER bitmapInfoHeader3;
@@ -118,14 +119,9 @@ void RenderScene(void) { // 변경 화면
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-
-
-
-
-
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	glRasterPos2i((4.0 - x) * 20, 0); // 배경화면 위치
+	glRasterPos2i(0, 40); // 배경화면 위치
 	glDrawPixels(bitmapInfoHeader1.biWidth, bitmapInfoHeader1.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates

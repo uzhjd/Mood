@@ -6,6 +6,7 @@
 #include <string>
 #include<MMSystem.h>
 #pragma comment(lib,"Winmm.lib")
+
 using namespace std;
 
 //#define score_height	40
@@ -20,6 +21,7 @@ float Radius;
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
 
+boolean	camera = false;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -58,11 +60,11 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 		return NULL;
 	}
 	//BMP는 BGR형식이므로 R과 B를 서로 교체해야 함
-	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
+	/*for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
 		tempRGB = bitmapImage[imageIdx];
 		bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
 		bitmapImage[imageIdx + 2] = tempRGB;
-	}
+	}*/
 	// 파일을 닫고 비트맵 이미지 데이터 반환 
 	fclose(filePtr);
 	return bitmapImage;
@@ -79,7 +81,7 @@ unsigned char* bitmapImage_4 = LoadBitmapFile("Start.bmp", &bitmapInfoHeader4);
 BITMAPINFOHEADER bitmapInfoHeader5;
 unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
-void init(void) { // 공들의 정보 초기화
+void init(void) {
 	Radius = 1.0;
 	camera_phi = PI / 6.0;
 	//camera_theta = PI / 4.0;
@@ -91,7 +93,8 @@ void init(void) { // 공들의 정보 초기화
 }
 
 void MyReshape(int w, int h) { // 시점 및 초기화
-	glViewport(0, 0, w, h);
+
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(left_, left_ + width, bottom, bottom + height);
@@ -108,8 +111,33 @@ void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(1.0, 0.0, 0.0, 0.0);
 
+	////////////////화면 분할 코드(수정중)////////////////
+	if (camera) {
+		glViewport(0, 0, width / 2, height);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(left_, (left_ + width)/2, bottom, bottom + height); // 클리핑 볼륨 설정.
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glViewport((width / 2) + 30, 0, width, height);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(((left_ + width) / 2)  + 30, left_ + width, bottom, bottom + height); //클리핑 볼륨 설정.
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+
+	}
+	else {
+		glViewport(0, 0, width, height);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluOrtho2D(left_, left_ + width, bottom, bottom + height);
+	}
+	////////////////////////////////////////////////////////
 	// Camera Position 
 	x = camera_distance * cos(camera_phi) * cos(camera_theta);
 	y = camera_distance * cos(camera_phi) * sin(camera_theta);
@@ -117,8 +145,6 @@ void RenderScene(void) { // 변경 화면
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
-
 
 
 
@@ -155,13 +181,16 @@ void SpecialKey(int key, int x, int y) {
 		cout << camera_distance << endl;
 		break;
 
+	case GLUT_KEY_INSERT:
+		camera = !(camera);
+		break;
+
 	default:
 		break;
 	}
 	glutPostRedisplay();
 
 }
-
 
 
 void main(int argc, char** argv) {

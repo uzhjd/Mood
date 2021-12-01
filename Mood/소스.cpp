@@ -20,8 +20,14 @@ float Radius;
 #define PI 3.141592
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
-
 boolean	camera = false;
+
+struct position {
+	float x;
+	float y;
+	float z;
+}; 
+position p1, p2;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -60,11 +66,11 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 		return NULL;
 	}
 	//BMP는 BGR형식이므로 R과 B를 서로 교체해야 함
-	/*for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
+	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
 		tempRGB = bitmapImage[imageIdx];
 		bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
 		bitmapImage[imageIdx + 2] = tempRGB;
-	}*/
+	}
 	// 파일을 닫고 비트맵 이미지 데이터 반환 
 	fclose(filePtr);
 	return bitmapImage;
@@ -84,20 +90,21 @@ unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 void init(void) {
 	Radius = 1.0;
 	camera_phi = PI / 6.0;
-	//camera_theta = PI / 4.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
-	//Game_level = 1;
-	//point = 0;
 
+	p1.x = 0.0; p1.y = 0.0; p1.z = 20.0; //캐릭터 1 위치
+	p2.x = 10;p2.y = 0;p2.z = 0; //캐릭터 2 위치
+	glEnable(GL_DEPTH_TEST);
 }
 
 void MyReshape(int w, int h) { // 시점 및 초기화
-
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(left_, left_ + width, bottom, bottom + height);
+	glOrtho(-100.0, 100.0, -50.0, 50.0, -10.0, 15.0);
+	//gluPerspective(60.0, 1.0, 1.0, 20.0);
+
 }
 
 //void Modeling_Score() { // 점수판 만들기
@@ -105,27 +112,54 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 //	glRectf(0, 0, width, score_height);
 //}
 
+void Drawchar() {
+	//////////p1캐릭터//////////
+	glPushMatrix();
+	glTranslated(p1.x, p1.y + 10.0, p1.z);
+	glColor3f(1.0, 1.0, 1.0);
+	glutSolidSphere(Radius, 30, 30);
+	glPopMatrix();
 
+
+}
+
+void axis(void) {
+
+	glBegin(GL_LINES);
+	glColor3f(1.0, 0.0, 0.0); // x축   빨간색
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(100.0, 0.0, 0.0);
+
+	glColor3f(0.0, 1.0, 0.0); // y축 초록색
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(0.0, 100.0, 0.0);
+
+	glColor3f(0.0, 0.0, 1.0); // z축 파란색
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(0.0, 0.0, 100.0);
+	glEnd();
+
+}
 
 void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0, 0.0, 0.0, 0.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		glViewport(0, 0, width / 2, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluOrtho2D(left_, (left_ + width)/2, bottom, bottom + height); // 클리핑 볼륨 설정.
+		glOrtho(left_, (left_ + width) / 2, bottom, bottom + height, -5.0, 15.0);// 클리핑 볼륨 설정.
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
 		glViewport((width / 2) + 30, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluOrtho2D(((left_ + width) / 2)  + 30, left_ + width, bottom, bottom + height); //클리핑 볼륨 설정.
+		glOrtho(((left_ + width) / 2) + 30, left_ + width, bottom, bottom + height, -5.0, 15.0);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
@@ -135,7 +169,7 @@ void RenderScene(void) { // 변경 화면
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		gluOrtho2D(left_, left_ + width, bottom, bottom + height);
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 	}
 	////////////////////////////////////////////////////////
 	// Camera Position 
@@ -147,38 +181,41 @@ void RenderScene(void) { // 변경 화면
 	glLoadIdentity();
 
 
-
-
-	glShadeModel(GL_FLAT);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	glRasterPos2i((4.0 - x) * 20, 0); // 배경화면 위치
-	glDrawPixels(bitmapInfoHeader1.biWidth, bitmapInfoHeader1.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
+	//glShadeModel(GL_FLAT);
+	//glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	//glRasterPos2i((4.0 - x) * 20, 0); // 배경화면 위치
+	//glDrawPixels(bitmapInfoHeader1.biWidth, bitmapInfoHeader1.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
-	gluLookAt(x, y, z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+	gluLookAt(0.0, 0.0,10.0,0.0, 0.0,0.0,0.0,1.0, 0.0);
 	//Modeling_Score();
-
+	
+	Drawchar();
+	axis();
 
 	glutPostRedisplay();
 	glutSwapBuffers();
 	glFlush();
 }
 
+
 void SpecialKey(int key, int x, int y) {
 
 	switch (key) {
 	case GLUT_KEY_LEFT:
-		camera_distance += 0.1;
-		cout << "left" << endl;
-		cout << camera_distance << endl;
+		p1.z -= 10;
+		cout << p1.z << endl;
+		//camera_distance += 0.1;
+		//cout << "left" << endl;
+		//cout << camera_distance << endl;
 
 		break;
 	case GLUT_KEY_RIGHT:
-
-
-		camera_distance -= 0.1;
-		cout << "right" << endl;
-		cout << camera_distance << endl;
+		p1.z += 10;
+		cout << p1.z << endl;
+		//camera_distance -= 0.1;
+		//cout << "right" << endl;
+		//cout << camera_distance << endl;
 		break;
 
 	case GLUT_KEY_INSERT:
@@ -194,7 +231,7 @@ void SpecialKey(int key, int x, int y) {
 
 
 void main(int argc, char** argv) {
-	glutInitWindowPosition(800, 100);
+	glutInitWindowPosition(200, 50);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); // 애니메이션처럼 보이기 위해 DOUBLE로 씀
 	glutInitWindowSize(width, height);
 	glutCreateWindow("To the dawn");

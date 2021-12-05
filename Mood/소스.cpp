@@ -15,20 +15,27 @@ using namespace std;
 #define GRAVITY
 int	left_ = 0;
 int	bottom = 0;
+
 float	camera_distance;
 float	camera_theta, camera_phi;
 float Radius;
+
+float jumpMax = 0.2;
+const float timeFactor = 2000;
+
 #define PI 3.141592
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
 boolean	camera = false;
+boolean p1Jump = false;
+boolean p2Jump = false;
 
 struct position {
 	float x;
 	float y;
 	float z;
-}; 
-position p1, p2;
+};
+position p1, p2,velocity;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -94,7 +101,7 @@ void init(void) {
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
-
+	velocity = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
 	p2.x = 1.0;p2.y = 0;p2.z = 0; //캐릭터 2 위치
 	glEnable(GL_DEPTH_TEST);
@@ -124,10 +131,10 @@ void Drawchar() {
 	glPopMatrix();
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
-	glTranslated(p1.x, p1.y, p1.z-0.5);
+	glTranslated(p1.x, p1.y, p1.z - 0.5);
 	glutSolidSphere((Radius), 30, 30);
 	glPopMatrix();
-	
+
 
 	//////////p2캐릭터//////////
 	glPushMatrix();
@@ -164,7 +171,33 @@ void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(0.0+camera_distance, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+	gluLookAt(0.0 + camera_distance, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+}
+
+void jump() {
+	float z1 = p1.z;
+
+	if (p1Jump==true && z1 <= 0.5) {
+		velocity.z = 0.05f;
+
+		if (z1 > 0.5) {
+			p1Jump = false;
+		}
+
+	}
+
+	if (p1Jump == false && z1>0.0) {
+		velocity.z = -0.03f;
+
+
+	}
+
+	if (p1Jump == false && z1 <= 0.0) {
+		p1.z = 0.0;
+		velocity.z = 0.0;
+	}
+
+	glutPostRedisplay();
 }
 
 void RenderScene(void) { // 변경 화면
@@ -172,22 +205,29 @@ void RenderScene(void) { // 변경 화면
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
+	p1.z += velocity.z;
+	jump();
+	cout << p1.z << endl;
 
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		glViewport(0, 0, width / 2, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-50.0, 0.0, -50.0, 50.0, -10.0, 15.0);// 클리핑 볼륨 설정.
+		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);// 클리핑 볼륨 설정.
+		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		gluLookAt(p1.x, p1.y, p1.z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 		glViewport((width / 2) + 30, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0.0, 50.0, -50.0, 50.0, -10.0, 15.0);
+		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
+		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		gluLookAt(p2.x, p2.y, p2.z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 
 	}
@@ -195,18 +235,15 @@ void RenderScene(void) { // 변경 화면
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
-		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+		//glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+		cameraSet();
 	}
 	////////////////////////////////////////////////////////
 	// Camera Position 
 	x = camera_distance * cos(camera_phi) * cos(camera_theta);
 	y = camera_distance * cos(camera_phi) * sin(camera_theta);
 	z = camera_distance * sin(camera_phi);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
 
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -215,22 +252,13 @@ void RenderScene(void) { // 변경 화면
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
 	//Modeling_Score();
-	
-	cameraSet();
+
 	axis();
 	Drawchar();
 
 	glutPostRedisplay();
 	glutSwapBuffers();
 	glFlush();
-}
-
-void p1Jump() {
-
-}
-
-void p2Jump() {
-
 }
 
 void SpecialKey(int key, int x, int y) {
@@ -245,10 +273,13 @@ void SpecialKey(int key, int x, int y) {
 		//camera_distance -= 0.1;
 		break;
 
-	//p1Jump()
-	case GLUT_KEY_UP: break;
+		//p1Jump()
+	case GLUT_KEY_UP:
+		if (!p1Jump) { p1Jump = true; }
+	//	else p1Jump = false;
+		break;
 
-	//viewport 분할
+		//viewport 분할
 	case GLUT_KEY_INSERT: camera = !(camera); break;
 
 	default:break;
@@ -262,7 +293,9 @@ void Keyboard(unsigned char key, int x, int y) {
 	{
 	case 'a': p2.x += 0.1; break;
 	case 'd': p2.x -= 0.1; break;
-
+	case 'w':
+		if (!p2Jump) p2Jump = true;
+		else p2Jump = false;
 	default:
 		break;
 	}

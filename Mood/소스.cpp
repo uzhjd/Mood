@@ -104,8 +104,8 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = 1.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
-	p2.x = 0.0;p2.y = 0;p2.z = 0; //캐릭터 2 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
+	p2.x = 1.0;p2.y = 0.0;p2.z = 0.0; //캐릭터 2 위치
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -173,18 +173,30 @@ void axis(void) {
 void Collision_Player_To_Player() {
 	////////////////플레이어간 충돌체크(수정중)////////////////
 	////////p1의 왼쪽과 p2의 오른쪽 충돌////////	
-	if (p1Left) {
-		if ((p1.x + Radius) > (p2.x - Radius)) {
-			p1.x = p2.x - 2 * Radius;
+	if (p1.x > p2.x) { // p1 - left
+		if (p1Right) {
+			if ((p1.x - Radius) < (p2.x + Radius))
+				p1.x = p2.x + 2 * Radius;
+		}
+
+		if (p2Left) {
+			if ((p1.x - Radius) > (p2.x + Radius))
+				p2.x = p1.x - 2 * Radius;
 		}
 	}
 
-	if (p2Right) {
-		if ((p1.x + Radius) > (p2.x - Radius)) {
-			p2.x = p1.x + 2 * Radius;
+	else {
+		if (p1Left) {
+			if ((p1.x + Radius) > (p2.x - Radius))
+				p1.x = p2.x - 2 * Radius;
+		}
+
+		if (p2Right) {
+			if ((p1.x - Radius) < (p2.x + Radius))
+				p2.x = p1.x + 2 * Radius;
 		}
 	}
-
+	
 }
 
 void cameraSet() {
@@ -346,6 +358,7 @@ void Keyboard(unsigned char key, int x, int y) {
 		break;
 	case 'w':
 		if (!p2Jump) p2Jump = true;
+		break;
 		//else p2Jump = false; break;
 	default:
 		p2Left = false;

@@ -35,7 +35,7 @@ struct position {
 	float y;
 	float z;
 };
-position p1, p2,velocity;
+position p1, p2,velocity1,velocity2;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -101,7 +101,8 @@ void init(void) {
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
-	velocity = { 0.0,0.0,0.0 };
+	velocity1 = { 0.0,0.0,0.0 };
+	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
 	p2.x = 1.0;p2.y = 0;p2.z = 0; //캐릭터 2 위치
 	glEnable(GL_DEPTH_TEST);
@@ -167,6 +168,16 @@ void axis(void) {
 
 }
 
+void Collision_Player_To_Player() {
+	////////////////플레이어간 충돌체크(수정중)////////////////
+	////p1의 왼쪽과 p2의 오른쪽 충돌
+	if ((p1.x + Radius == p2.x - Radius) && (p1.z==p2.z))
+		p1.x += 0.1;
+
+	cout <<"1: "<<p1.x + Radius << endl;
+	cout <<"2: "<<p2.x - Radius << endl;
+}
+
 void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -176,25 +187,42 @@ void cameraSet() {
 
 void jump() {
 	float z1 = p1.z;
+	float z2 = p2.z;
+	//////////p1캐릭터 점프//////////
+	if (p1Jump==true && z1 <= 1.5) {
+		velocity1.z = 0.05f;
 
-	if (p1Jump==true && z1 <= 0.5) {
-		velocity.z = 0.05f;
+		if (z1 > 1.5) {
+			p1Jump = false;
+		}
 
-		if (z1 > 0.5) {
+	}
+	if (z1>1.5) {
+		p1Jump = false;
+		velocity1.z = -0.003f;
+	}
+	if (p1Jump == false && z1 <= 0.0) {
+		p1.z = 0.0;
+		velocity1.z = 0.0;
+	}
+	//////////p2캐릭터 점프//////////
+	if (p2Jump == true && z2 <= 0.8) {
+		velocity2.z = 0.02f;
+
+		if (z2 > 0.5) {
 			p1Jump = false;
 		}
 
 	}
 
-	if (p1Jump == false && z1>0.0) {
-		velocity.z = -0.03f;
-
-
+	if (z2 > 0.8) {
+		p2Jump = false;
+		velocity2.z = -0.0005f;
 	}
 
-	if (p1Jump == false && z1 <= 0.0) {
-		p1.z = 0.0;
-		velocity.z = 0.0;
+	if (p2Jump == false && z2 <= 0.0) {
+		p2.z = 0.0;
+		velocity2.z = 0.0;
 	}
 
 	glutPostRedisplay();
@@ -205,17 +233,17 @@ void RenderScene(void) { // 변경 화면
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-	p1.z += velocity.z;
+	p1.z += velocity1.z;
+	p2.z += velocity2.z;
 	jump();
-	cout << p1.z << endl;
 
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		glViewport(0, 0, width / 2, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);// 클리핑 볼륨 설정.
-		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+		//glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);// 클리핑 볼륨 설정.
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		gluLookAt(p1.x, p1.y, p1.z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
@@ -223,8 +251,8 @@ void RenderScene(void) { // 변경 화면
 		glViewport((width / 2) + 30, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
-		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+		//glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		gluLookAt(p2.x, p2.y, p2.z, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
@@ -255,11 +283,12 @@ void RenderScene(void) { // 변경 화면
 
 	axis();
 	Drawchar();
-
+	Collision_Player_To_Player();
 	glutPostRedisplay();
 	glutSwapBuffers();
 	glFlush();
 }
+
 
 void SpecialKey(int key, int x, int y) {
 
@@ -295,7 +324,7 @@ void Keyboard(unsigned char key, int x, int y) {
 	case 'd': p2.x -= 0.1; break;
 	case 'w':
 		if (!p2Jump) p2Jump = true;
-		else p2Jump = false;
+		//else p2Jump = false; break;
 	default:
 		break;
 	}

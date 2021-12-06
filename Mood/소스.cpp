@@ -133,7 +133,7 @@ void Drawchar() {
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
 	glTranslated(p1.x, p1.y, p1.z - 0.5);
-	glutSolidSphere((Radius), 30, 30);
+	glutSolidSphere(Radius, 30, 30);
 	glPopMatrix();
 
 
@@ -145,7 +145,7 @@ void Drawchar() {
 	glPopMatrix();
 	glPushMatrix();
 	glTranslated(p2.x, p2.y, p2.z - 0.5);
-	glutSolidSphere((Radius), 30, 30);
+	glutSolidSphere(Radius, 30, 30);
 	glPopMatrix();
 
 }
@@ -170,7 +170,7 @@ void axis(void) {
 
 void Collision_Player_To_Player() {
 	////////////////플레이어간 충돌체크(수정중)////////////////
-	////p1의 왼쪽과 p2의 오른쪽 충돌
+	////////p1의 왼쪽과 p2의 오른쪽 충돌////////
 	if ((p1.x + Radius == p2.x - Radius) && (p1.z==p2.z))
 		p1.x += 0.1;
 
@@ -199,7 +199,7 @@ void jump() {
 	}
 	if (z1>1.5) {
 		p1Jump = false;
-		velocity1.z = -0.003f;
+		velocity1.z = -0.005f;
 	}
 	if (p1Jump == false && z1 <= 0.0) {
 		p1.z = 0.0;
@@ -263,8 +263,8 @@ void RenderScene(void) { // 변경 화면
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		//glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
-		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+		glOrtho(-50.0, 50.0, -50.0, 50.0, -10.0, 15.0);
+		//glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
 		cameraSet();
 	}
 	////////////////////////////////////////////////////////

@@ -174,26 +174,31 @@ void Collision_Player_To_Player() {
 	////////////////플레이어간 충돌체크(수정중)////////////////
 	////////p1의 왼쪽과 p2의 오른쪽 충돌////////	
 	if (p1.x > p2.x) { // p1 - left
-		if (p1Right) {
-			if ((p1.x - Radius) < (p2.x + Radius))
-				p1.x = p2.x + 2 * Radius;
-		}
+		//if ((p1.z + Radius > p2.z - 1.5 * Radius) && (p1.z - 1.5 * Radius > p2.z + Radius)) {
+			
+			if (p1Right) {
+				if ((p1.x - Radius) < (p2.x + Radius))
+					p1.x = p2.x + 2 * Radius;
+			}
 
-		if (p2Left) {
-			if ((p1.x - Radius) > (p2.x + Radius))
-				p2.x = p1.x - 2 * Radius;
-		}
+			if (p2Left) {
+				if ((p1.x - Radius) > (p2.x + Radius))
+					p2.x = p1.x - 2 * Radius;
+			}
+		//}
 	}
 
 	else {
-		if (p1Left) {
-			if ((p1.x + Radius) > (p2.x - Radius))
-				p1.x = p2.x - 2 * Radius;
-		}
-
-		if (p2Right) {
-			if ((p1.x - Radius) < (p2.x + Radius))
-				p2.x = p1.x + 2 * Radius;
+		//if ((p2.z + Radius > p1.z - 1.5 * Radius) && (p2.z - 1.5 * Radius > p1.z + Radius)) {
+			
+			if (p1Left) {
+				if ((p1.x + Radius) > (p2.x - Radius))
+					p1.x = p2.x - 2 * Radius;
+			}
+			if (p2Right) {
+				if ((p1.x - Radius) < (p2.x + Radius))
+					p2.x = p1.x + 2 * Radius;
+			//}
 		}
 	}
 	
@@ -210,15 +215,15 @@ void jump() {
 	float z1 = p1.z;
 	float z2 = p2.z;
 	//////////p1캐릭터 점프//////////
-	if (p1Jump==true && z1 <= 1.5) {
+	if (p1Jump==true && z1 <= 2.0) {
 		velocity1.z = 0.05f;
 
-		if (z1 > 1.5) {
+		if (z1 > 2.0) {
 			p1Jump = false;
 		}
 
 	}
-	if (z1>1.5) {
+	if (z1>2.0) {
 		p1Jump = false;
 		velocity1.z = -0.001f;
 	}
@@ -227,15 +232,15 @@ void jump() {
 		velocity1.z = 0.0;
 	}
 	//////////p2캐릭터 점프//////////
-	if (p2Jump == true && z2 <= 0.8) {
-		velocity2.z = 0.02f;
+	if (p2Jump == true && z2 <= 2.0) {
+		velocity2.z = 0.05f;
 
-		if (z2 > 0.5) {
+		if (z2 > 2.0) {
 			p1Jump = false;
 		}
 	}
 
-	if (z2 > 0.8) {
+	if (z2 > 2.0) {
 		p2Jump = false;
 		velocity2.z = -0.0005f;
 	}
@@ -294,7 +299,7 @@ void RenderScene(void) { // 변경 화면
 
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	glRasterPos2i((4.0 - x) * 20, 0); // 배경화면 위치
+	glRasterPos3i(-5.0, 0.0, -5.0); // 배경화면 위치
 	glDrawPixels(bitmapInfoHeader1.biWidth, bitmapInfoHeader1.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
 	
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates

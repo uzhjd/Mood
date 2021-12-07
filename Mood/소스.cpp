@@ -17,7 +17,7 @@ using namespace std;
 float	camera_distance;
 float	camera_theta, camera_phi;
 
-float jumpMax = 2.0;
+float jumpMax = 0.5,bt=-3.0;
 const float timeFactor = 2000;
 
 #define PI 3.141592
@@ -101,25 +101,17 @@ unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
 void init(void) {
 
-	
-
-
-
-
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = 0.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
-	p2.x = 1.0;p2.y = 0.0;p2.z = 0.0; //캐릭터 2 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = 1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
-	// 원지윤 수정
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
-	moveDistance = 0.1; jumpUp = 0.05; jumpDown = -0.001;
-
-
+	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.001;
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -264,8 +256,8 @@ void jump() {
 		p1Jump = false;
 		velocity1.z = jumpDown;
 	}
-	if (p1Jump == false && z1 <= 0.0) {
-		p1.z = 0.0;
+	if (p1Jump == false && z1 <= bt) {
+		p1.z = bt;
 		velocity1.z = 0.0;
 	}
 	//////////p2캐릭터 점프//////////
@@ -282,8 +274,8 @@ void jump() {
 		velocity2.z = jumpDown;
 	}
 
-	if (p2Jump == false && z2 <= 0.0) {
-		p2.z = 0.0;
+	if (p2Jump == false && z2 <= bt) {
+		p2.z = bt;
 		velocity2.z = 0.0;
 	}
 

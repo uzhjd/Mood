@@ -16,9 +16,8 @@ using namespace std;
 
 float	camera_distance;
 float	camera_theta, camera_phi;
-float Radius;
 
-float jumpMax = 0.2;
+float jumpMax = 2.0;
 const float timeFactor = 2000;
 
 #define PI 3.141592
@@ -27,6 +26,7 @@ float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
 boolean	camera = false;
 boolean p1Jump = false;
 boolean p2Jump = false;
+float Radius, moveDistance, jumpUp, jumpDown;
 
 boolean p1Left, p1Right,p2Left,p2Right;
 float left_, right_, top_, bottom_,zNear_,zFar_;
@@ -37,6 +37,8 @@ struct position {
 	float z;
 };
 position p1, p2,velocity1,velocity2;
+
+GLuint	texture;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -98,6 +100,12 @@ BITMAPINFOHEADER bitmapInfoHeader5;
 unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
 void init(void) {
+
+	
+
+
+
+
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -106,15 +114,40 @@ void init(void) {
 	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = 0.0; //캐릭터 1 위치
 	p2.x = 1.0;p2.y = 0.0;p2.z = 0.0; //캐릭터 2 위치
+
+	// 원지윤 수정
+	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
+	moveDistance = 0.1; jumpUp = 0.05; jumpDown = -0.001;
+
+
+
 	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_TEXTURE_2D);
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader1.biWidth,
+		bitmapInfoHeader1.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
 }
 
 void MyReshape(int w, int h) { // 시점 및 초기화
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-30.0, 30.0, -30.0, 30.0, -10.0, 15.0);
-	//gluPerspective(60.0, 1.0, 1.0, 20.0);
+	//glOrtho(-30.0, 30.0, -30.0, 30.0, 1.0, 150.0);
+	gluPerspective(60.0, 1.0, 1.0, 2000.0);
 	//gluOrtho2D(left_, left_ + width, bottom, bottom + height);
 
 }
@@ -170,79 +203,83 @@ void axis(void) {
 
 }
 
+
 void Collision_Player_To_Player() {
 	////////////////플레이어간 충돌체크(수정중)////////////////
-	////////p1의 왼쪽과 p2의 오른쪽 충돌////////	
 	if (p1.x > p2.x) { // p1 - left
-		//if ((p1.z + Radius > p2.z - 1.5 * Radius) && (p1.z - 1.5 * Radius > p2.z + Radius)) {
-			
-			if (p1Right) {
-				if ((p1.x - Radius) < (p2.x + Radius))
-					p1.x = p2.x + 2 * Radius;
-			}
+		if ((p1.z == p2.z) || ((p1.z + Radius >= p2.z - 1.5 * Radius) && (p1.z - 1.5 * Radius <= p2.z + Radius))) {
+			if ((p1.x - p2.x) < 2 * Radius) {
+				if (p1Right) {
+					if ((p1.x - Radius) < (p2.x + Radius))
+						p1.x = p2.x + 2 * Radius;
+				}
 
-			if (p2Left) {
-				if ((p1.x - Radius) > (p2.x + Radius))
-					p2.x = p1.x - 2 * Radius;
+				else if (p2Left) {
+					if ((p1.x - Radius) < (p2.x + Radius))
+						p2.x = p1.x - 2 * Radius;
+				}
 			}
-		//}
+		}
 	}
 
 	else {
-		//if ((p2.z + Radius > p1.z - 1.5 * Radius) && (p2.z - 1.5 * Radius > p1.z + Radius)) {
-			
-			if (p1Left) {
-				if ((p1.x + Radius) > (p2.x - Radius))
-					p1.x = p2.x - 2 * Radius;
+		if ((p1.z == p2.z) || ((p2.z + Radius >= p1.z - 1.5 * Radius) && (p2.z - 1.5 * Radius <= p1.z + Radius))) {
+
+			if ((p2.x - p1.x) < 2 * Radius) {
+				if (p1Left) {
+					if ((p1.x + Radius) > (p2.x - Radius))
+						p1.x = p2.x - 2 * Radius;
+				}
+				if (p2Right) {
+					if ((p1.x - Radius) < (p2.x + Radius))
+						p2.x = p1.x + 2 * Radius;
+				}
 			}
-			if (p2Right) {
-				if ((p1.x - Radius) < (p2.x + Radius))
-					p2.x = p1.x + 2 * Radius;
-			//}
+
 		}
 	}
-	
+
 }
 
 void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(0.0 , 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+	gluLookAt(p1.x , p1.y + 4.0, 0.0, p1.x, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 }
 
 void jump() {
 	float z1 = p1.z;
 	float z2 = p2.z;
 	//////////p1캐릭터 점프//////////
-	if (p1Jump==true && z1 <= 2.0) {
-		velocity1.z = 0.05f;
+	if (p1Jump == true && z1 <= jumpMax) {
+		velocity1.z = jumpUp;
 
-		if (z1 > 2.0) {
+		if (z1 > jumpMax) {
 			p1Jump = false;
 		}
 
 	}
-	if (z1>2.0) {
+	if (z1 > jumpMax) {
 		p1Jump = false;
-		velocity1.z = -0.001f;
+		velocity1.z = jumpDown;
 	}
 	if (p1Jump == false && z1 <= 0.0) {
 		p1.z = 0.0;
 		velocity1.z = 0.0;
 	}
 	//////////p2캐릭터 점프//////////
-	if (p2Jump == true && z2 <= 2.0) {
-		velocity2.z = 0.05f;
+	if (p2Jump == true && z2 <= jumpMax) {
+		velocity2.z = jumpUp;
 
-		if (z2 > 2.0) {
+		if (z2 > jumpMax) {
 			p1Jump = false;
 		}
 	}
 
-	if (z2 > 2.0) {
+	if (z2 > jumpMax) {
 		p2Jump = false;
-		velocity2.z = -0.0005f;
+		velocity2.z = jumpDown;
 	}
 
 	if (p2Jump == false && z2 <= 0.0) {
@@ -262,6 +299,13 @@ void RenderScene(void) { // 변경 화면
 	p2.z += velocity2.z;
 	jump();
 
+
+
+
+
+
+
+
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -271,7 +315,7 @@ void RenderScene(void) { // 변경 화면
 		glOrtho(left_, right_, bottom_, top_, zNear_, zFar_);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+		gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 
 		glViewport(width / 2, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
@@ -283,7 +327,7 @@ void RenderScene(void) { // 변경 화면
 	
 	}
 	else {
-		left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;
+		//left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;
 		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -299,8 +343,23 @@ void RenderScene(void) { // 변경 화면
 
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-	glRasterPos3i(-5.0, 0.0, -5.0); // 배경화면 위치
-	glDrawPixels(bitmapInfoHeader1.biWidth, bitmapInfoHeader1.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
+
+	glColor3f(1.0, 1.0, 1.0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glBegin(GL_POLYGON);
+	glTexCoord2f(0.0, 0.0);
+	glVertex3f(5.0, -1.0, -5.0);
+	glTexCoord2f(1.0, 0.0);
+	glVertex3f(-155.0, -1.0, -5.0);
+	glTexCoord2f(1.0, 1.0);
+	glVertex3f(-155.0, -1.0, 5.0);
+	glTexCoord2f(0.0, 1.0);
+	glVertex3f(5.0, -1.0, 5.0);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
 	
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
 	//Modeling_Score();
@@ -312,19 +371,17 @@ void RenderScene(void) { // 변경 화면
 	glutSwapBuffers();
 	glFlush();
 }
-
-
 void SpecialKey(int key, int x, int y) {
 
 	switch (key) {
 	case GLUT_KEY_LEFT:
-		p1.x += 0.1;
+		p1.x += moveDistance;
 		p1Left = true;
 		p1Right = false;
 		//camera_distance += 0.1;
 		break;
 	case GLUT_KEY_RIGHT:
-		p1.x -= 0.1;
+		p1.x -= moveDistance;
 		p1Left = false;
 		p1Right = true;
 		//camera_distance -= 0.1;
@@ -333,7 +390,7 @@ void SpecialKey(int key, int x, int y) {
 		//p1Jump()
 	case GLUT_KEY_UP:
 		if (!p1Jump) { p1Jump = true; }
-	//	else p1Jump = false;
+		//   else p1Jump = false;
 		break;
 
 		//viewport 분할
@@ -351,13 +408,13 @@ void SpecialKey(int key, int x, int y) {
 void Keyboard(unsigned char key, int x, int y) {
 	switch (key)
 	{
-	case 'a': 
-		p2.x += 0.1;  
+	case 'a':
+		p2.x += moveDistance;
 		p2Left = true;
 		p2Right = false;
 		break;
-	case 'd': 
-		p2.x -= 0.1; 
+	case 'd':
+		p2.x -= moveDistance;
 		p2Left = false;
 		p2Right = true;
 		break;
@@ -372,6 +429,41 @@ void Keyboard(unsigned char key, int x, int y) {
 	}
 	glutPostRedisplay();
 }
+
+void SpecialKeyUp(int key, int x, int y) {
+	switch (key)
+	{
+	case GLUT_KEY_LEFT:
+		p1Left = false;
+		p1Right = false;
+		break;
+	case GLUT_KEY_RIGHT:
+		p1Left = false;
+		p1Right = false;
+		break;
+	default:
+		break;
+	}
+}
+
+void KeyboardUp(unsigned char key, int x, int y) {
+	switch (key)
+	{
+	case 'a':
+		p2Left = false;
+		p2Right = false;
+		break;
+	case 'd':
+		p2Left = false;
+		p2Right = false;
+		break;
+
+	default:
+		break;
+	}
+	glutPostRedisplay();
+}
+
 void main(int argc, char** argv) {
 	glutInitWindowPosition(200, 50);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); // 애니메이션처럼 보이기 위해 DOUBLE로 씀
@@ -383,11 +475,13 @@ void main(int argc, char** argv) {
 	glutIdleFunc(RenderScene); // 아무일을 수행 안해도 그것을 이벤트로 삼아라!!!(마우스, 키보드 입력이 없을때 발생)
 
 	glutSpecialFunc(SpecialKey);
+	glutSpecialUpFunc(SpecialKeyUp);
 	glutKeyboardFunc(Keyboard);
-	//	
-	//	//if (you) {
-	//	//	sndPlaySoundA("music.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+	glutKeyboardUpFunc(KeyboardUp);
+	//   
+	//   //if (you) {
+	//   //   sndPlaySoundA("music.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
 	////
-	//	//}
+	//   //}
 	glutMainLoop();
 }

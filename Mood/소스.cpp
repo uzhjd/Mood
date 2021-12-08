@@ -212,6 +212,17 @@ void Collision_Player_To_Player() {
 				}
 			}
 		}
+		//플레이어 머리 충돌(수정중)
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius))&&((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
+			if(p1.x - p2.x < 2 * Radius)
+				p1.z = p2.z + 3.0* Radius;
+		}
+
+		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
+			if(p1.x - p2.x < 2 * Radius)
+				p2.z = p1.z + 3.0 * Radius;
+		}
+
 	}
 
 	else {
@@ -228,6 +239,15 @@ void Collision_Player_To_Player() {
 				}
 			}
 
+		}
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z-1.5*Radius)>(p2.z-1.5*Radius))) {
+			if((p2.x - p1.x < 2 * Radius))
+			p1.z = p2.z + 3.0 * Radius;
+		}
+
+		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
+			if(p2.x - p1.x < 2 * Radius)
+				p2.z = p1.z + 3.0 * Radius;
 		}
 	}
 
@@ -250,7 +270,6 @@ void jump() {
 		if (z1 > jumpMax) {
 			p1Jump = false;
 		}
-
 	}
 	if (z1 > jumpMax) {
 		p1Jump = false;

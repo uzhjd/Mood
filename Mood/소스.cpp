@@ -111,7 +111,7 @@ void init(void) {
 	p2.x = 1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
-	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.001;
+	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
 
 	glEnable(GL_DEPTH_TEST);
 

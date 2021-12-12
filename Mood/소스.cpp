@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include<MMSystem.h>
+#include"Object.cpp"
 #pragma comment(lib,"Winmm.lib")
 
 using namespace std;
@@ -17,7 +18,7 @@ using namespace std;
 float	camera_distance;
 float	camera_theta, camera_phi;
 
-float jumpMax = 0.5,bt=-3.0;
+float jumpMax = 0.5, bt = -3.0;
 const float timeFactor = 2000;
 
 #define PI 3.141592
@@ -28,15 +29,17 @@ boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
 
-boolean p1Left, p1Right,p2Left,p2Right;
-float left_, right_, top_, bottom_,zNear_,zFar_;
+boolean p1Left, p1Right, p2Left, p2Right;
+float left_, right_, top_, bottom_, zNear_, zFar_;
 
+object_pepero pepero1(-8.0, 0.0, -3.0);
+object_pocachip pocachip(-8.0, 0.0, -3.0);
 struct position {
 	float x;
 	float y;
 	float z;
 };
-position p1, p2,velocity1,velocity2;
+position p1, p2, velocity1, velocity2;
 
 GLuint	texture;
 
@@ -108,7 +111,7 @@ void init(void) {
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = 1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
+	p2.x = -2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -213,13 +216,13 @@ void Collision_Player_To_Player() {
 			}
 		}
 		//플레이어 머리 충돌(수정중)
-		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius))&&((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
-			if(p1.x - p2.x < 2 * Radius)
-				p1.z = p2.z + 3.0* Radius;
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
+			if (p1.x - p2.x < 2 * Radius)
+				p1.z = p2.z + 3.0 * Radius;
 		}
 
 		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
-			if(p1.x - p2.x < 2 * Radius)
+			if (p1.x - p2.x < 2 * Radius)
 				p2.z = p1.z + 3.0 * Radius;
 		}
 
@@ -240,13 +243,13 @@ void Collision_Player_To_Player() {
 			}
 
 		}
-		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z-1.5*Radius)>(p2.z-1.5*Radius))) {
-			if((p2.x - p1.x < 2 * Radius))
-			p1.z = p2.z + 3.0 * Radius;
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
+			if ((p2.x - p1.x < 2 * Radius))
+				p1.z = p2.z + 3.0 * Radius;
 		}
 
 		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
-			if(p2.x - p1.x < 2 * Radius)
+			if (p2.x - p1.x < 2 * Radius)
 				p2.z = p1.z + 3.0 * Radius;
 		}
 	}
@@ -257,7 +260,7 @@ void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(p1.x , p1.y + 4.0, 0.0, p1.x, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+	gluLookAt(p1.x, p1.y + 4.0, 0.0, p1.x, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 }
 
 void jump() {
@@ -310,13 +313,6 @@ void RenderScene(void) { // 변경 화면
 	p2.z += velocity2.z;
 	jump();
 
-
-
-
-
-
-
-
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -335,7 +331,7 @@ void RenderScene(void) { // 변경 화면
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		gluLookAt(p2.x, p2.y, p2.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
-	
+
 	}
 	else {
 		//left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;
@@ -371,13 +367,23 @@ void RenderScene(void) { // 변경 화면
 
 
 
-	
+
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
 	//Modeling_Score();
 
 	axis();
 	Drawchar();
 	Collision_Player_To_Player();
+
+	//pepero1.draw_pepero();
+	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pepero1.draw_button();
+	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	pocachip.draw_pocachip();
+	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip.draw_button();
+	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	glutPostRedisplay();
 	glutSwapBuffers();
 	glFlush();

@@ -235,12 +235,12 @@ public:
 			if (bz1 - 0.5 >= p1bottom) {
 				p1z = bz1 + 0.5;
 			}
-			else if (p1x >= bx1 && p1bottom<=z-0.5) {
+			else if (p1x >= bx1) {
 				cout << "여긴디" << endl;
 				p1x = bx1 + 0.5;
 			}
 
-			else if ((p1x <= bx1 - 1.0)&& p1bottom == z - 1.0) {
+			else if ((p1x <= bx1 - 1.0)) {
 				p1x = bx1 - 1.0 - 0.5;
 			}
 
@@ -250,11 +250,11 @@ public:
 			if (bz1 - 0.5 >= p2bottom) {
 				p2z = bz1 + 0.5;
 			}
-			else if (p2x >= bx1 && p2bottom == z - 1.0) {
+			else if (p2x >= bx1 ) {
 				p2x = bx1 + 0.5;
 			}
 
-			else if (p2x <= bx1 - 1.0 && p2bottom == z - 1.0) {
+			else if (p2x <= bx1 - 1.0) {
 				p2x = bx1 - 1.0 - 0.5;
 			}
 
@@ -264,24 +264,24 @@ public:
 			if (bz2 - 0.5 >= p1bottom) {
 				p1z = bz2 + 0.5;
 			}
-			else if (p1x >= bx2 && p1bottom == z - 1.0) {
+			else if (p1x >= bx2) {
 				p1x = bx2 + 0.5;
 			}
 
-			else if (p1x <= bx2 - 1.0 && p1bottom == z - 1.0) {
+			else if (p1x <= bx2 - 1.0) {
 				p1x = bx2 - 1.0 - 0.5;
 			}
 
 		}
-		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) { //버튼2 x값 사이에 p2이 있을 때
+		if (p2x + 0.5 >= (bx2 - 1.0)) { //버튼2 x값 사이에 p2이 있을 때
 			if (bz2 - 0.5 >= p2bottom) {
 				p2z = bz2 + 0.5;
 			}
-			else if (p2x >= bx2 && p2bottom == z - 1.0) {
+			else if (p2x >= bx2) {
 				p2x = bx2 + 0.5;
 			}
 
-			else if (p2x <= bx2 - 1.0 && p2bottom == z - 1.0) {
+			else if (p2x <= bx2 - 1.0) {
 				p2x = bx2 - 1.0 - 0.5;
 			}
 

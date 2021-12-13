@@ -34,6 +34,8 @@ float left_, right_, top_, bottom_, zNear_, zFar_;
 
 object_pepero pepero1(-8.0, 0.0, -3.0);
 object_pocachip pocachip(-8.0, 0.0, -3.0);
+object_cookie cookie(-8.0, 0.0, -3.0);
+
 struct position {
 	float x;
 	float y;
@@ -375,15 +377,19 @@ void RenderScene(void) { // 변경 화면
 	Drawchar();
 	Collision_Player_To_Player();
 
-	//pepero1.draw_pepero();
-	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//pepero1.draw_button();
-	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pepero1.draw_pepero();
+	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pepero1.draw_button();
+	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	pocachip.draw_pocachip();
+	/*pocachip.draw_pocachip();
 	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	pocachip.draw_button();
-	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);*/
+
+	//cookie.draw_cookie();
+	//cookie.check_players_To_distance(p1.x, p2.x);
+
 	glutPostRedisplay();
 	glutSwapBuffers();
 	glFlush();

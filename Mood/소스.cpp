@@ -377,18 +377,18 @@ void RenderScene(void) { // 변경 화면
 	Drawchar();
 	Collision_Player_To_Player();
 
-	pepero1.draw_pepero();
-	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	pepero1.draw_button();
-	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pepero1.draw_pepero();
+	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pepero1.draw_button();
+	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	/*pocachip.draw_pocachip();
 	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	pocachip.draw_button();
 	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);*/
 
-	//cookie.draw_cookie();
-	//cookie.check_players_To_distance(p1.x, p2.x);
+	cookie.draw_cookie();
+	cookie.check_players_To_distance(p1.x, p2.x);
 
 	glutPostRedisplay();
 	glutSwapBuffers();

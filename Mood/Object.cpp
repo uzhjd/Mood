@@ -42,56 +42,56 @@ public:
 
 	}
 	void draw_pepero() {
-			glPushMatrix();
-			glColor3f(1.0, 1.0, 0.0);
-			glTranslatef(x, y, z);
-			glColor3f(0.0, 1.0, 1.0);
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 0.0);
+		glTranslatef(x, y, z);
+		glColor3f(0.0, 1.0, 1.0);
 
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, -0.5);
-			glVertex3f(-6.0, y, -0.5);
-			glVertex3f(-6.0, y, -1.0);
-			glVertex3f(0.0, y, -1.0);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-6.0, y + 1.5, -0.5);
+		glVertex3f(-6.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glEnd();
 
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, -0.5);
-			glVertex3f(0.0, y - 0.5, -0.5);
-			glVertex3f(0.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y, -1.0);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glEnd();
 
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 0.5, -0.5);
-			glVertex3f(-6.0, y - 0.5, -0.5);
-			glVertex3f(-6.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y - 0.5, -1.0);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(-6.0, y - 1.5, -0.5);
+		glVertex3f(-6.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glEnd();
 
-			glBegin(GL_QUADS);
-			glVertex3f(-6.0, y, -0.5);
-			glVertex3f(-6.0, y - 0.5, -0.5);
-			glVertex3f(-6.0, y - 0.5, -1.0);
-			glVertex3f(-6.0, y, -1.0);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(-6.0, y + 1.5, -0.5);
+		glVertex3f(-6.0, y - 1.5, -0.5);
+		glVertex3f(-6.0, y - 1.5, -1.0);
+		glVertex3f(-6.0, y + 1.5, -1.0);
+		glEnd();
 
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, -0.5);
-			glVertex3f(-6.0, y, -0.5);
-			glVertex3f(-6.0, y - 0.5, -0.5);
-			glVertex3f(0.0, y - 0.5, -0.5);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-6.0, y + 1.5, -0.5);
+		glVertex3f(-6.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
 
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, -1.0);
-			glVertex3f(-6.0, y, -1.0);
-			glVertex3f(-6.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y - 0.5, -1.0);
-			glEnd();
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(-6.0, y + 1.5, -1.0);
+		glVertex3f(-6.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glEnd();
 
-			glPopMatrix();
-		
-		
+		glPopMatrix();
+
+
 
 		glutPostRedisplay();
 	}
@@ -102,45 +102,45 @@ public:
 		glColor3f(1.0, 0.0, 0.0);
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(-1.0, y, -1.0);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -1.0);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glPopMatrix();
@@ -150,45 +150,45 @@ public:
 		glColor3f(1.0, 0.0, 0.0);
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(-1.0, y, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
 		glVertex3f(-1.0, y, -0.5);
 		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
+		glVertex3f(-1.0, y - 0.5, -1.0);
+		glVertex3f(-1.0, y, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -1.0);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glPopMatrix();
@@ -199,31 +199,31 @@ public:
 		float p1middle = p1z - 1.5 * 0.5;
 		float p2bottom = p2z - 2 * 0.5;
 		float p2middle = p2z - 1.5 * 0.5;
-			if (p1x + 0.5 >= (x - 6.0) && p1x - 0.5 <= x) { //빼빼로 x값 사이에 p1이 있을 때
-				if (z - 0.5 >= p1bottom) {
-					p1z = z + 0.5;
-				}
-				else if (p1x >= x)
-					p1x = x + 0.5;
-				else if (p1x <= x - 6.0) {
-					p1x = x - 6.0 - 0.5;
-				}
-
+		if (p1x + 0.5 >= (x - 6.0) && p1x - 0.5 <= x) { //빼빼로 x값 사이에 p1이 있을 때
+			if (z - 0.5 >= p1bottom) {
+				p1z = z + 0.5;
+			}
+			else if (p1x >= x)
+				p1x = x + 0.5;
+			else if (p1x <= x - 6.0) {
+				p1x = x - 6.0 - 0.5;
 			}
 
-			if (p2x + 0.5 >= (x - 6.0) && p2x - 0.5 <= x) { //빼빼로 x값 사이에 p2이 있을 때
-				if (z - 0.5 >= p2bottom && p2middle >= z - 0.5) {
-					p2z = z + 0.5;
-				}
-				else if (p2x >= x)
-					p2x = x + 0.5;
-				else if (p2x <= x - 6.0) {
-					p2x = x - 6.0 - 0.5;
-				}
+		}
 
-
+		if (p2x + 0.5 >= (x - 6.0) && p2x - 0.5 <= x) { //빼빼로 x값 사이에 p2이 있을 때
+			if (z - 0.5 >= p2bottom && p2middle >= z - 0.5) {
+				p2z = z + 0.5;
 			}
-		
+			else if (p2x >= x)
+				p2x = x + 0.5;
+			else if (p2x <= x - 6.0) {
+				p2x = x - 6.0 - 0.5;
+			}
+
+
+		}
+
 	}
 
 	void collision_button(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
@@ -231,8 +231,8 @@ public:
 		float p1middle = p1z - 1.5 * 0.5;
 		float p2bottom = p2z - 2 * 0.5;
 		float p2middle = p2z - 1.5 * 0.5;
-		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) { 
-			if (bz1-0.5  >= p1bottom) {
+		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
+			if (bz1 - 0.5 >= p1bottom) {
 				p1z = bz1 + 0.5;
 			}
 			else if (p1x >= bx1) {
@@ -274,7 +274,7 @@ public:
 
 		}
 
-		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) { 
+		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
 			if (bz2 - 0.5 >= p2bottom && p2middle >= bz2 - 0.5) {
 				p2z = bz2 + 0.5;
 			}
@@ -292,7 +292,7 @@ public:
 };
 
 //포카칩클래스//
-class object_pocachip { 
+class object_pocachip {
 private:
 	float x;
 	float y;
@@ -320,45 +320,45 @@ public:
 			glColor3f(0.0, 1.0, 0.0);
 
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, 3.0);
-			glVertex3f(-3.0, y, 3.0);
-			glVertex3f(-3.0, y, -1.0);
-			glVertex3f(0.0, y, -1.0);
+			glVertex3f(0.0, y + 1.5, 3.0);
+			glVertex3f(-3.0, y + 1.5, 3.0);
+			glVertex3f(-3.0, y + 1.5, -1.0);
+			glVertex3f(0.0, y + 1.5, -1.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, 3.0);
-			glVertex3f(0.0, y - 0.5, 3.0);
-			glVertex3f(0.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y, -1.0);
+			glVertex3f(0.0, y + 1.5, 3.0);
+			glVertex3f(0.0, y - 1.5, 3.0);
+			glVertex3f(0.0, y - 1.5, -1.0);
+			glVertex3f(0.0, y + 1.5, -1.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 0.5, 3.0);
-			glVertex3f(-3.0, y - 0.5, 3.0);
-			glVertex3f(-3.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y - 0.5, -1.0);
+			glVertex3f(0.0, y - 1.5, 3.0);
+			glVertex3f(-3.0, y - 1.5, 3.0);
+			glVertex3f(-3.0, y - 1.5, -1.0);
+			glVertex3f(0.0, y - 1.5, -1.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(-3.0, y, 3.0);
-			glVertex3f(-3.0, y - 0.5, 3.0);
-			glVertex3f(-3.0, y - 0.5, -1.0);
-			glVertex3f(-3.0, y, -1.0);
+			glVertex3f(-3.0, y + 1.5, 3.0);
+			glVertex3f(-3.0, y - 1.5, 3.0);
+			glVertex3f(-3.0, y - 1.5, -1.0);
+			glVertex3f(-3.0, y + 1.5, -1.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, 3.0);
-			glVertex3f(-3.0, y, 3.0);
-			glVertex3f(-3.0, y - 0.5, 3.0);
-			glVertex3f(0.0, y - 0.5, 3.0);
+			glVertex3f(0.0, y + 1.5, 3.0);
+			glVertex3f(-3.0, y + 1.5, 3.0);
+			glVertex3f(-3.0, y - 1.5, 3.0);
+			glVertex3f(0.0, y - 1.5, 3.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y, -1.0);
-			glVertex3f(-3.0, y, -1.0);
-			glVertex3f(-3.0, y - 0.5, -1.0);
-			glVertex3f(0.0, y - 0.5, -1.0);
+			glVertex3f(0.0, y + 1.5, -1.0);
+			glVertex3f(-3.0, y + 1.5, -1.0);
+			glVertex3f(-3.0, y - 1.5, -1.0);
+			glVertex3f(0.0, y - 1.5, -1.0);
 			glEnd();
 
 			glPopMatrix();
@@ -374,45 +374,45 @@ public:
 		glColor3f(1.0, 0.0, 0.0);
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(-1.0, y, -1.0);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, -1.0);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -0.5);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(0.0, y - 0.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y, -1.0);
-		glVertex3f(-1.0, y, -1.0);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(0.0, y - 0.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, -1.0);
+		glVertex3f(-1.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
 		glEnd();
 
 		glPopMatrix();
@@ -465,7 +465,7 @@ public:
 				button = true;
 				p1z = bz + 0.5;
 			}
-			else if (p1x >= bx ) {
+			else if (p1x >= bx) {
 				p1x = bx + 0.5;
 			}
 
@@ -499,7 +499,7 @@ private:
 	float y;
 	float z;
 	float mov;
-	float cookieRadius=1.0;
+	float cookieRadius = 1.0;
 public:
 	object_cookie(float x, float y, float z) {
 		this->x = x;
@@ -511,18 +511,18 @@ public:
 	void draw_cookie() {
 
 		glPushMatrix();
-		glTranslatef(x+mov, y, z);
+		glTranslatef(x + mov, y, z);
 		glutSolidSphere(cookieRadius, 30, 30);
 		glPopMatrix();
 
 		glutPostRedisplay();
 	}
 
-	void check_players_To_distance(float p1x,float p2x) { //어디까지 굴러가게할지?
-		if (((p1x - 0.5) - (x + cookieRadius) < 4.5 && (p1x - 0.5) - (x+ cookieRadius) > 0.0) || ((p2x - 0.5) - (x+ cookieRadius) < 4.5 && (p2x - 0.5) - (x+ cookieRadius) > 0.0)) {
+	void check_players_To_distance(float p1x, float p2x) { //어디까지 굴러가게할지?
+		if (((p1x - 0.5) - (x + cookieRadius) < 4.5 && (p1x - 0.5) - (x + cookieRadius) > 0.0) || ((p2x - 0.5) - (x + cookieRadius) < 4.5 && (p2x - 0.5) - (x + cookieRadius) > 0.0)) {
 			mov += 0.015;
 		}
-	
+
 	}
 
 	void collision_cookie(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {

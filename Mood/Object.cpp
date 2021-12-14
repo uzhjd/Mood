@@ -418,12 +418,13 @@ public:
 	}
 
 	void collision_pocachip(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		float p1bottom = p1z - 1.1;
-		float p2bottom = p2z - 1.1;
+		float p1bottom = p1z - 1.0;
+		float p2bottom = p2z - 1.0;
+		float p1head = p1z + 1.4;
 		//cout << p1z << endl;
 		if (button == false) {
 			if (p1x + 0.5 >= (x - 3.0) && p1x - 0.5 <= x) {
-				if (z + 3.0 <= p1bottom) {
+				if (z + 3.0 >= p1bottom) {
 					p1z = (z + 3.0) + 2.0 * 0.5;
 				}
 
@@ -455,14 +456,14 @@ public:
 	}
 
 	void collision_button(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		float p1bottom = p1z - 1.1;
-		float p2bottom = p2z - 1.1;
+		float p1bottom = p1z - 1.0;
+		float p2bottom = p2z - 1.0;
 		if (p1x + 0.5 >= (bx - 1.0) && p1x - 0.5 <= bx) { //버튼1 x값 사이에 p1이 있을 때
 			if (bz - 0.5 >= p1bottom) {
 				button = true;
 				p1z = bz + 0.5;
 			}
-			else if (p1x >= bx) {
+			else if (p1x >= bx && p1bottom<bz+0.5) {
 				p1x = bx + 0.5;
 			}
 

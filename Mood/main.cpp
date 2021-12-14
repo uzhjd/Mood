@@ -167,66 +167,34 @@ void Drawchar() {
 	glTranslated(p1.x, p1.y, p1.z - 0.6);
 	glutSolidCone(0.5, 1.2, 30, 30);
 	glPopMatrix();
-
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
 	glTranslated(p1.x, p1.y + 0.15, p1.z - 0.7);
 	glutSolidCube(0.2);
 	glPopMatrix();
-
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
 	glTranslated(p1.x, p1.y + 0.15, p1.z - 0.9);
 	glutSolidCube(0.2);
 	glPopMatrix();
-
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
-	glTranslated(p1.x, p1.y - 0.15, p1.z - 0.7);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslated(p1.x, p1.y - 0.15, p1.z - 0.9);
+	glTranslated(p1.x, p1.y - 0.15, p1.z - 0.6);
 	glutSolidCube(0.2);
 	glPopMatrix();
 
 	//////////p2캐릭터//////////
 	glPushMatrix();
-	glTranslated(p2.x, p2.y, p2.z + 0.9);
-	glColor3f(0.0, 1.0, 1.0);
+	glTranslated(p2.x, p2.y, p2.z);
+	glColor3f(1.0, 0.0, 1.0);
 	glutSolidSphere(Radius, 30, 30);
 	glPopMatrix();
 	glPushMatrix();
-	glColor3f(0.0, 1.0, 1.0);
-	glTranslated(p2.x, p2.y, p2.z - 0.6);
-	glutSolidCone(0.5, 1.2, 30, 30);
+	glTranslated(p2.x, p2.y, p2.z - 0.5);
+	glutSolidSphere(Radius, 30, 30);
 	glPopMatrix();
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(p2.x, p2.y + 0.15, p2.z - 0.7);
-	glutSolidCube(0.2);
-	glPopMatrix();
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(p2.x, p2.y + 0.15, p2.z - 0.9);
-	glutSolidCube(0.2);
-	glPopMatrix();
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(p2.x, p2.y - 0.15, p2.z - 0.7);
-	glutSolidCube(0.2);
-	glPopMatrix();
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(p2.x, p2.y - 0.15, p2.z - 0.9);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
 
 }
-
 
 void axis(void) {
 
@@ -248,7 +216,6 @@ void axis(void) {
 }
 
 
-
 void Collision_Player_To_Player() {
 	////////////////플레이어간 충돌체크(수정중)////////////////
 	if (p1.x > p2.x) { // p1 - left
@@ -266,14 +233,14 @@ void Collision_Player_To_Player() {
 			}
 		}
 		//플레이어 머리 충돌(수정중)
-		else if (((p1.z - 1.1) <= (p2.z + 0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
 			if (p1.x - p2.x < 2 * Radius)
-				p1.z = p2.z + 0.9 + 3 * Radius;
+				p1.z = p2.z + 3.0 * Radius;
 		}
 
-		else if (((p2.z - 1.1) <= (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.1))) {
+		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
 			if (p1.x - p2.x < 2 * Radius)
-				p2.z = p1.z + 0.9 + 3 * Radius;
+				p2.z = p1.z + 3.0 * Radius;
 		}
 
 	}
@@ -293,14 +260,14 @@ void Collision_Player_To_Player() {
 			}
 
 		}
-		else if (((p1.z - 1.1) <= (p2.z + +0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
+		else if (((p1.z - 2.0 * Radius) <= (p2.z + Radius)) && ((p1.z - 1.5 * Radius) > (p2.z - 1.5 * Radius))) {
 			if ((p2.x - p1.x < 2 * Radius))
-				p1.z = p2.z + 0.9 + 3 * Radius;
+				p1.z = p2.z + 3.0 * Radius;
 		}
 
-		else if (((p2.z - 1.1) <= (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.1))) {
+		else if (((p2.z - 2.0 * Radius) <= (p1.z + Radius)) && ((p2.z - 1.5 * Radius) > (p1.z - 1.5 * Radius))) {
 			if (p2.x - p1.x < 2 * Radius)
-				p2.z = p1.z + 0.9 + 3 * Radius;
+				p2.z = p1.z + 3.0 * Radius;
 		}
 	}
 
@@ -341,7 +308,7 @@ void jump() {
 		}
 	}
 
-	if (z2 > jumpMax || (p2Jump == false && z2 > bt)) {
+	if (z2 > jumpMax||(p2Jump == false && z2 > bt)) {
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}
@@ -388,7 +355,7 @@ void roadModeling(void) {
 	road13.draw_generalRoad();
 	road14.draw_generalRoad();
 	road15.draw_generalRoad();
-
+		
 
 	road0.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	road1.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
@@ -506,9 +473,9 @@ void SpecialKey(int key, int x, int y) {
 	case GLUT_KEY_LEFT:
 		if (camera_distance + 4.95 >= p1.x + 0.5) {
 			p1.x += moveDistance;
-			cout << p1.x << endl;
+			//cout << p1.x << endl;
 			//cout << center << endl << endl;
-		}
+			}
 
 		p1Left = true;
 		p1Right = false;

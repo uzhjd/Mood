@@ -19,7 +19,7 @@ using namespace std;
 float	camera_distance;
 float	camera_theta, camera_phi;
 
-float jumpMax = 0.5, bt = -3.0;
+float p1jumpMax = 0.5, p2jumpMax = 0.5, bt = -3.0;
 const float timeFactor = 2000;
 
 #define PI 3.141592
@@ -266,14 +266,22 @@ void Collision_Player_To_Player() {
 			}
 		}
 		//플레이어 머리 충돌(수정중)
-		else if (((p1.z - 1.1) <= (p2.z + 0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
-			if (p1.x - p2.x < 2 * Radius)
+		else if (((p1.z - 1.0) < (p2.z + 0.9 + Radius)) && ((p1.z - 1.0) > (p2.z - 1.0))) {
+			if (p1.x - p2.x < 2 * Radius) {
+				p1jumpMax = 1.5;
 				p1.z = p2.z + 0.9 + 3 * Radius;
+			}
+			else p1jumpMax=0.5;
+
 		}
 
-		else if (((p2.z - 1.1) <= (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.1))) {
-			if (p1.x - p2.x < 2 * Radius)
+		else if (((p2.z - 1.0) < (p1.z + 0.9 + Radius)) && ((p2.z - 1.0) > (p1.z - 1.0))) {
+			if (p1.x - p2.x < 2 * Radius) {
+				p2jumpMax = 1.5;
 				p2.z = p1.z + 0.9 + 3 * Radius;
+			}
+			else p2jumpMax = 0.5;
+
 		}
 
 	}
@@ -293,14 +301,24 @@ void Collision_Player_To_Player() {
 			}
 
 		}
-		else if (((p1.z - 1.1) <= (p2.z + +0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
-			if ((p2.x - p1.x < 2 * Radius))
+		else if (((p1.z - 1.0) < (p2.z + +0.9 + Radius)) && ((p1.z - 1.0) > (p2.z - 1.0))) {
+			if ((p2.x - p1.x < 2 * Radius)) {
+				p1jumpMax = 1.5;
 				p1.z = p2.z + 0.9 + 3 * Radius;
+			}
+			else
+				p1jumpMax = 0.5;
+
 		}
 
-		else if (((p2.z - 1.1) <= (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.1))) {
-			if (p2.x - p1.x < 2 * Radius)
+		else if (((p2.z - 1.0) < (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.0))) {
+			if (p2.x - p1.x < 2 * Radius) {
+				p2jumpMax=1.5;
 				p2.z = p1.z + 0.9 + 3 * Radius;
+			}
+			else
+				p2jumpMax = 0.5;
+
 		}
 	}
 
@@ -316,51 +334,38 @@ void cameraSet() {
 void jump() {
 	float z1 = p1.z;
 	float z2 = p2.z;
-	float m1 = 0, m2 = 0;
 	
-	if (z1== z2 + 0.9 + 3.0*Radius) {
-		m1 = z2 + 0.9 + 3.0 * Radius;
-	}
-	if (z2 == z1 + 0.9 + 3.0 * Radius) {
-		m2 = z1 + 0.9+3.0 * Radius;
-	}
 	//////////p1캐릭터 점프//////////
-	if (p1Jump == true && z1 <= jumpMax+m1) {
+	if (p1Jump == true && z1 <= p1jumpMax) {
 		velocity1.z = jumpUp;
 
-		if (z1 > jumpMax+m1) {
-			m1 = 0;
+		if (z1 > p1jumpMax) {
 			p1Jump = false;
 		}
 	}
-	if (z1 > jumpMax+m1 || (p1Jump == false && z1 > bt)) {
-		m1 = 0;
+	if (z1 > p1jumpMax || (p1Jump == false && z1 > bt)) {
 		p1Jump = false;
 		velocity1.z = jumpDown;
 	}
 	if (p1Jump == false && z1 <= bt) {
-		m1 = 0;
 		p1.z = bt;
 		velocity1.z = 0.0;
 	}
 	//////////p2캐릭터 점프//////////
-	if (p2Jump == true && z2 <= jumpMax+m2) {
+	if (p2Jump == true && z2 <= p2jumpMax) {
 		velocity2.z = jumpUp;
 
-		if (z2 > jumpMax+m2) {
-			m2 = 0;
+		if (z2 > p2jumpMax) {
 			p2Jump = false;
 		}
 	}
 
-	if (z2 > jumpMax+m2 || (p2Jump == false && z2 > bt)) {
-		m2 = 0;
+	if (z2 > p2jumpMax|| (p2Jump == false && z2 > bt)) {
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}
 
 	if (p2Jump == false && z2 <= bt) {
-		m2 = 0;
 		p2.z = bt;
 		velocity2.z = 0.0;
 	}

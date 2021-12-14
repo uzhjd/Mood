@@ -113,7 +113,7 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = -0.5; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
 	p2.x = -2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
@@ -266,9 +266,11 @@ void Collision_Player_To_Player() {
 			}
 		}
 		//플레이어 머리 충돌(수정중)
-		else if (((p1.z - 1.1) <= (p2.z + 0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
-			if (p1.x - p2.x < 2 * Radius)
-				p1.z = p2.z + 0.9 + 3 * Radius;
+		else if (((p1.z - 1.1) <= (p2.z + 0.9 + Radius)) && ((p1.z - 0.85) <= (p2.z + 0.9 + Radius))) {
+			if (p1.x - p2.x < 2 * Radius) {
+
+				p1.z = p2.z + 0.9 + 3 * Radius + 1.1;
+			}
 		}
 
 		else if (((p2.z - 1.1) <= (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.1))) {
@@ -293,7 +295,7 @@ void Collision_Player_To_Player() {
 			}
 
 		}
-		else if (((p1.z - 1.1) <= (p2.z + +0.9 + Radius)) && ((p1.z - 1.1) > (p2.z - 1.1))) {
+		else if (((p1.z - 1.1) <= (p2.z + +0.9 + Radius)) && ((p1.z - 0.85) <= (p2.z + 0.9 + Radius))) {
 			if ((p2.x - p1.x < 2 * Radius))
 				p1.z = p2.z + 0.9 + 3 * Radius;
 		}
@@ -309,7 +311,8 @@ void Collision_Player_To_Player() {
 void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	camera_distance = (p1.x + p2.x) / 2;
+	if((p1.x + p2.x) / 2 <= 5 - 4.95)
+		camera_distance = (p1.x + p2.x) / 2;
 	gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 }
 

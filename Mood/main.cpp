@@ -520,7 +520,7 @@ void SpecialKey(int key, int x, int y) {
 	case GLUT_KEY_LEFT:
 		if (camera_distance + 4.95 >= p1.x + 0.5) {
 			p1.x += moveDistance;
-			cout << p1.x << endl;
+			//cout << p1.x << endl;
 			//cout << center << endl << endl;
 		}
 

@@ -110,13 +110,13 @@ public:
 
 		if (p1bottom <= z - 1.0) {
 			// life±ï±â°Ô ÇÏ±â
-			p1x = p1x + 0.5;
+			p1x = p1x + 0.9;
 			p1z = z + 0.5;
 		}
 
 		if (p2bottom <= z - 1.0) {
 			// life±ï±â°Ô ÇÏ±â
-			p2x = p2x + 0.5;
+			p2x = p2x + 0.9;
 			p2z = z + 0.5;
 		}
 	}

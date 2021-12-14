@@ -162,16 +162,30 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 void Drawchar() {
 	//////////p1캐릭터//////////
 	glPushMatrix();
-	glTranslated(p1.x, p1.y, p1.z);
+	glTranslated(p1.x, p1.y, p1.z + 0.9);
 	glColor3f(1.0, 1.0, 1.0);
 	glutSolidSphere(Radius, 30, 30);
 	glPopMatrix();
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 1.0);
-	glTranslated(p1.x, p1.y, p1.z - 0.5);
-	glutSolidSphere(Radius, 30, 30);
+	glTranslated(p1.x, p1.y, p1.z - 0.6);
+	glutSolidCone(0.5, 1.2, 30, 30);
 	glPopMatrix();
-
+	glPushMatrix();
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslated(p1.x, p1.y + 0.15, p1.z - 0.7);
+	glutSolidCube(0.2);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslated(p1.x, p1.y + 0.15, p1.z - 0.9);
+	glutSolidCube(0.2);
+	glPopMatrix();
+	glPushMatrix();
+	glColor3f(0.0, 1.0, 1.0);
+	glTranslated(p1.x, p1.y - 0.15, p1.z - 0.6);
+	glutSolidCube(0.2);
+	glPopMatrix();
 
 	//////////p2캐릭터//////////
 	glPushMatrix();

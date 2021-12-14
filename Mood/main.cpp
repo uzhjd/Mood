@@ -386,6 +386,7 @@ void RenderScene(void) { // 변경 화면
 	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	road.draw_generalRoad();
+	road.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	/*pocachip.draw_pocachip();
 	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	pocachip.draw_button();

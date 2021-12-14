@@ -1,5 +1,5 @@
 // 길 //
-// 1. 일반 길 2. 낭떠러지 //
+// 1. 일반 길 2. 낭떠러지 3. 충돌체크 //
 #include <windows.h>
 #include <gl/gl.h>
 #include <glut.h>
@@ -20,7 +20,6 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		
 	}
 
 	void draw_generalRoad() {
@@ -73,6 +72,68 @@ public:
 		glPopMatrix();
 
 		glutPostRedisplay();
+	}
+
+
+	// 3. 충돌 체크
+	void collisionRoad(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+
+		float p1bottom = p1z - 2 * 0.5;
+		float p1middle = p1z - 1.5 * 0.5;
+		float p2bottom = p2z - 2 * 0.5;
+		float p2middle = p2z - 1.5 * 0.5;
+
+		//	//cout << 2;
+
+		//	if (p1x + 0.5 >= (x - 10.0) && p1x - 0.5 <= x) { //p1이 길의 범위 안에 있을 때
+		//		if (p1z <= -2.5)
+		//			p1z ++;
+		//	}
+
+		//	if (p2x + 0.5 >= (x - 10.0) && p2x - 0.5 <= x) { //p2이 길의 범위 안에 있을 때
+		//		if (p2z <= -2.5)
+		//			p2z ++;
+		//	}
+		//}
+		if (p1x + 0.5 >= (x - 6.0) && p1x - 0.5 <= x) { //빼빼로 x값 사이에 p1이 있을 때
+			if (z - 0.5 >= p1bottom && p1middle >= z - 0.5) {
+				p1z = z + 0.5;
+			}
+			else if (p1x >= x)
+				p1x = x + 0.5;
+			else if (p1x <= x - 6.0) {
+				p1x = x - 6.0 - 0.5;
+			}
+			
+
+		}
+
+		if (p2x + 0.5 >= (x - 6.0) && p2x - 0.5 <= x) { //빼빼로 x값 사이에 p2이 있을 때
+			if (z - 0.5 >= p2bottom && p2middle >= z - 0.5) {
+				p2z = z + 0.5;
+			}
+			else if (p2x >= x)
+				p2x = x + 0.5;
+			else if (p2x <= x - 6.0) {
+				p2x = x - 6.0 - 0.5;
+			}
+
+
+		}
+
+
+
+		if (p1bottom <= z - 1.0) {
+			// life깍기게 하기
+			p1x = x - 10 + 0.5;
+			p1z = z + 0.5;
+		}
+
+		if (p2bottom <= z - 1.0) {
+			// life깍기게 하기
+			p2x = x - 10 + 0.5;
+			p2z = z + 0.5;
+		}
 	}
 };
 
@@ -188,4 +249,22 @@ public:
 
 		glutPostRedisplay();
 	}
+
+	//// 3. 충돌 체크
+	//void collisionRoad(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+	//	/*float p1_bottom = p1z - 3 * 0.5;
+	//	float p2_bottom = p2z - 3 * 0.5;*/
+
+	//	if (p1x + 0.5 >= (x - 10.0) && p1x - 0.5 <= x) { //p1이 길의 범위 안에 있을 때
+	//		p1z += 0.5;
+	//	}
+
+	//	if (p2x + 0.5 >= (x - 10.0) && p2x - 0.5 <= x) { //빼빼로 x값 사이에 p2이 있을 때
+	//		p2z += 0.5;
+
+
+	//	}
+
+	//}
+
 };

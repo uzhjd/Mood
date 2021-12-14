@@ -277,7 +277,7 @@ void cameraSet() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(p1.x, p1.y + 4.0, 0.0, p1.x, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+	gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 }
 
 void jump() {
@@ -380,6 +380,7 @@ void roadModeling(void) {
 void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0, 1.0, 0.0, 0.0);
 	p1.z += velocity1.z;
@@ -468,16 +469,21 @@ void RenderScene(void) { // 변경 화면
 	glFlush();
 }
 void SpecialKey(int key, int x, int y) {
-
 	switch (key) {
 	case GLUT_KEY_LEFT:
-		p1.x += moveDistance;
+		if (camera_distance + 4.95 >= p1.x + 0.5) {
+			p1.x += moveDistance;
+			cout << p1.x << endl;
+			//cout << center << endl << endl;
+			}
+
 		p1Left = true;
 		p1Right = false;
 		//camera_distance += 0.1;
 		break;
 	case GLUT_KEY_RIGHT:
-		p1.x -= moveDistance;
+		if (camera_distance - 4.95 <= p1.x - 0.5)
+			p1.x -= moveDistance;
 		p1Left = false;
 		p1Right = true;
 		//camera_distance -= 0.1;
@@ -505,12 +511,14 @@ void Keyboard(unsigned char key, int x, int y) {
 	switch (key)
 	{
 	case 'a':
-		p2.x += moveDistance;
+		if (camera_distance + 4.95 >= p2.x + 0.5)
+			p2.x += moveDistance;
 		p2Left = true;
 		p2Right = false;
 		break;
 	case 'd':
-		p2.x -= moveDistance;
+		if (camera_distance - 4.95 <= p2.x - 0.5)
+			p2.x -= moveDistance;
 		p2Left = false;
 		p2Right = true;
 		break;

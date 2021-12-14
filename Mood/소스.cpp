@@ -113,7 +113,7 @@ void init(void) {
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
+	p2.x = 1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -276,7 +276,7 @@ void jump() {
 			p1Jump = false;
 		}
 	}
-	if (z1 > jumpMax) {
+	if ((z1 > jumpMax)||(p1Jump==false && z1>bt)) {
 		p1Jump = false;
 		velocity1.z = jumpDown;
 	}
@@ -293,7 +293,7 @@ void jump() {
 		}
 	}
 
-	if (z2 > jumpMax) {
+	if ((z2 > jumpMax) || (p2Jump == false && z2 > bt)) {
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}
@@ -377,18 +377,18 @@ void RenderScene(void) { // 변경 화면
 	Drawchar();
 	Collision_Player_To_Player();
 
-	//pepero1.draw_pepero();
-	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//pepero1.draw_button();
-	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pepero1.draw_pepero();
+	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pepero1.draw_button();
+	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	/*pocachip.draw_pocachip();
 	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	pocachip.draw_button();
 	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);*/
 
-	cookie.draw_cookie();
-	cookie.check_players_To_distance(p1.x, p2.x);
+	//cookie.draw_cookie();
+	//cookie.check_players_To_distance(p1.x, p2.x);
 
 	glutPostRedisplay();
 	glutSwapBuffers();

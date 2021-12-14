@@ -231,26 +231,26 @@ public:
 		float p1middle = p1z - 1.5 * 0.5;
 		float p2bottom = p2z - 2 * 0.5;
 		float p2middle = p2z - 1.5 * 0.5;
-		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) { //버튼1 x값 사이에 p1이 있을 때
-			if (bz1 - 0.5 >= p1bottom) {
+		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) { 
+			if (bz1  >= p1z && p1middle >= bz1 - 0.5) {
 				p1z = bz1 + 0.5;
 			}
 			else if (p1x >= bx1) {
-				cout << "여긴디" << endl;
 				p1x = bx1 + 0.5;
 			}
 
-			else if ((p1x <= bx1 - 1.0)) {
+			else if (p1x <= bx1 - 1.0) {
 				p1x = bx1 - 1.0 - 0.5;
 			}
 
 
 		}
-		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) { //버튼1 x값 사이에 p2이 있을 때
-			if (bz1 - 0.5 >= p2bottom) {
+
+		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
+			if (bz1 - 0.5 >= p2bottom && p2middle >= bz1 - 0.5) {
 				p2z = bz1 + 0.5;
 			}
-			else if (p2x >= bx1 ) {
+			else if (p2x >= bx1) {
 				p2x = bx1 + 0.5;
 			}
 
@@ -260,8 +260,8 @@ public:
 
 		}
 
-		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) { //버튼2 x값 사이에 p1이 있을 때
-			if (bz2 - 0.5 >= p1bottom) {
+		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
+			if (bz2 - 0.5 >= p1bottom && p1middle >= bz2 - 0.5) {
 				p1z = bz2 + 0.5;
 			}
 			else if (p1x >= bx2) {
@@ -273,8 +273,9 @@ public:
 			}
 
 		}
-		if (p2x + 0.5 >= (bx2 - 1.0)) { //버튼2 x값 사이에 p2이 있을 때
-			if (bz2 - 0.5 >= p2bottom) {
+
+		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) { 
+			if (bz2 - 0.5 >= p2bottom && p2middle >= bz2 - 0.5) {
 				p2z = bz2 + 0.5;
 			}
 			else if (p2x >= bx2) {

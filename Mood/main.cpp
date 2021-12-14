@@ -279,7 +279,7 @@ void jump() {
 			p1Jump = false;
 		}
 	}
-	if (z1 > jumpMax) {
+	if (z1 > jumpMax || (p1Jump == false && z1 > bt)) {
 		p1Jump = false;
 		velocity1.z = jumpDown;
 	}
@@ -292,11 +292,11 @@ void jump() {
 		velocity2.z = jumpUp;
 
 		if (z2 > jumpMax) {
-			p1Jump = false;
+			p2Jump = false;
 		}
 	}
 
-	if (z2 > jumpMax) {
+	if (z2 > jumpMax||(p2Jump == false && z2 > bt)) {
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}

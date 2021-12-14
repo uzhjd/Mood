@@ -36,8 +36,10 @@ float left_, right_, top_, bottom_, zNear_, zFar_;
 object_pepero pepero1(-8.0, 0.0, -3.0);
 object_pocachip pocachip(-8.0, 0.0, -3.0);
 object_cookie cookie(-8.0, 0.0, -3.0);
-generalRoad road(0.0, 0.0, -3.0);
 //cliff cliff1();
+
+
+
 
 struct position {
 	float x;
@@ -309,6 +311,60 @@ void jump() {
 	glutPostRedisplay();
 }
 
+void roadModeling(void) {
+	generalRoad road1(0.0, 0.0, -3.0);
+	generalRoad road2(-10.0, 0.0, -3.0);
+	generalRoad road3(-22.0, 0.0, -3.0);
+	generalRoad road4(-34.0, 0.0, -3.0);
+	generalRoad road5(-44.0, 0.0, -3.0);
+	generalRoad road6(-54.0, 0.0, -3.0);
+	generalRoad road7(-66.0, 0.0, -3.0);
+	generalRoad road8(-78.0, 0.0, -3.0);
+	generalRoad road9(-88.0, 0.0, -3.0);
+	generalRoad road10(-100.0, 0.0, -3.0);
+	generalRoad road11(-110.0, 0.0, -3.0);
+	generalRoad road12(-122.0, 0.0, -3.0);
+	generalRoad road13(-124.0, 0.0, -3.0);
+	generalRoad road14(-134.0, 0.0, -3.0);
+	generalRoad road15(-146.0, 0.0, -3.0);
+	
+	glColor3f(0.56, 0.47, 0.29);
+	road1.draw_generalRoad();
+	road2.draw_generalRoad();
+	road3.draw_generalRoad();
+	road4.draw_generalRoad();
+	road5.draw_generalRoad();
+	road6.draw_generalRoad();
+	road7.draw_generalRoad();
+	road8.draw_generalRoad();
+	road9.draw_generalRoad();
+	road10.draw_generalRoad();
+	road11.draw_generalRoad();
+	road12.draw_generalRoad();
+	road13.draw_generalRoad();
+	road14.draw_generalRoad();
+	road15.draw_generalRoad();
+		
+
+	road1.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road2.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road3.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road4.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road5.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road6.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road7.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road8.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road9.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road10.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road11.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road12.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road13.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road14.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	road15.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	glutPostRedisplay();
+}
+
 void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
@@ -360,13 +416,13 @@ void RenderScene(void) { // 변경 화면
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_POLYGON);
 	glTexCoord2f(0.0, 0.0);
-	glVertex3f(5.0, -1.0, -5.0);
+	glVertex3f(5.0, -1.7, -5.0);
 	glTexCoord2f(1.0, 0.0);
-	glVertex3f(-155.0, -1.0, -5.0);
+	glVertex3f(-155.0, -1.7, -5.0);
 	glTexCoord2f(1.0, 1.0);
-	glVertex3f(-155.0, -1.0, 5.0);
+	glVertex3f(-155.0, -1.7, 5.0);
 	glTexCoord2f(0.0, 1.0);
-	glVertex3f(5.0, -1.0, 5.0);
+	glVertex3f(5.0, -1.7, 5.0);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -385,8 +441,8 @@ void RenderScene(void) { // 변경 화면
 	pepero1.draw_button();
 	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	road.draw_generalRoad();
-	road.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	roadModeling();
+
 	/*pocachip.draw_pocachip();
 	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	pocachip.draw_button();

@@ -316,37 +316,51 @@ void cameraSet() {
 void jump() {
 	float z1 = p1.z;
 	float z2 = p2.z;
+	float m1 = 0, m2 = 0;
+	
+	if (z1== z2 + 0.9 + 3.0*Radius) {
+		m1 = z2 + 0.9 + 3.0 * Radius;
+	}
+	if (z2 == z1 + 0.9 + 3.0 * Radius) {
+		m2 = z1 + 0.9+3.0 * Radius;
+	}
 	//////////p1캐릭터 점프//////////
-	if (p1Jump == true && z1 <= jumpMax) {
+	if (p1Jump == true && z1 <= jumpMax+m1) {
 		velocity1.z = jumpUp;
 
-		if (z1 > jumpMax) {
+		if (z1 > jumpMax+m1) {
+			m1 = 0;
 			p1Jump = false;
 		}
 	}
-	if (z1 > jumpMax || (p1Jump == false && z1 > bt)) {
+	if (z1 > jumpMax+m1 || (p1Jump == false && z1 > bt)) {
+		m1 = 0;
 		p1Jump = false;
 		velocity1.z = jumpDown;
 	}
 	if (p1Jump == false && z1 <= bt) {
+		m1 = 0;
 		p1.z = bt;
 		velocity1.z = 0.0;
 	}
 	//////////p2캐릭터 점프//////////
-	if (p2Jump == true && z2 <= jumpMax) {
+	if (p2Jump == true && z2 <= jumpMax+m2) {
 		velocity2.z = jumpUp;
 
-		if (z2 > jumpMax) {
+		if (z2 > jumpMax+m2) {
+			m2 = 0;
 			p2Jump = false;
 		}
 	}
 
-	if (z2 > jumpMax || (p2Jump == false && z2 > bt)) {
+	if (z2 > jumpMax+m2 || (p2Jump == false && z2 > bt)) {
+		m2 = 0;
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}
 
 	if (p2Jump == false && z2 <= bt) {
+		m2 = 0;
 		p2.z = bt;
 		velocity2.z = 0.0;
 	}

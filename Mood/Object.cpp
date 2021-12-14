@@ -102,45 +102,45 @@ public:
 		glColor3f(1.0, 0.0, 0.0);
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
 		glVertex3f(-1.0, y + 1.5, -0.5);
-		glVertex3f(-1.0, y + 1.5, -1.0);
-		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -0.5);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
 		glVertex3f(0.0, y - 1.5, -0.5);
-		glVertex3f(0.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y + 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glVertex3f(0.0, y - 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y - 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glVertex3f(-1.0, y + 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -1.0);
-		glVertex3f(-1.0, y + 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
 		glVertex3f(0.0, y + 1.5, -0.5);
-		glVertex3f(-1.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
 		glVertex3f(-1.0, y - 1.5, -0.5);
 		glVertex3f(0.0, y - 1.5, -0.5);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y + 1.5, -1.0);
-		glVertex3f(-1.0, y + 1.5, -1.0);
-		glVertex3f(-1.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
 		glEnd();
 
 		glPopMatrix();
@@ -150,46 +150,47 @@ public:
 		glColor3f(1.0, 0.0, 0.0);
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
 		glVertex3f(-1.0, y + 1.5, -0.5);
-		glVertex3f(-1.0, y + 1.5, -1.0);
-		glVertex3f(0.0, y + 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
 		glVertex3f(0.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
 		glVertex3f(0.0, y - 1.5, -0.5);
-		glVertex3f(0.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y + 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glVertex3f(0.0, y - 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -0.5);
-		glVertex3f(-1.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y - 1.5, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
-		glVertex3f(-1.0, y, -0.5);
-		glVertex3f(-1.0, y - 0.5, -0.5);
-		glVertex3f(-1.0, y - 0.5, -1.0);
-		glVertex3f(-1.0, y, -1.0);
-		glEnd();
-
-		glBegin(GL_QUADS);
 		glVertex3f(0.0, y + 1.5, -0.5);
-		glVertex3f(-1.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
 		glVertex3f(-1.0, y - 1.5, -0.5);
 		glVertex3f(0.0, y - 1.5, -0.5);
 		glEnd();
 
 		glBegin(GL_QUADS);
-		glVertex3f(0.0, y + 1.5, -1.0);
-		glVertex3f(-1.0, y + 1.5, -1.0);
-		glVertex3f(-1.0, y - 1.5, -1.0);
-		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
 		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
 
 		glPopMatrix();
 	}
@@ -227,28 +228,26 @@ public:
 	}
 
 	void collision_button(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		float p1bottom = p1z - 2 * 0.5;
-		float p1middle = p1z - 1.5 * 0.5;
-		float p2bottom = p2z - 2 * 0.5;
-		float p2middle = p2z - 1.5 * 0.5;
+		float p1bottom = p1z - 1.1;
+		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
-			if (bz1 - 0.5 >= p1bottom) {
-				p1z = bz1 + 0.5;
+			if (bz1  >= p1bottom) {
+				p1z = bz1 + 1.0;
 			}
 			else if (p1x >= bx1) {
 				p1x = bx1 + 0.5;
 			}
 
-			else if (p1x <= bx1 - 1.0) {
-				p1x = bx1 - 1.0 - 0.5;
+			else if (p1x <= bx1 - 0.5) {
+				p1x = bx1 - 1.0;
 			}
 
 
 		}
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
-			if (bz1 - 0.5 >= p2bottom) {
-				p2z = bz1 + 0.5;
+			if (bz1>= p2bottom) {
+				p2z = bz1 + 1.0;
 			}
 			else if (p2x >= bx1) {
 				p2x = bx1 + 0.5;
@@ -261,8 +260,8 @@ public:
 		}
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
-			if (bz2 - 0.5 >= p1bottom) {
-				p1z = bz2 + 0.5;
+			if (bz2>= p1bottom) {
+				p1z = bz2 + 1.0;
 			}
 			else if (p1x >= bx2) {
 				p1x = bx2 + 0.5;
@@ -275,15 +274,15 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
-			if (bz2 - 0.5 >= p2bottom && p2middle >= bz2 - 0.5) {
-				p2z = bz2 + 0.5;
+			if (bz2>= p2bottom) {
+				p2z = bz2 + 1.0;
 			}
 			else if (p2x >= bx2) {
-				p2x = bx2 + 0.5;
+				p2x = bx2 + 1.0;
 			}
 
-			else if (p2x <= bx2 - 1.0) {
-				p2x = bx2 - 1.0 - 0.5;
+			else if (p2x <= bx2 - 0.5) {
+				p2x = bx2 - 1.0;
 			}
 
 		}
@@ -419,8 +418,8 @@ public:
 	}
 
 	void collision_pocachip(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		float p1bottom = p1z - 1.5 * 0.5;
-		float p2bottom = p2z - 1.5 * 0.5;
+		float p1bottom = p1z - 1.1;
+		float p2bottom = p2z - 1.1;
 		//cout << p1z << endl;
 		if (button == false) {
 			if (p1x + 0.5 >= (x - 3.0) && p1x - 0.5 <= x) {
@@ -456,12 +455,10 @@ public:
 	}
 
 	void collision_button(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		float p1bottom = p1z - 2.0 * 0.5;
-		float p1middle = p1z - 1.5 * 0.5;
-		float p2bottom = p2z - 2.0 * 0.5;
-		float p2middle = p2z - 1.5 * 0.5;
+		float p1bottom = p1z - 1.1;
+		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx - 1.0) && p1x - 0.5 <= bx) { //버튼1 x값 사이에 p1이 있을 때
-			if (bz - 0.5 >= p1bottom && p1middle >= bz - 0.5) {
+			if (bz - 0.5 >= p1bottom) {
 				button = true;
 				p1z = bz + 0.5;
 			}
@@ -477,7 +474,7 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx - 1.0) && p2x - 0.5 <= bx) { //버튼1 x값 사이에 p2이 있을 때
-			if (bz - 0.5 >= p2bottom && p2middle >= bz - 0.5) {
+			if (bz - 0.5 >= p2bottom) {
 				button = true;
 				p2z = bz + 0.5;
 			}

@@ -26,6 +26,7 @@ public:
 		glPushMatrix();
 		glTranslatef(x, y, z);
 
+		glColor3f(0.56, 0.47, 0.29);
 		
 		glBegin(GL_QUADS);
 		glVertex3f(0.0, y + 1.5, -0.5);

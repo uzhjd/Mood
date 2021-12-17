@@ -231,7 +231,7 @@ public:
 		float p1bottom = p1z - 1.1;
 		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
-			if (bz1  >= p1bottom) {
+			if (bz1 >= p1bottom) {
 				p1z = bz1 + 1.0;
 			}
 			else if (p1x >= bx1) {
@@ -246,7 +246,7 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
-			if (bz1>= p2bottom) {
+			if (bz1 >= p2bottom) {
 				p2z = bz1 + 1.0;
 			}
 			else if (p2x >= bx1) {
@@ -260,7 +260,7 @@ public:
 		}
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
-			if (bz2>= p1bottom) {
+			if (bz2 >= p1bottom) {
 				p1z = bz2 + 1.0;
 			}
 			else if (p1x >= bx2) {
@@ -274,7 +274,7 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
-			if (bz2>= p2bottom) {
+			if (bz2 >= p2bottom) {
 				p2z = bz2 + 1.0;
 			}
 			else if (p2x >= bx2) {
@@ -463,7 +463,7 @@ public:
 				button = true;
 				p1z = bz + 0.5;
 			}
-			else if (p1x >= bx && p1bottom<bz+0.5) {
+			else if (p1x >= bx && p1bottom < bz + 0.5) {
 				p1x = bx + 0.5;
 			}
 
@@ -498,20 +498,26 @@ private:
 	float z;
 	float mov;
 	float cookieRadius = 1.0;
+	bool collision = false;
+
 public:
 	object_cookie(float x, float y, float z) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
 		this->mov = 0.0;
+		collision = false;
+
 	}
 
 	void draw_cookie() {
+		if (!collision) {
+			glPushMatrix();
+			glTranslatef(x + mov, y, z);
+			glutSolidSphere(cookieRadius, 30, 30);
+			glPopMatrix();
 
-		glPushMatrix();
-		glTranslatef(x + mov, y, z);
-		glutSolidSphere(cookieRadius, 30, 30);
-		glPopMatrix();
+		}
 
 		glutPostRedisplay();
 	}
@@ -520,10 +526,295 @@ public:
 		if (((p1x - 0.5) - (x + cookieRadius) < 4.5 && (p1x - 0.5) - (x + cookieRadius) > 0.0) || ((p2x - 0.5) - (x + cookieRadius) < 4.5 && (p2x - 0.5) - (x + cookieRadius) > 0.0)) {
 			mov += 0.015;
 		}
-
 	}
 
 	void collision_cookie(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+		if ((p1x - (x + mov) < 0.5 + cookieRadius && p1z - 1.0 < z + cookieRadius) || (p2x - (x + mov) < 0.5 + cookieRadius && p2z - 1.0 < z + cookieRadius)) {
+			//라이프감소코드 추가//
+			collision = true;
+		}
+	}
+};
 
+class object_icecream {
+private:
+	float x;
+	float y;
+	float z;
+	float mov;
+	///왼쪽쪽버튼위치///
+	float bx1;
+	float by1;
+	float bz1;
+	///오른쪽버튼위치///
+	float bx2;
+	float by2;
+	float bz2;
+public:
+	object_icecream(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z+4.0;
+		mov = 0.0;
+		this->bx1 = x + 3.0;
+		this->by1 = y;
+		this->bz1 = z;
+
+		this->bx2 = x - 4.0;
+		this->by2 = y;
+		this->bz2 = z;
+	}
+
+	void draw_icecream() {
+		glPushMatrix();
+		glTranslatef(x, y, z - mov);
+		glColor3f(0.0, 0.2, 0.7);
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 3.0);
+		glVertex3f(-2.0, y + 1.5, 3.0);
+		glVertex3f(-2.0, y + 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 3.0);
+		glVertex3f(0.0, y - 1.5, 3.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, 3.0);
+		glVertex3f(-2.0, y - 1.5, 3.0);
+		glVertex3f(-2.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(-2.0, y + 1.5, 3.0);
+		glVertex3f(-2.0, y - 1.5, 3.0);
+		glVertex3f(-2.0, y - 1.5, -1.0);
+		glVertex3f(-2.0, y + 1.5, -1.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 3.0);
+		glVertex3f(-2.0, y + 1.5, 3.0);
+		glVertex3f(-2.0, y - 1.5, 3.0);
+		glVertex3f(0.0, y - 1.5, 3.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -1.0);
+		glVertex3f(-2.0, y + 1.5, -1.0);
+		glVertex3f(-2.0, y - 1.5, -1.0);
+		glVertex3f(0.0, y - 1.5, -1.0);
+		glEnd();
+
+		glPopMatrix();
+
+		glutPostRedisplay();
+	}
+
+	void draw_button() {
+		glPushMatrix();
+		glTranslatef(bx1, by1, bz1);
+		glColor3f(1.0, 0.0, 0.0);
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(bx2, by2, bz2);
+		glColor3f(1.0, 0.0, 0.0);
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y + 1.5, 0.0);
+		glVertex3f(-1.0, y - 1.5, 0.0);
+		glVertex3f(0.0, y - 1.5, 0.0);
+		glEnd();
+
+		glBegin(GL_QUADS);
+		glVertex3f(0.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y + 1.5, -0.5);
+		glVertex3f(-1.0, y - 1.5, -0.5);
+		glVertex3f(0.0, y - 1.5, -0.5);
+		glEnd();
+
+
+		glPopMatrix();
+	}
+
+
+	void check_players_To_distance(float p1x, float p2x) { //오브젝트와 플레이어가 가까워지면 오브젝트 z값 감소
+		if (p1x - x < 2.0 || p2x - x < 2.0) {
+			if (mov < 3.5) {
+				mov += 0.02;
+			}
+
+
+		}
+	}
+
+	void collision_icecream(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+		float p1Head = p1z + 0.9 + 0.5;
+		float p2Head = p2z + 0.9 + 0.5;
+		if (p1x + 0.5 >= (x - 2.0) && p1x - 0.5 <= x) {
+			if (p1Head > (z-mov) - 1.0) {
+				if (p1x >= x) {
+					p1x = x + 0.5;
+				}
+
+				else if (p1x <= x - 3.0) {
+					p1x = (x - 2.0) - 0.5;
+				}
+			}
+
+		}
+
+		if (p2x + 0.5 >= (x - 2.0) && p2x - 0.5 <= x) {
+			if (p2Head > (z - mov) - 1.0) {
+				if (p2x >= x) {
+					p2x = x + 0.5;
+				}
+
+				else if (p2x <= x - 2.0) {
+					p2x = (x - 2.0) - 0.5;
+				}
+			}
+
+		}
+	}
+
+	void collision_button(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+		float p1bottom = p1z - 1.1;
+		float p2bottom = p2z - 1.1;
+		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
+			if (bz1 >= p1bottom) {
+				p1z = bz1 + 1.0;
+			}
+			else if (p1x >= bx1) {
+				p1x = bx1 + 0.5;
+			}
+
+			else if (p1x <= bx1 - 0.5) {
+				p1x = bx1 - 1.0;
+			}
+
+
+		}
+
+		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
+			if (bz1 >= p2bottom) {
+				p2z = bz1 + 1.0;
+			}
+			else if (p2x >= bx1) {
+				p2x = bx1 + 0.5;
+			}
+
+			else if (p2x <= bx1 - 1.0) {
+				p2x = bx1 - 1.0 - 0.5;
+			}
+
+		}
+
+		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
+			if (bz2 >= p1bottom) {
+				p1z = bz2 + 1.0;
+			}
+			else if (p1x >= bx2) {
+				p1x = bx2 + 0.5;
+			}
+
+			else if (p1x <= bx2 - 1.0) {
+				p1x = bx2 - 1.0 - 0.5;
+			}
+
+		}
+
+		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
+			if (bz2 >= p2bottom) {
+				p2z = bz2 + 1.0;
+			}
+			else if (p2x >= bx2) {
+				p2x = bx2 + 1.0;
+			}
+
+			else if (p2x <= bx2 - 0.5) {
+				p2x = bx2 - 1.0;
+			}
+
+		}
 	}
 };

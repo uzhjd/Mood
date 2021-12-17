@@ -36,6 +36,7 @@ float left_, right_, top_, bottom_, zNear_, zFar_;
 object_pepero pepero1(-8.0, 0.0, -3.0);
 object_pocachip pocachip(-8.0, 0.0, -2.5);
 object_cookie cookie(-8.0, 0.0, -3.0);
+object_icecream icecream(-8.0, 0.0, -3.0);
 
 struct position {
 	float x;
@@ -508,13 +509,21 @@ void RenderScene(void) { // 변경 화면
 
 	roadModeling();
 
-	pocachip.draw_pocachip();
-	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	pocachip.draw_button();
-	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pocachip.draw_pocachip();
+	//pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pocachip.draw_button();
+	//pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	//cookie.draw_cookie();
 	//cookie.check_players_To_distance(p1.x, p2.x);
+	//cookie.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	icecream.draw_icecream();
+	icecream.check_players_To_distance(p1.x, p2.x);
+	icecream.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	icecream.draw_button();
+	icecream.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
 
 	glutPostRedisplay();
 	glutSwapBuffers();

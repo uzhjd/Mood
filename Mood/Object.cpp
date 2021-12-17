@@ -550,6 +550,8 @@ private:
 	float bx2;
 	float by2;
 	float bz2;
+	bool p1b1, p1b2, p2b1, p2b2;
+
 public:
 	object_icecream(float x, float y, float z) {
 		this->x = x;
@@ -563,6 +565,10 @@ public:
 		this->bx2 = x - 4.0;
 		this->by2 = y;
 		this->bz2 = z;
+		p1b1 = false;
+		p1b2 = false;
+		p2b1 = false;
+		p2b2 = false;
 	}
 
 	void draw_icecream() {
@@ -719,10 +725,16 @@ public:
 
 	void check_players_To_distance(float p1x, float p2x) { //오브젝트와 플레이어가 가까워지면 오브젝트 z값 감소
 		if (p1x - x < 2.0 || p2x - x < 2.0) {
-			if (mov < 3.5) {
-				mov += 0.02;
+			if (p1b1==false && p1b2==false && p2b1==false && p2b2==false) {
+				cout << "여기는,,?" << endl;
+				if(mov < 3.5)
+					mov += 0.02;
 			}
-
+			
+			else if (p1b1 || p1b2 || p2b1 || p2b2) {
+				if (mov > 0.0)
+					mov -= 0.02;
+			}
 
 		}
 	}
@@ -762,58 +774,74 @@ public:
 		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
 			if (bz1 >= p1bottom) {
+				p1b1 = true;
 				p1z = bz1 + 1.0;
 			}
 			else if (p1x >= bx1) {
+				p1b1 = false;
 				p1x = bx1 + 0.5;
 			}
 
 			else if (p1x <= bx1 - 0.5) {
+				p1b1 = false;
 				p1x = bx1 - 1.0;
 			}
+			else p1b1 = false;
 
 
 		}
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
 			if (bz1 >= p2bottom) {
+				p2b1 = true;
 				p2z = bz1 + 1.0;
 			}
 			else if (p2x >= bx1) {
+				p2b1 = false;
 				p2x = bx1 + 0.5;
 			}
 
 			else if (p2x <= bx1 - 1.0) {
+				p2b1 = false;
 				p2x = bx1 - 1.0 - 0.5;
 			}
+			else p2b1 = false;
 
 		}
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
 			if (bz2 >= p1bottom) {
+				p1b2 = true;
 				p1z = bz2 + 1.0;
 			}
 			else if (p1x >= bx2) {
+				p1b2 = false;
 				p1x = bx2 + 0.5;
 			}
 
 			else if (p1x <= bx2 - 1.0) {
+				p1b2 = false;
 				p1x = bx2 - 1.0 - 0.5;
 			}
+			else p1b2 = false;
 
 		}
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
 			if (bz2 >= p2bottom) {
+				p2b2 = true;
 				p2z = bz2 + 1.0;
 			}
 			else if (p2x >= bx2) {
+				p2b2 = false;
 				p2x = bx2 + 1.0;
 			}
 
 			else if (p2x <= bx2 - 0.5) {
+				p2b2 = false;
 				p2x = bx2 - 1.0;
 			}
+			else p2b2 = false;
 
 		}
 	}

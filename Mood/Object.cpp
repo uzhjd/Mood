@@ -243,7 +243,7 @@ public:
 				p1x = bx1 + 0.5;
 			}
 
-			else if (p1x <= bx1 - 0.5 && p1bottom <= bz1 ) {
+			else if (p1x <= bx1 - 0.5 && p1bottom <= bz1) {
 				p1x = bx1 - 1.0;
 			}
 
@@ -512,7 +512,7 @@ private:
 	float y;
 	float z;
 	float mov;
-	float cookieRadius = 1.0;
+	float cookieRadius = 0.6;
 	bool collision = false;
 
 public:
@@ -539,14 +539,18 @@ public:
 
 	void check_players_To_distance(float p1x, float p2x) { //어디까지 굴러가게할지?
 		if (((p1x - 0.5) - (x + cookieRadius) < 4.5 && (p1x - 0.5) - (x + cookieRadius) > 0.0) || ((p2x - 0.5) - (x + cookieRadius) < 4.5 && (p2x - 0.5) - (x + cookieRadius) > 0.0)) {
-			mov += 0.015;
+			mov += 0.005;
 		}
 	}
 
-	void collision_cookie(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
-		if ((p1x - (x + mov) < 0.5 + cookieRadius && p1z - 1.0 < z + cookieRadius) || (p2x - (x + mov) < 0.5 + cookieRadius && p2z - 1.0 < z + cookieRadius)) {
-			//라이프감소코드 추가//
-			collision = true;
+	void collision_cookie(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z, int& life) {
+		if (!collision) {
+			if ((p1x - (x + mov) < 0.5 + cookieRadius && p1x - (x + mov) > 0.0 && p1z - 1.0 < z + cookieRadius) || (p2x - (x + mov) < 0.5 + cookieRadius && p2z - 1.0 < z + cookieRadius && p2x - (x + mov) > 0.0)) {
+				//라이프감소코드 추가//
+				life -= 1;
+				cout << "life:" << life << endl;
+				collision = true;
+			}
 		}
 	}
 };
@@ -1347,4 +1351,65 @@ public:
 		}
 	}
 
+};
+
+class object_candy {
+private:
+	float x;
+	float y;
+	float z;
+	float mov = 0.0;
+	bool collision = false;
+public:
+	object_candy(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z + 0.5;
+		mov = 0.0;
+		collision = false;
+	}
+
+	void draw_candy() {
+		if (!collision) {
+			glPushMatrix();
+			glTranslated(x + mov, y, z);
+			glColor3f(1.0, 1.0, 1.0);
+			glutSolidSphere(0.3, 30, 30);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(x + mov, y, z);
+			glBegin(GL_POLYGON);
+			glVertex3f(0.2, y, 0.0);
+			glVertex3f(0.5, y, 0.3);
+			glVertex3f(0.5, y, -0.3);
+			glEnd();
+			glBegin(GL_POLYGON);
+			glVertex3f(-0.2, y, 0.0);
+			glVertex3f(-0.5, y, 0.3);
+			glVertex3f(-0.5, y, -0.3);
+			glEnd();
+			glPopMatrix();
+		}
+
+
+		glutPostRedisplay();
+	}
+
+	void check_players_To_distance(float p1x, float p2x) {
+		if (p1x - x < 4.0 || p2x - x < 4.0) { //오브젝트와 플레이어가 가까워지면 오브젝트 z값 감소
+			mov += 0.005;
+
+		}
+	}
+
+	void collision_candy(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z, int& life) {
+		if (!collision) {
+			if ((p1x - (x + mov) < 0.7 && p1z - 1.0 < z + 0.3 && p1x - (x + mov) > 0.0) || (p2x - (x + mov) < 0.7 && p2z - 1.0 < z + 0.3 && p2x - (x + mov) > 0.0)) {
+				collision = true;
+				life -= 1;
+				cout <<"life: "<<life << endl;
+			}
+		}
+	}
 };

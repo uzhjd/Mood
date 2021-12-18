@@ -20,7 +20,6 @@ float	camera_distance;
 float	camera_theta, camera_phi;
 
 float p1jumpMax = 0.5, p2jumpMax = 0.5, bt = -3.0;
-const float timeFactor = 2000;
 
 #define PI 3.141592
 
@@ -32,12 +31,13 @@ float Radius, moveDistance, jumpUp, jumpDown;
 
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
-
+int life=3;
 object_pepero pepero1(-8.0, 0.0, -3.0);
 object_pocachip pocachip(-8.0, 0.0, -2.5);
 object_cookie cookie(-8.0, 0.0, -3.0);
 object_icecream icecream(-8.0, 0.0, -3.0);
 object_cloud cloud(-8.0, 0.0, -3.0);
+object_candy candy(-8.0, 0.0, -3.0);
 struct position {
 	float x;
 	float y;
@@ -119,7 +119,7 @@ void init(void) {
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
-
+	life = 3;
 	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_TEXTURE_2D);
@@ -502,10 +502,10 @@ void RenderScene(void) { // 변경 화면
 	Drawchar();
 	Collision_Player_To_Player();
 
-	pepero1.draw_pepero();
-	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	pepero1.draw_button();
-	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pepero1.draw_pepero();
+	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//pepero1.draw_button();
+	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	roadModeling();
 
@@ -514,9 +514,9 @@ void RenderScene(void) { // 변경 화면
 	//pocachip.draw_button();
 	//pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	//cookie.draw_cookie();
-	//cookie.check_players_To_distance(p1.x, p2.x);
-	//cookie.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cookie.draw_cookie();
+	cookie.check_players_To_distance(p1.x, p2.x);
+	cookie.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,life);
 
 	//icecream.draw_icecream();
 	//icecream.check_players_To_distance(p1.x, p2.x);
@@ -528,6 +528,10 @@ void RenderScene(void) { // 변경 화면
 	//cloud.draw_button();
 	//cloud.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	//cloud.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	//candy.draw_candy();
+	//candy.check_players_To_distance(p1.x, p2.x);
+	//candy.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,life);
 
 	glutPostRedisplay();
 	glutSwapBuffers();

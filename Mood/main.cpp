@@ -509,10 +509,10 @@ void RenderScene(void) { // 변경 화면
 
 	roadModeling();
 
-	//pocachip.draw_pocachip();
-	//pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//pocachip.draw_button();
-	//pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip.draw_pocachip();
+	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip.draw_button();
+	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	//cookie.draw_cookie();
 	//cookie.check_players_To_distance(p1.x, p2.x);
@@ -524,10 +524,10 @@ void RenderScene(void) { // 변경 화면
 	//icecream.draw_button();
 	//icecream.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	cloud.draw_cloud();
-	cloud.draw_button();
-	cloud.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	cloud.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//cloud.draw_cloud();
+	//cloud.draw_button();
+	//cloud.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//cloud.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	glutPostRedisplay();
 	glutSwapBuffers();

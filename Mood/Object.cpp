@@ -231,7 +231,7 @@ public:
 		float p1bottom = p1z - 1.1;
 		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
-			if (bz1 >= p1bottom) {
+			if (bz1 - 0.1 >= p1bottom) {
 				p1z = bz1 + 1.0;
 			}
 			else if (p1x >= bx1) {
@@ -246,7 +246,7 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
-			if (bz1 >= p2bottom) {
+			if (bz1 - 0.1 >= p2bottom) {
 				p2z = bz1 + 1.0;
 			}
 			else if (p2x >= bx1) {
@@ -260,7 +260,7 @@ public:
 		}
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
-			if (bz2 >= p1bottom) {
+			if (bz2 - 0.1 >= p1bottom) {
 				p1z = bz2 + 1.0;
 			}
 			else if (p1x >= bx2) {
@@ -274,7 +274,7 @@ public:
 		}
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
-			if (bz2 >= p2bottom) {
+			if (bz2 - 0.1 >= p2bottom) {
 				p2z = bz2 + 1.0;
 			}
 			else if (p2x >= bx2) {
@@ -424,7 +424,7 @@ public:
 		//cout << p1z << endl;
 		if (button == false) {
 			if (p1x + 0.5 >= (x - 3.0) && p1x - 0.5 <= x) {
-				if (z + 3.0 >= p1bottom) {
+				if (z + 2.9 <= p1bottom) {
 					p1z = (z + 3.0) + 2.0 * 0.5;
 				}
 
@@ -438,7 +438,7 @@ public:
 			}
 
 			if (p2x + 0.5 >= (x - 3.0) && p2x - 0.5 <= x) {
-				if (z + 3.0 >= p2bottom) {
+				if (z + 2.9 <= p2bottom) {
 					p2z = (z + 3.0) + 2.0 * 0.5;
 				}
 
@@ -818,7 +818,7 @@ public:
 		float p1bottom = p1z - 1.1;
 		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
-			if (bz1 >= p1bottom) {
+			if (bz1-0.1 >= p1bottom) {
 				p1b1 = true;
 				p1z = bz1 + 1.0;
 			}
@@ -837,7 +837,7 @@ public:
 
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
-			if (bz1 >= p2bottom) {
+			if (bz1 - 0.1 >= p2bottom) {
 				p2b1 = true;
 				p2z = bz1 + 1.0;
 			}
@@ -854,7 +854,7 @@ public:
 		else p2b1 = false;
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
-			if (bz2 >= p1bottom) {
+			if (bz2 - 0.1 >= p1bottom) {
 				p1b2 = true;
 				p1z = bz2 + 1.0;
 			}
@@ -871,7 +871,7 @@ public:
 
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
-			if (bz2 >= p2bottom) {
+			if (bz2 - 0.1 >= p2bottom) {
 				p2b2 = true;
 				p2z = bz2 + 1.0;
 			}
@@ -1170,7 +1170,7 @@ public:
 		float p1bottom = p1z - 1.1;
 		float p2bottom = p2z - 1.1;
 		if (p1x + 0.5 >= (bx1 - 1.0) && p1x - 0.5 <= bx1) {
-			if (bz1 >= p1bottom) {
+			if (bz1-0.1 >= p1bottom) {
 				p1b1 = true;
 				p1z = bz1 + 1.0;
 			}
@@ -1189,7 +1189,7 @@ public:
 
 
 		if (p2x + 0.5 >= (bx1 - 1.0) && p2x - 0.5 <= bx1) {
-			if (bz1 >= p2bottom) {
+			if (bz1-0.1 >= p2bottom) {
 				p2b1 = true;
 				p2z = bz1 + 1.0;
 			}
@@ -1206,7 +1206,7 @@ public:
 		else p2b1 = false;
 
 		if (p1x + 0.5 >= (bx2 - 1.0) && p1x - 0.5 <= bx2) {
-			if (bz2 >= p1bottom) {
+			if (bz2-0.1 >= p1bottom) {
 				p1b2 = true;
 				p1z = bz2 + 1.0;
 			}
@@ -1223,7 +1223,7 @@ public:
 
 
 		if (p2x + 0.5 >= (bx2 - 1.0) && p2x - 0.5 <= bx2) {
-			if (bz2 >= p2bottom) {
+			if (bz2-0.1 >= p2bottom) {
 				p2b2 = true;
 				p2z = bz2 + 1.0;
 			}

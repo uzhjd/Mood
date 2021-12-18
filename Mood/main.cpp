@@ -25,7 +25,7 @@ const float timeFactor = 2000;
 #define PI 3.141592
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
-boolean	camera = false;
+boolean	camera = true;
 boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
@@ -145,7 +145,7 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//glOrtho(-30.0, 30.0, -30.0, 30.0, 1.0, 150.0);
-	gluPerspective(60.0, 1.0, 1.0, 2000.0);
+	//gluPerspective(60.0, 1.0, 1.0, 2000.0);
 	//gluOrtho2D(left_, left_ + width, bottom, bottom + height);
 
 }
@@ -245,6 +245,8 @@ void axis(void) {
 	glEnd();
 
 
+
+
 }
 
 
@@ -324,13 +326,7 @@ void Collision_Player_To_Player() {
 
 }
 
-void cameraSet() {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	if((p1.x + p2.x) / 2 <= 5 - 4.95)
-		camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
-}
+
 
 void jump() {
 	float z1 = p1.z;
@@ -430,35 +426,40 @@ void roadModeling(void) {
 	glutPostRedisplay();
 }
 
+void cameraSet() {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+		camera_distance = (p1.x + p2.x) / 2;
+	gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+}
+
 void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0, 1.0, 0.0, 0.0);
+	glClearColor(0.7, 0.9, 1.0, 1.0);
 	p1.z += velocity1.z;
 	p2.z += velocity2.z;
 	jump();
 
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
-		left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
-		glViewport(0, 0, width / 2, height);
+		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
+		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity(); // 클리핑 볼륨 설정.
-		glOrtho(left_, right_, bottom_, top_, zNear_, zFar_);
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
-
-		glViewport(width / 2, 0, width, height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(left_, right_, bottom_, top_, zNear_, zFar_);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		gluLookAt(p2.x, p2.y, p2.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
-
+		//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+		//	camera_distance = (p1.x + p2.x) / 2;
+		//gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+		gluLookAt(2, 4, 1.5, -1, 0, 0, 0, 0, 1.0); // 시점
+		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+		
 	}
 	else {
 		//left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;

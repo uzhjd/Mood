@@ -25,7 +25,7 @@ const float timeFactor = 2000;
 #define PI 3.141592
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
-boolean	camera = false;
+boolean	camera = true;
 boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
@@ -46,7 +46,9 @@ struct position {
 	float z;
 };
 position p1, p2, velocity1, velocity2;
-
+static int a = 0;
+static int b = 0;
+static int c = 0;
 GLuint	texture;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
@@ -109,7 +111,7 @@ BITMAPINFOHEADER bitmapInfoHeader5;
 unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
 void init(void) {
-	//int z = -110;
+	//int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -155,9 +157,16 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 
 void Modeling_Score() { // 점수판 만들기
 	glColor3f(189.0/255.0, 236.0 /255.0, 182.0 /255.0);
-
+	//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+	//	camera_distance = (p1.x + p2.x) / 2;
+	//gluLookAt(camera_distance + 2, 4, 1.5, camera_distance, 0, 0, 0, 0, 1.0); // 시점
 	if (camera) {
-
+		glBegin(GL_QUADS);
+		glVertex3f(camera_distance - 5, 7, -7);
+		glVertex3f(camera_distance - 5, 7, -3);
+		glVertex3f(camera_distance + 7, 1, -3);
+		glVertex3f(camera_distance + 7, 1, -7);
+		glEnd();
 	}
 	else {
 		glBegin(GL_QUADS);
@@ -491,6 +500,22 @@ void RenderScene(void) { // 변경 화면
 	p2.z += velocity2.z;
 	jump();
 
+	if (a== 0&&level == 1) {
+	     PlaySound(TEXT("lv.1.wav"), 0, SND_ASYNC | SND_LOOP);
+		 a++;
+	
+	}
+	else if (b==0&&level == 2) {
+		//sndPlaySound(vbStringNull, SND_ASYNC);
+		PlaySound(TEXT("lv.2.wav"), 0, SND_ASYNC | SND_ALIAS);
+		b++;
+
+	}
+	else if (c==0&&level == 3) {
+		sndPlaySoundA("lv.3.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+		c++;
+
+	}
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -545,7 +570,6 @@ void RenderScene(void) { // 변경 화면
 
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
-	//Modeling_Score();
 
 	axis();
 	Drawchar();
@@ -566,6 +590,7 @@ void RenderScene(void) { // 변경 화면
 	//cookie.draw_cookie();
 	//cookie.check_players_To_distance(p1.x, p2.x);
 	string text1;
+
 	if (level == 1)
 		text1 = "Level : " + to_string(level) + "  (mane's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 
@@ -574,12 +599,18 @@ void RenderScene(void) { // 변경 화면
 		text1 = "Level : " + to_string(level) + "  (nox's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 	}
 	else if (level == 3) {
-
 		glColor3f(121.0/255.0, 21.0/255.0, 11.0/255.0);
 		text1 = "Level : " + to_string(level) + "  (Rolar's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 	}
 	//glColor3f(0.2, 0.2, 0.2);
-	glRasterPos3f(camera_distance + 4.8, 3, -4.8);
+
+	if (camera) {
+		glRasterPos3f(camera_distance + 6.3, 2, -3.1);
+
+	}
+	else {
+		glRasterPos3f(camera_distance + 4.8, 3, -4.6);
+	}
 	for (int i = 0; i < text1.size(); i++) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text1[i]);
 	}
@@ -593,7 +624,7 @@ void SpecialKey(int key, int x, int y) {
 	case GLUT_KEY_LEFT:
 		if (camera_distance + 4.95 >= p1.x + 0.5) {
 			p1.x += moveDistance;
-			cout << p1.x << endl;
+			//cout << p1.x << endl;
 			//cout << center << endl << endl;
 		}
 
@@ -605,7 +636,7 @@ void SpecialKey(int key, int x, int y) {
 		if (camera_distance - 4.95 <= p1.x - 0.5) {
 			p1.x -= moveDistance;
 
-			cout << p1.x << endl;
+			//cout << p1.x << endl;
 		}
 		p1Left = false;
 		p1Right = true;
@@ -705,10 +736,5 @@ void main(int argc, char** argv) {
 	glutSpecialUpFunc(SpecialKeyUp);
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
-	//   
-	//   //if (you) {
-	//   //   sndPlaySoundA("music.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
-	////
-	//   //}
 	glutMainLoop();
 }

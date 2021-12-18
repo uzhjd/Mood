@@ -30,11 +30,11 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		this->bx1 = x + 5.0;
+		this->bx1 = x + 3.0;
 		this->by1 = y;
 		this->bz1 = z;
 
-		this->bx2 = x + 3.0;
+		this->bx2 = x + 1.0;
 		this->by2 = y;
 		this->bz2 = z;
 
@@ -207,11 +207,7 @@ public:
 				if (z - 0.5 >= p1bottom) {
 					p1z = z + 0.5;
 				}
-				else if (p1x >= x)
-					p1x = x + 0.5;
-				else if (p1x <= x - 6.0) {
-					p1x = x - 6.0 - 0.5;
-				}
+
 
 			}
 
@@ -219,11 +215,7 @@ public:
 				if (z - 0.5 >= p2bottom && p2middle >= z - 0.5) {
 					p2z = z + 0.5;
 				}
-				else if (p2x >= x)
-					p2x = x + 0.5;
-				else if (p2x <= x - 6.0) {
-					p2x = x - 6.0 - 0.5;
-				}
+
 
 
 			}
@@ -436,33 +428,37 @@ public:
 		float p1bottom = p1z - 1.0;
 		float p2bottom = p2z - 1.0;
 		float p1head = p1z + 1.4;
+		float p2head = p2z + 1.4;
 		//cout << p1z << endl;
 		if (button == false) {
 			if (p1x + 0.5 >= (x - 3.0) && p1x - 0.5 <= x) {
-				if (z + 2.9 <= p1bottom) {
+				if (z + 3.0 >= p1bottom && p1head >= z + 5.0) {
 					p1z = (z + 3.0) + 2.0 * 0.5;
 				}
+				else if (p1bottom >= z - 1.0 && p1bottom <= z + 3.0) {
+					if (p1x >= x) {
+						p1x = x + 0.5;
+					}
 
-				else if (p1x >= x) {
-					p1x = x + 0.5;
+					if (p1x <= x - 3.0) {
+						p1x = (x - 3.0) - 0.5;
+					}
 				}
 
-				else if (p1x <= x - 3.0) {
-					p1x = (x - 3.0) - 0.5;
-				}
 			}
 
 			if (p2x + 0.5 >= (x - 3.0) && p2x - 0.5 <= x) {
-				if (z + 2.9 <= p2bottom) {
+				if (z + 3.0 >= p2bottom && p2head >= z + 5.0) {
 					p2z = (z + 3.0) + 2.0 * 0.5;
 				}
+				else if (p2bottom >= z - 1.0 && p2bottom <= z + 3.0) {
+					if (p2x >= x) {
+						p2x = x + 0.5;
+					}
 
-				else if (p2x >= x) {
-					p2x = x + 0.5;
-				}
-
-				else if (p2x <= x - 3.0) {
-					p2x = (x - 3.0) - 0.5;
+					else if (p2x <= x - 3.0) {
+						p2x = (x - 3.0) - 0.5;
+					}
 				}
 			}
 		}
@@ -538,7 +534,7 @@ public:
 	}
 
 	void check_players_To_distance(float p1x, float p2x) { //어디까지 굴러가게할지?
-		if (((p1x - 0.5) - (x + cookieRadius) < 4.5 && (p1x - 0.5) - (x + cookieRadius) > 0.0) || ((p2x - 0.5) - (x + cookieRadius) < 4.5 && (p2x - 0.5) - (x + cookieRadius) > 0.0)) {
+		if (((p1x - 0.5) - (x + cookieRadius) < 5.5 && (p1x - 0.5) - (x + cookieRadius) > 0.0) || ((p2x - 0.5) - (x + cookieRadius) < 5.5 && (p2x - 0.5) - (x + cookieRadius) > 0.0)) {
 			mov += 0.005;
 		}
 	}
@@ -927,11 +923,11 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		this->bx1 = x + 1.5;
+		this->bx1 = x + 2.5;
 		this->by1 = y;
 		this->bz1 = z;
 
-		this->bx2 = x - 7.5;
+		this->bx2 = x - 7.0;
 		this->by2 = y;
 		this->bz2 = z;
 		p1b1 = false;
@@ -948,8 +944,8 @@ public:
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, -0.5);
 			glVertex3f(0.0, y + 1.5, -0.5);
 			glEnd();
 
@@ -962,88 +958,40 @@ public:
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
 			glVertex3f(0.0, y - 1.5, -0.5);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
 			glEnd();
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
 			glVertex3f(0.0, y - 1.5, 0.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glEnd();
-			glPopMatrix();
-
-			glPushMatrix();
-			glTranslatef(x - 2.5, y, z + 2.0);
-			glColor3f(0.0, 0.4, 0.5);
-
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y - 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
+			glVertex3f(-1.5, y - 1.5, -0.5);
 			glVertex3f(0.0, y - 1.5, -0.5);
 			glEnd();
 			glPopMatrix();
 
 			glPushMatrix();
-			glTranslatef(x - 5.0, y, z + 1.0);
+			glTranslatef(x - 2.0, y, z + 1.5);
 			glColor3f(0.0, 0.4, 0.5);
-
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, -0.5);
 			glVertex3f(0.0, y + 1.5, -0.5);
 			glEnd();
 
@@ -1056,29 +1004,75 @@ public:
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
 			glVertex3f(0.0, y - 1.5, -0.5);
 			glEnd();
 
 			glBegin(GL_QUADS);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
 			glEnd();
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y + 1.5, 0.0);
-			glVertex3f(-2.0, y - 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
 			glVertex3f(0.0, y - 1.5, 0.0);
 			glEnd();
 
 			glBegin(GL_QUADS);
 			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y + 1.5, -0.5);
-			glVertex3f(-2.0, y - 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
+			glVertex3f(-1.5, y - 1.5, -0.5);
+			glVertex3f(0.0, y - 1.5, -0.5);
+			glEnd();
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslatef(x - 4.0, y, z + 1.0);
+			glColor3f(0.0, 0.4, 0.5);
+			glBegin(GL_QUADS);
+			glVertex3f(0.0, y + 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, -0.5);
+			glVertex3f(0.0, y + 1.5, -0.5);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			glVertex3f(0.0, y + 1.5, 0.0);
+			glVertex3f(0.0, y - 1.5, 0.0);
+			glVertex3f(0.0, y - 1.5, -0.5);
+			glVertex3f(0.0, y + 1.5, -0.5);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			glVertex3f(0.0, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
+			glVertex3f(0.0, y - 1.5, -0.5);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			glVertex3f(0.0, y + 1.5, 0.0);
+			glVertex3f(-1.5, y + 1.5, 0.0);
+			glVertex3f(-1.5, y - 1.5, 0.0);
+			glVertex3f(0.0, y - 1.5, 0.0);
+			glEnd();
+
+			glBegin(GL_QUADS);
+			glVertex3f(0.0, y + 1.5, -0.5);
+			glVertex3f(-1.5, y + 1.5, -0.5);
+			glVertex3f(-1.5, y - 1.5, -0.5);
 			glVertex3f(0.0, y - 1.5, -0.5);
 			glEnd();
 			glPopMatrix();
@@ -1265,7 +1259,7 @@ public:
 		//cout << p1z << endl;
 		if (p1b1 || p1b2 || p2b1 || p2b2) {
 			//1번째구름충돌//
-			if (p1x + 0.5 >= (x - 2.0) && p1x - 0.5 <= x) {
+			if (p1x + 0.5 >= (x - 1.5) && p1x - 0.5 <= x) {
 				if (z + 1.0 >= p1bottom) {
 					p1z = (z + 1.0) + 2.0 * 0.5;
 				}
@@ -1274,12 +1268,12 @@ public:
 					p1x = x + 0.5;
 				}
 
-				else if (p1x <= x - 2.0 && p1bottom <= z) {
-					p1x = (x - 2.0) - 0.5;
+				else if (p1x <= x - 1.5 && p1bottom <= z) {
+					p1x = (x - 1.5) - 0.5;
 				}
 			}
 
-			if (p2x + 0.5 >= (x - 2.0) && p2x - 0.5 <= x) {
+			if (p2x + 0.5 >= (x - 1.5) && p2x - 0.5 <= x) {
 				if (z + 1.0 >= p2bottom) {
 					p2z = (z + 1.0) + 2.0 * 0.5;
 				}
@@ -1288,64 +1282,64 @@ public:
 					p2x = x + 0.5;
 				}
 
-				else if (p2x <= x - 2.0 && p2bottom <= z) {
-					p2x = (x - 2.0) - 0.5;
+				else if (p2x <= x - 1.5 && p2bottom <= z) {
+					p2x = (x - 1.5) - 0.5;
 				}
 			}
 			//2번째구름충돌//
-			if (p1x + 0.5 >= (x - 4.5) && p1x - 0.5 <= (x - 2.5)) {
-				if (z + 2.0 >= p1bottom) {
-					p1z = (z + 2.0) + 2.0 * 0.5;
+			if (p1x + 0.5 >= (x - 3.5) && p1x - 0.5 <= (x - 2.0)) {
+				if (z + 1.5 >= p1bottom) {
+					p1z = (z + 1.5) + 2.0 * 0.5;
 				}
 
 				else if (p1x >= x - 2.0 && p1bottom <= z + 1.0) {
 					p1x = x - 2.0 + 0.5;
 				}
 
-				else if (p1x <= x - 4.5 && p1bottom <= z + 1.0) {
+				else if (p1x <= x - 3.5 && p1bottom <= z + 1.0) {
 					p1x = (x - 4.5) - 0.5;
 				}
 			}
 
-			if (p2x + 0.5 >= (x - 4.5) && p2x - 0.5 <= (x - 2.5)) {
-				if (z + 2.0 >= p2bottom) {
-					p2z = (z + 2.0) + 2.0 * 0.5;
+			if (p2x + 0.5 >= (x - 3.5) && p2x - 0.5 <= (x - 2.0)) {
+				if (z + 1.5 >= p2bottom) {
+					p2z = (z + 1.5) + 2.0 * 0.5;
 				}
 
-				else if (p2x >= x - 2.5 && p2bottom <= z + 1.0) {
-					p2x = x - 2.5 + 0.5;
+				else if (p2x >= x - 2.0 && p2bottom <= z + 1.0) {
+					p2x = x - 2.0 + 0.5;
 				}
 
-				else if (p2x <= x - 4.5 && p2bottom <= z + 1.0) {
-					p2x = (x - 4.5) - 0.5;
+				else if (p2x <= x - 3.5 && p2bottom <= z + 1.0) {
+					p2x = (x - 3.5) - 0.5;
 				}
 			}
 			//3번째구름충돌//
-			if (p1x + 0.5 >= (x - 7.0) && p1x - 0.5 <= (x - 5.0)) {
+			if (p1x + 0.5 >= (x - 5.5) && p1x - 0.5 <= (x - 4.0)) {
 				if (z + 1.0 >= p1bottom) {
 					p1z = (z + 1.0) + 2.0 * 0.5;
 				}
 
-				else if (p1x >= x - 5.0 && p1bottom <= z + 1.0) {
-					p1x = x - 5.0 + 0.5;
+				else if (p1x >= x - 4.0 && p1bottom <= z + 1.0) {
+					p1x = x - 4.0 + 0.5;
 				}
 
-				else if (p1x <= x - 7.0 && p1bottom <= z + 1.0) {
-					p1x = (x - 7.0) - 0.5;
+				else if (p1x <= x - 5.5 && p1bottom <= z + 1.0) {
+					p1x = (x - 5.5) - 0.5;
 				}
 			}
 
-			if (p2x + 0.5 >= (x - 7.0) && p2x - 0.5 <= (x - 5.0)) {
+			if (p2x + 0.5 >= (x - 5.5) && p2x - 0.5 <= (x - 4.0)) {
 				if (z + 1.0 >= p2bottom) {
 					p2z = (z + 1.0) + 2.0 * 0.5;
 				}
 
-				else if (p2x >= x - 5.0 && p2bottom <= z + 1.0) {
-					p2x = x - 5.0 + 0.5;
+				else if (p2x >= x - 4.0 && p2bottom <= z + 1.0) {
+					p2x = x - 4.0 + 0.5;
 				}
 
-				else if (p2x <= x - 7.0 && p2bottom <= z + 1.0) {
-					p2x = (x - 7.0) - 0.5;
+				else if (p2x <= x - 5.5 && p2bottom <= z + 1.0) {
+					p2x = (x - 5.5) - 0.5;
 				}
 			}
 		}
@@ -1408,7 +1402,7 @@ public:
 			if ((p1x - (x + mov) < 0.7 && p1z - 1.0 < z + 0.3 && p1x - (x + mov) > 0.0) || (p2x - (x + mov) < 0.7 && p2z - 1.0 < z + 0.3 && p2x - (x + mov) > 0.0)) {
 				collision = true;
 				life -= 1;
-				cout <<"life: "<<life << endl;
+				cout << "life: " << life << endl;
 			}
 		}
 	}

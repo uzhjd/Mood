@@ -32,12 +32,32 @@ float Radius, moveDistance, jumpUp, jumpDown;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
 int life=3;
-object_pepero pepero1(-8.0, 0.0, -3.0);
-object_pocachip pocachip(-8.0, 0.0, -2.5);
-object_cookie cookie(-8.0, 0.0, -3.0);
-object_icecream icecream(-8.0, 0.0, -3.0);
-object_cloud cloud(-8.0, 0.0, -3.0);
-object_candy candy(-8.0, 0.0, -3.0);
+object_pepero pepero1(-20.0, 0.0, -3.0);
+
+object_pocachip pocachip1(-8.0, 0.0, -2.5);
+object_pocachip pocachip2(-25.0, 0.0, -2.5);
+object_pocachip pocachip3(-50.0, 0.0, -2.5);
+
+object_cookie cookie1(-90.0, 0.0, -3.0);
+object_cookie cookie2(-137.0, 0.0, -3.0);
+object_cookie cookie3(-139.0, 0.0, -3.0);
+object_cookie cookie4(-141.0, 0.0, -3.0);
+
+object_icecream icecream1(-43.0, 0.0, -3.0);
+object_icecream icecream2(-100.0, 0.0, -3.0);
+object_icecream icecream3(-145.0, 0.0, -3.0);
+
+object_cloud cloud1(-65.0, 0.0, -3.0);
+object_cloud cloud2(-120.0, 0.0, -3.0);
+object_cloud cloud3(-145.0, 0.0, -3.0);
+
+object_candy candy1(-40.0, 0.0, -3.0);
+object_candy candy2(-80.0, 0.0, -3.0);
+object_candy candy3(-115.0, 0.0, -3.0);
+object_candy candy4(-138.0, 0.0, -3.0);
+object_candy candy5(-150.0, 0.0, -2.0);
+
+
 struct position {
 	float x;
 	float y;
@@ -114,8 +134,8 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = -0.5; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x =-1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -269,7 +289,7 @@ void Collision_Player_To_Player() {
 		//플레이어 머리 충돌(수정중)
 		else if (((p1.z - 1.0) < (p2.z + 0.9 + Radius)) && ((p1.z - 1.0) > (p2.z - 1.0))) {
 			if (p1.x - p2.x < 2 * Radius) {
-				p1jumpMax = 1.5;
+				p1jumpMax = 1.8;
 				p1.z = p2.z + 0.9 + 3 * Radius;
 			}
 			else p1jumpMax=0.5;
@@ -278,7 +298,7 @@ void Collision_Player_To_Player() {
 
 		else if (((p2.z - 1.0) < (p1.z + 0.9 + Radius)) && ((p2.z - 1.0) > (p1.z - 1.0))) {
 			if (p1.x - p2.x < 2 * Radius) {
-				p2jumpMax = 1.5;
+				p2jumpMax = 1.8;
 				p2.z = p1.z + 0.9 + 3 * Radius;
 			}
 			else p2jumpMax = 0.5;
@@ -304,7 +324,7 @@ void Collision_Player_To_Player() {
 		}
 		else if (((p1.z - 1.0) < (p2.z + +0.9 + Radius)) && ((p1.z - 1.0) > (p2.z - 1.0))) {
 			if ((p2.x - p1.x < 2 * Radius)) {
-				p1jumpMax = 1.5;
+				p1jumpMax = 1.8;
 				p1.z = p2.z + 0.9 + 3 * Radius;
 			}
 			else
@@ -314,7 +334,7 @@ void Collision_Player_To_Player() {
 
 		else if (((p2.z - 1.0) < (p1.z + 0.9 + Radius)) && ((p2.z - 1.1) > (p1.z - 1.0))) {
 			if (p2.x - p1.x < 2 * Radius) {
-				p2jumpMax=1.5;
+				p2jumpMax=1.8;
 				p2.z = p1.z + 0.9 + 3 * Radius;
 			}
 			else
@@ -378,19 +398,19 @@ void roadModeling(void) {
 	generalRoad road0(10.0, 0.0, -3.0);
 	generalRoad road1(0.0, 0.0, -3.0);
 	generalRoad road2(-10.0, 0.0, -3.0);
-	generalRoad road3(-22.0, 0.0, -3.0);
-	generalRoad road4(-34.0, 0.0, -3.0);
-	generalRoad road5(-44.0, 0.0, -3.0);
-	generalRoad road6(-54.0, 0.0, -3.0);
-	generalRoad road7(-66.0, 0.0, -3.0);
-	generalRoad road8(-78.0, 0.0, -3.0);
-	generalRoad road9(-88.0, 0.0, -3.0);
+	generalRoad road3(-25.0, 0.0, -3.0);
+	generalRoad road4(-35.0, 0.0, -3.0);
+	generalRoad road5(-45.0, 0.0, -3.0);
+	generalRoad road6(-55.0, 0.0, -3.0);
+	generalRoad road7(-71.0, 0.0, -3.0);
+	generalRoad road8(-81.0, 0.0, -3.0);
+	generalRoad road9(-93.0, 0.0, -3.0);
 	generalRoad road10(-100.0, 0.0, -3.0);
 	generalRoad road11(-110.0, 0.0, -3.0);
-	generalRoad road12(-122.0, 0.0, -3.0);
-	generalRoad road13(-124.0, 0.0, -3.0);
-	generalRoad road14(-134.0, 0.0, -3.0);
-	generalRoad road15(-146.0, 0.0, -3.0);
+	generalRoad road12(-125.5, 0.0, -3.0);
+	generalRoad road13(-134.5, 0.0, -3.0);
+	generalRoad road14(-150.5, 0.0, -3.0);
+	generalRoad road15(-160.5, 0.0, -3.0);
 
 	road0.draw_generalRoad();
 	road1.draw_generalRoad();
@@ -428,6 +448,97 @@ void roadModeling(void) {
 	road15.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	glutPostRedisplay();
+}
+
+void objectModeling(void) {
+
+	pocachip1.draw_pocachip();
+	pocachip1.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip1.draw_button();
+	pocachip1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	pepero1.draw_pepero();
+	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pepero1.draw_button();
+	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	pocachip2.draw_pocachip();
+	pocachip2.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip2.draw_button();
+	pocachip2.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	candy1.draw_candy();
+	candy1.check_players_To_distance(p1.x, p2.x);
+	candy1.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	icecream1.draw_icecream();
+	icecream1.check_players_To_distance(p1.x, p2.x);
+	icecream1.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	icecream1.draw_button();
+	icecream1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	pocachip3.draw_pocachip();
+	pocachip3.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	pocachip3.draw_button();
+	pocachip3.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	cloud1.draw_cloud();
+	cloud1.draw_button();
+	cloud1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cloud1.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	candy2.draw_candy();
+	candy2.check_players_To_distance(p1.x, p2.x);
+	candy2.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	cookie1.draw_cookie();
+	cookie1.check_players_To_distance(p1.x, p2.x);
+	cookie1.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,life);
+
+	icecream2.draw_icecream();
+	icecream2.check_players_To_distance(p1.x, p2.x);
+	icecream2.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	icecream2.draw_button();
+	icecream2.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	candy3.draw_candy();
+	candy3.check_players_To_distance(p1.x, p2.x);
+	candy3.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	cloud2.draw_cloud();
+	cloud2.draw_button();
+	cloud2.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cloud2.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	
+	cookie2.draw_cookie();
+	cookie2.check_players_To_distance(p1.x, p2.x);
+	cookie2.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+	
+	candy3.draw_candy();
+	candy3.check_players_To_distance(p1.x, p2.x);
+	candy3.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	cookie3.draw_cookie();
+	cookie3.check_players_To_distance(p1.x, p2.x);
+	cookie3.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+	
+	candy4.draw_candy();
+	candy4.check_players_To_distance(p1.x, p2.x);
+	candy4.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	cookie4.draw_cookie();
+	cookie4.check_players_To_distance(p1.x, p2.x);
+	cookie4.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	cloud3.draw_cloud();
+	cloud3.draw_button();
+	cloud3.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cloud3.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	candy5.draw_candy();
+	candy5.check_players_To_distance(p1.x, p2.x);
+	candy5.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
 }
 
 void RenderScene(void) { // 변경 화면
@@ -502,36 +613,8 @@ void RenderScene(void) { // 변경 화면
 	Drawchar();
 	Collision_Player_To_Player();
 
-	//pepero1.draw_pepero();
-	//pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//pepero1.draw_button();
-	//pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-
 	roadModeling();
-
-	//pocachip.draw_pocachip();
-	//pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//pocachip.draw_button();
-	//pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-
-	cookie.draw_cookie();
-	cookie.check_players_To_distance(p1.x, p2.x);
-	cookie.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,life);
-
-	//icecream.draw_icecream();
-	//icecream.check_players_To_distance(p1.x, p2.x);
-	//icecream.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//icecream.draw_button();
-	//icecream.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-
-	//cloud.draw_cloud();
-	//cloud.draw_button();
-	//cloud.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	//cloud.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-
-	//candy.draw_candy();
-	//candy.check_players_To_distance(p1.x, p2.x);
-	//candy.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,life);
+	objectModeling();
 
 	glutPostRedisplay();
 	glutSwapBuffers();
@@ -651,6 +734,7 @@ void main(int argc, char** argv) {
 	glutSpecialUpFunc(SpecialKeyUp);
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
+
 	//   
 	//   //if (you) {
 	//   //   sndPlaySoundA("music.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);

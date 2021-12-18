@@ -37,7 +37,7 @@ object_pepero pepero1(-8.0, 0.0, -3.0);
 object_pocachip pocachip(-8.0, 0.0, -2.5);
 object_cookie cookie(-8.0, 0.0, -3.0);
 object_icecream icecream(-8.0, 0.0, -3.0);
-
+object_cloud cloud(-8.0, 0.0, -3.0);
 struct position {
 	float x;
 	float y;
@@ -518,12 +518,16 @@ void RenderScene(void) { // 변경 화면
 	//cookie.check_players_To_distance(p1.x, p2.x);
 	//cookie.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	icecream.draw_icecream();
-	icecream.check_players_To_distance(p1.x, p2.x);
-	icecream.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	icecream.draw_button();
-	icecream.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//icecream.draw_icecream();
+	//icecream.check_players_To_distance(p1.x, p2.x);
+	//icecream.collision_icecream(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	//icecream.draw_button();
+	//icecream.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
+	cloud.draw_cloud();
+	cloud.draw_button();
+	cloud.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cloud.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	glutPostRedisplay();
 	glutSwapBuffers();

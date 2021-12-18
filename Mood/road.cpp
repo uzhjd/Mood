@@ -77,7 +77,7 @@ public:
 
 
 	// 3. 충돌 체크
-	void collisionRoad(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+	bool collisionRoad(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
 		float p1bottom = p1z - 2 * 0.5;
 		float p1middle = p1z - 1.5 * 0.5;
 		float p2bottom = p2z - 2 * 0.5;
@@ -112,13 +112,16 @@ public:
 			// life깍기게 하기
 			p1x = p1x + 0.9;
 			p1z = z + 0.5;
+			return true;
 		}
 
 		if (p2bottom <= z - 1.0) {
 			// life깍기게 하기
 			p2x = p2x + 0.9;
 			p2z = z + 0.5;
+			return true;
 		}
+		return false;
 	}
 };
 

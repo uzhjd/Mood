@@ -163,15 +163,15 @@ void init(void) {
 
 	start_flag = 0;
 
-	//int z = -150;
+	int z = -20;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = z+0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = z+-2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -652,10 +652,11 @@ void RenderScene(void) { // 변경 화면
 		glRasterPos3i(4, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader5.biWidth, bitmapInfoHeader5.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_5);
 	}
-	if (GameOver == true) { // 
+	if (GameOver == true) {
+		cout << "dd";
 		glShadeModel(GL_FLAT);						// 게임오버 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
-		glRasterPos3i(camera_distance + 5, 2, -4.5);
+		glRasterPos3i(camera_distance + 3.5, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader2.biWidth, bitmapInfoHeader2.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_2);
 	}
 	if (start_flag % 2 && start_flag >= 2) { // 

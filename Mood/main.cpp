@@ -140,7 +140,7 @@ void init(void) {
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = -0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x =-1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
+	p2.x =-2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -617,7 +617,7 @@ void RenderScene(void) { // 변경 화면
 	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	//glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	axis();

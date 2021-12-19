@@ -24,7 +24,7 @@ float p1jumpMax = 0.5, p2jumpMax = 0.5, bt = -3.0;
 #define PI 3.141592
 
 float	lightPositionR[] = { 2.0f, 0.0f, 8.0f, 1.0f };
-float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
+float light_ambient[] = { 1.0, 0.5, 0.0, 0.0 };
 float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 

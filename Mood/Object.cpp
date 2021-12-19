@@ -1175,6 +1175,14 @@ private:
 	float by2;
 	float bz2;
 	bool p1b1, p1b2, p2b1, p2b2;
+	float vertex[24][3] = {
+		{0.0, 1.5, 0.0},{-1.5, 1.5, 0.0},{-1.5, 1.5, -0.5},{0.0, 1.5, -0.5},
+		{0.0, 1.5, 0.0},{0.0, -1.5, 0.0},{0.0, -1.5, -0.5},{0.0, 1.5, -0.5},
+		{0.0, -1.5, 0.0},{-1.5, -1.5, 0.0},{-1.5, -1.5, -0.5},{0.0, -1.5, -0.5},
+		{-1.5, 1.5, 0.0},{-1.5, -1.5, 0.0},{-1.5, -1.5, -0.5},{-1.5, 1.5, -0.5},
+		{0.0, 1.5, 0.0},{-1.5, 1.5, 0.0},{-1.5, -1.5, 0.0},{0.0, -1.5, 0.0},
+		{0.0, 1.5, -0.5},{-1.5, 1.5, -0.5},{-1.5, -1.5, -0.5},{0.0, -1.5, -0.5}
+	};
 	float bvertex[24][3] = {
 	{0.0, 1.5, 0.0},{-1.0, 1.5, 0.0},{-1.0, 1.5, -0.5},{0.0,  1.5, -0.5},
 	{0.0, 1.5, 0.0},{0.0, -1.5, 0.0},{0.0, -1.5, -0.5},{0.0,  1.5, -0.5},
@@ -1236,140 +1244,179 @@ public:
 			glPushMatrix();
 			glTranslatef(x, y, z + 1.0);
 			glColor3f(0.0, 0.4, 0.5);
-
+			position v1 = Normal(vertex[0], vertex[1], vertex[2]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[0]);
+			glVertex3fv(vertex[1]);
+			glVertex3fv(vertex[2]);
+			glVertex3fv(vertex[3]);
 			glEnd();
 
+			v1 = Normal(vertex[4], vertex[5], vertex[6]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[4]);
+			glVertex3fv(vertex[5]);
+			glVertex3fv(vertex[6]);
+			glVertex3fv(vertex[7]);
 			glEnd();
 
+			v1 = Normal(vertex[8], vertex[9], vertex[10]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[8]);
+			glVertex3fv(vertex[9]);
+			glVertex3fv(vertex[10]);
+			glVertex3fv(vertex[11]);
 			glEnd();
 
+			v1 = Normal(vertex[12], vertex[13], vertex[14]);
 			glBegin(GL_QUADS);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[12]);
+			glVertex3fv(vertex[13]);
+			glVertex3fv(vertex[14]);
+			glVertex3fv(vertex[15]);
 			glEnd();
 
+			v1 = Normal(vertex[16], vertex[17], vertex[18]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[16]);
+			glVertex3fv(vertex[17]);
+			glVertex3fv(vertex[18]);
+			glVertex3fv(vertex[19]);
 			glEnd();
 
+			v1 = Normal(vertex[20], vertex[21], vertex[22]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[20]);
+			glVertex3fv(vertex[21]);
+			glVertex3fv(vertex[22]);
+			glVertex3fv(vertex[23]);
 			glEnd();
+
+			
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(x - 2.0, y, z + 1.5);
 			glColor3f(0.0, 0.4, 0.5);
+			v1 = Normal(vertex[0], vertex[1], vertex[2]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[0]);
+			glVertex3fv(vertex[1]);
+			glVertex3fv(vertex[2]);
+			glVertex3fv(vertex[3]);
 			glEnd();
 
+			v1 = Normal(vertex[4], vertex[5], vertex[6]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[4]);
+			glVertex3fv(vertex[5]);
+			glVertex3fv(vertex[6]);
+			glVertex3fv(vertex[7]);
 			glEnd();
 
+			v1 = Normal(vertex[8], vertex[9], vertex[10]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[8]);
+			glVertex3fv(vertex[9]);
+			glVertex3fv(vertex[10]);
+			glVertex3fv(vertex[11]);
 			glEnd();
 
+			v1 = Normal(vertex[12], vertex[13], vertex[14]);
 			glBegin(GL_QUADS);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[12]);
+			glVertex3fv(vertex[13]);
+			glVertex3fv(vertex[14]);
+			glVertex3fv(vertex[15]);
 			glEnd();
 
+			v1 = Normal(vertex[16], vertex[17], vertex[18]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[16]);
+			glVertex3fv(vertex[17]);
+			glVertex3fv(vertex[18]);
+			glVertex3fv(vertex[19]);
 			glEnd();
 
+			v1 = Normal(vertex[20], vertex[21], vertex[22]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[20]);
+			glVertex3fv(vertex[21]);
+			glVertex3fv(vertex[22]);
+			glVertex3fv(vertex[23]);
 			glEnd();
+
 			glPopMatrix();
 
 			glPushMatrix();
 			glTranslatef(x - 4.0, y, z + 1.0);
 			glColor3f(0.0, 0.4, 0.5);
+			v1 = Normal(vertex[0], vertex[1], vertex[2]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[0]);
+			glVertex3fv(vertex[1]);
+			glVertex3fv(vertex[2]);
+			glVertex3fv(vertex[3]);
 			glEnd();
 
+			v1 = Normal(vertex[4], vertex[5], vertex[6]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, -0.5);
-			glVertex3f(0.0, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[4]);
+			glVertex3fv(vertex[5]);
+			glVertex3fv(vertex[6]);
+			glVertex3fv(vertex[7]);
 			glEnd();
 
+			v1 = Normal(vertex[8], vertex[9], vertex[10]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[8]);
+			glVertex3fv(vertex[9]);
+			glVertex3fv(vertex[10]);
+			glVertex3fv(vertex[11]);
 			glEnd();
 
+			v1 = Normal(vertex[12], vertex[13], vertex[14]);
 			glBegin(GL_QUADS);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[12]);
+			glVertex3fv(vertex[13]);
+			glVertex3fv(vertex[14]);
+			glVertex3fv(vertex[15]);
 			glEnd();
 
+			v1 = Normal(vertex[16], vertex[17], vertex[18]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, 0.0);
-			glVertex3f(-1.5, y + 1.5, 0.0);
-			glVertex3f(-1.5, y - 1.5, 0.0);
-			glVertex3f(0.0, y - 1.5, 0.0);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[16]);
+			glVertex3fv(vertex[17]);
+			glVertex3fv(vertex[18]);
+			glVertex3fv(vertex[19]);
 			glEnd();
 
+			v1 = Normal(vertex[20], vertex[21], vertex[22]);
 			glBegin(GL_QUADS);
-			glVertex3f(0.0, y + 1.5, -0.5);
-			glVertex3f(-1.5, y + 1.5, -0.5);
-			glVertex3f(-1.5, y - 1.5, -0.5);
-			glVertex3f(0.0, y - 1.5, -0.5);
+			glNormal3f(v1.x, v1.y, v1.z);
+			glVertex3fv(vertex[20]);
+			glVertex3fv(vertex[21]);
+			glVertex3fv(vertex[22]);
+			glVertex3fv(vertex[23]);
 			glEnd();
+
 			glPopMatrix();
 		}
 		glutPostRedisplay();

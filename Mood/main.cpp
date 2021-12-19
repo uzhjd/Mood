@@ -24,28 +24,33 @@ const float timeFactor = 2000;
 
 #define PI 3.141592
 
-float lightPositionR[] = { camera_distance+3, 2.0f, 15.0f, 1.0f }; //mane
+float lightPositionR[] = { 55.0 + camera_distance, 0.5f, 10.0f, 1.0f }; //mane
 float light_ambient[] = { 254.0/255.0,214.0/255.0, 125.0/255.0, 0.0 };
 float light_diffuse[] = { 254.0 / 255.0,214.0 / 255.0, 125.0 / 255.0, 0.0 };
 float light_specular[] = { 254.0 / 255.0,214.0 / 255.0, 125.0 / 255.0, 0.0 };
 
-float lightPositionR_2[] = { camera_distance + 3, 2.0f, 5.0f, 1.0f }; // nox
+float lightPositionR_2[] = { -117 - camera_distance + 3, 2.0f, 5.0f, 1.0f }; // nox
 float light_ambient_2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
 float light_diffuse2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
 float light_specular2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
 
-float lightPositionR_3[] = { camera_distance + 3, 2.0f, 5.0f, 1.0f }; // rolar
+float lightPositionR_3[] = { -189 - camera_distance + 3, 2.0f, 5.0f, 1.0f }; // rolar
 float light_ambient_3[] = { 208.0 / 255.0,146.0/ 255.0, 231.0 / 255.0, 0.0 };
 float light_diffuse3[] = { 208.0 / 255.0,146.0 / 255.0, 231.0 / 255.0, 0.0 };
 float light_specular3[] = { 208.0 / 255.0,146.0 / 255.0, 231.0 / 255.0, 0.0 };
 
-float lightPositionR_1[] = { camera_distance, 1.0f, 12.0f, 1.0f }; 
-float light_ambient_1[] = { 255.0,255.0, 255.0, 0.0 };
+float lightPositionR_1[] = { camera_distance, 1.0f, 20.0f, 1.0f }; 
+float light_ambient_1[] = { 200.0,200.0, 200.0, 0.0 };
 float light_diffuse1[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular1[] = { 1.0, 1.0, 1.0, 0.0 };
 
 
 float ambient0[] = { 0.0, 1.0, 1.0, 0.0 };
+boolean light_1;
+boolean light_2;
+boolean light_3;
+
+
 
 boolean	camera;
 boolean p1Jump;
@@ -143,6 +148,7 @@ position p1, p2, velocity1, velocity2;
 static int a = 0;
 static int b = 0;
 static int c = 0;
+static int d = 0;
 GLuint	texture;
 
 
@@ -167,8 +173,6 @@ void init(void) {
 	bt = -3.0;
 
 
-
-
 	camera = false;
 	p1Jump = false;
 	p2Jump = false;
@@ -187,15 +191,15 @@ void init(void) {
 
 	start_flag = 0;
 
-	//int z = -150;
+	int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = -0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = z+-0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = z+-2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -267,6 +271,8 @@ void Modeling_Score() { // 점수판 만들기
 	//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
 	//	camera_distance = (p1.x + p2.x) / 2;
 	//gluLookAt(camera_distance + 2, 4, 1.5, camera_distance, 0, 0, 0, 0, 1.0); // 시점
+	
+	glDisable(GL_LIGHT1);
 	if (camera) {
 		glBegin(GL_QUADS);
 		glVertex3f(camera_distance - 5, 7, -7);
@@ -284,11 +290,12 @@ void Modeling_Score() { // 점수판 만들기
 		glEnd();
 
 	}
-
+	if (lightOn)
+		glEnable(GL_LIGHT1);
 }
 
 void Drawchar() {
-
+	glDisable(GL_LIGHT1);
 	//////////p1캐릭터//////////
 	glPushMatrix();
 	glTranslated(p1.x, p1.y, p1.z + 0.9);
@@ -417,7 +424,8 @@ void Drawchar() {
 	glTranslated(-155, -0.15, -3.4);
 	glutSolidCube(0.2);
 	glPopMatrix();
-
+	if (lightOn)
+		glEnable(GL_LIGHT1);
 }
 
 
@@ -608,6 +616,9 @@ void roadModeling(void) {
 }
 
 void objectModeling(void) {
+	if(lightOn)
+		glDisable(GL_LIGHT1);
+
 	if (level == 1) {
 		glEnable(GL_LIGHT0);
 		glDisable(GL_LIGHT2);
@@ -710,6 +721,7 @@ void objectModeling(void) {
 	candy5.draw_candy();
 	candy5.check_players_To_distance(p1.x, p2.x);
 	candy5.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+	
 }
 
 void cameraSet() {
@@ -767,11 +779,31 @@ void RenderScene(void) { // 변경 화면
 		b++;
 
 	}
-	else if (c == 0 && level == 3) {
+	else if (c == 0 && level == 3 && !(GameClear)) {
 		sndPlaySoundA("lv.3.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
 		c++;
 
 	}
+	if (d ==0 && level == 3 && GameClear) {
+		sndPlaySoundA("언니.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+		d++;
+
+	}
+	if (level == 1) {
+		light_1 = true;
+
+		//light_pos = -55.8 + camera_distance;
+	}
+	if (level == 2) {
+
+		light_2 = true;
+	}
+	if (level == 3) {
+		light_2 = true;
+
+	}
+
+
 	if (start_flag == 0) { // 
 		glShadeModel(GL_FLAT);						// 시작 알림판 출력_1
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -879,6 +911,11 @@ void RenderScene(void) { // 변경 화면
 	glDisable(GL_LIGHT3);
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+	if (lightOn) { // 전체광
+		glEnable(GL_LIGHT1);
+	}
+	else
+		glDisable(GL_LIGHT1);
 
 	glColor3f(1.0, 1.0, 1.0);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -895,12 +932,7 @@ void RenderScene(void) { // 변경 화면
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Level_up();
 
-	if (lightOn) { // 전체광
-		glEnable(GL_LIGHT1);
-	}
-	else
-		glDisable(GL_LIGHT1);
-
+	
 
 	if (level == 1) {
 		glEnable(GL_LIGHT0);

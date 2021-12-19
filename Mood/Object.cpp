@@ -13,36 +13,6 @@ extern struct position {
 using namespace std;
 
 
-static position Normal(float v1[3], float v2[3], float v3[3])
-{
-	float v11[3], v22[3];
-	position out;
-	static const int x = 0;
-	static const int y = 1;
-	static const int z = 2;
-
-	// Calculate two vectors from the three points
-	v11[x] = v1[x] - v2[x];
-	v11[y] = v1[y] - v2[y];
-	v11[z] = v1[z] - v2[z];
-
-	v22[x] = v3[x] - v1[x];
-	v22[y] = v3[y] - v1[y];
-	v22[z] = v3[z] - v1[z];
-
-	float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-	float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-	v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-	v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-	out.x = v11[y] * v22[z] - v11[z] * v22[y];
-	out.y = v11[z] * v22[x] - v11[x] * v22[z];
-	out.z = v11[x] * v22[y] - v11[y] * v22[x];
-	// Normalize the vector (shorten length to one)
-	return out;
-}
-
 //»©»©·ÎÅ¬·¡½º//
 class object_pepero {
 private:
@@ -78,6 +48,36 @@ private:
 	{0.0, 1.5, -0.5},{-1.0, 1.5, -0.5},{-1.0, -1.5, -0.5},{0.0, -1.5, -0.5}
 	};
 public:
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
+	}
+
 	object_pepero(float x, float y, float z) {
 		this->x = x;
 		this->y = y;
@@ -425,6 +425,35 @@ public:
 		button = false;
 	}
 
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
+	}
 
 	void draw_pocachip() {
 		if (button == false) {
@@ -494,6 +523,7 @@ public:
 
 	void draw_button() {
 		glPushMatrix();
+
 		glTranslatef(bx, y, z);
 		glColor3f(1.0, 0.0, 0.0);
 
@@ -723,6 +753,36 @@ private:
 	};
 
 public:
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
+	}
+
 	object_icecream(float x, float y, float z) {
 		this->x = x;
 		this->y = y;
@@ -1151,6 +1211,36 @@ public:
 		p2b1 = false;
 		p2b2 = false;
 	}
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
+	}
+
 
 	void draw_cloud() {
 		if (p1b1 || p1b2 || p2b1 || p2b2) {
@@ -1706,6 +1796,36 @@ public:
 		this->y = y;
 		this->z = z;
 
+	}
+
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
 	}
 
 	void draw_cloud() {

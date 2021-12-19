@@ -24,10 +24,28 @@ const float timeFactor = 2000;
 
 #define PI 3.141592
 
-float lightPositionR[] = { 2.0f, 0.0f, 8.0f, 1.0f };
-float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
+float lightPositionR[] = { camera_distance+3, 2.0f, 15.0f, 1.0f }; //mane
+float light_ambient[] = { 254.0/255.0,214.0/255.0, 125.0/255.0, 0.0 };
+
+float lightPositionR_2[] = { camera_distance + 3, 2.0f, 5.0f, 1.0f }; // nox
+float light_ambient_2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
+float light_diffuse2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
+float light_specular2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
+
+float lightPositionR_3[] = { camera_distance + 3, 2.0f, 5.0f, 1.0f }; // rolar
+float light_ambient_3[] = { 208.0 / 255.0,146.0/ 255.0, 231.0 / 255.0, 0.0 };
+float light_diffuse3[] = { 208.0 / 255.0,146.0 / 255.0, 231.0 / 255.0, 0.0 };
+float light_specular3[] = { 208.0 / 255.0,146.0 / 255.0, 231.0 / 255.0, 0.0 };
+
+float lightPositionR_1[] = { camera_distance, 1.0f, 12.0f, 1.0f }; 
+float light_ambient_1[] = { 255.0,255.0, 255.0, 0.0 };
+float light_diffuse1[] = { 1.0, 1.0, 1.0, 0.0 };
+float light_specular1[] = { 1.0, 1.0, 1.0, 0.0 };
+
 float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
+
+float ambient0[] = { 0.0, 1.0, 1.0, 0.0 };
 
 boolean	camera;
 boolean p1Jump;
@@ -42,6 +60,9 @@ boolean GameOver;
 boolean Pause;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
+
+bool lightOn = false;
+
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
 	BITMAPFILEHEADER bitmapFileHeader;
@@ -173,8 +194,8 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = -100.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = -102.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -197,6 +218,38 @@ void init(void) {
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader1.biWidth,
 		bitmapInfoHeader1.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_1);
+
+	glEnable(GL_DEPTH_TEST);
+
+	glShadeModel(GL_SMOOTH);   //glShadeModel(GL_FLAT);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT2);
+	glEnable(GL_LIGHT3);
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient); // mane
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPositionR);
+
+	glLightfv(GL_LIGHT3, GL_AMBIENT, light_ambient_3); // rolar
+	glLightfv(GL_LIGHT3, GL_POSITION, lightPositionR);
+	glLightfv(GL_LIGHT3, GL_DIFFUSE, light_diffuse3);
+	glLightfv(GL_LIGHT3, GL_SPECULAR, light_specular3);
+
+	glLightfv(GL_LIGHT2, GL_AMBIENT, light_ambient_2); // nox
+	glLightfv(GL_LIGHT2, GL_POSITION, lightPositionR);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, light_diffuse2);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, light_specular2);
+
+	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR_1);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient_1);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular1);
+
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 }
 
 void MyReshape(int w, int h) { // 시점 및 초기화
@@ -235,6 +288,7 @@ void Modeling_Score() { // 점수판 만들기
 }
 
 void Drawchar() {
+
 	//////////p1캐릭터//////////
 	glPushMatrix();
 	glTranslated(p1.x, p1.y, p1.z + 0.9);
@@ -554,6 +608,20 @@ void roadModeling(void) {
 }
 
 void objectModeling(void) {
+	if (level == 1) {
+		glEnable(GL_LIGHT0);
+	}
+	else if (level == 2) {
+		glEnable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHT3);
+	}
+	else if (level == 3) {
+		glEnable(GL_LIGHT3);
+		glDisable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+	}
+
 
 	pocachip1.draw_pocachip();
 	pocachip1.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
@@ -681,6 +749,30 @@ void RenderScene(void) { // 변경 화면
 	p1.z += velocity1.z;
 	p2.z += velocity2.z;
 	jump();
+
+
+	if (lightOn) { // 전체광
+		glEnable(GL_LIGHT1);
+	}
+	else
+		glDisable(GL_LIGHT1);
+
+
+	if (level == 1) {
+		glEnable(GL_LIGHT0);
+	}
+	else if (level == 2) {
+		glEnable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHT3);
+	}
+	else if (level == 3) {
+		glEnable(GL_LIGHT3);
+		glDisable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+	}
+
+
 	if (life <= 0) {
 		GameOver = true;
 	}
@@ -821,38 +913,11 @@ void RenderScene(void) { // 변경 화면
 	Level_up();
 	Modeling_Score();
 
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	//glEnable(GL_NORMALIZE);
-
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
-
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-	//glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-	objectModeling();
-
-
 	Drawchar();
+	objectModeling();
 	Collision_Player_To_Player();
-
-	pepero1.draw_pepero();
-	pepero1.collision_pepero(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	pepero1.draw_button();
-	pepero1.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-
 	roadModeling();
 
-	/*pocachip.draw_pocachip();
-	pocachip.collision_pocachip(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	pocachip.draw_button();
-	pocachip.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);*/
-
-	//cookie.draw_cookie();
-	//cookie.check_players_To_distance(p1.x, p2.x);
 	string text1;
 
 	if (level == 1)
@@ -918,6 +983,7 @@ void SpecialKey(int key, int x, int y) {
 			//viewport 분할
 		case GLUT_KEY_INSERT: camera = !(camera); break;
 
+		case GLUT_KEY_PAGE_UP: lightOn = !(lightOn); break;
 		default:
 			p1Left = false;
 			p1Right = false;

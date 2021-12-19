@@ -194,8 +194,8 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = -100.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -102.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;

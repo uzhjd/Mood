@@ -29,14 +29,16 @@ float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 
-boolean	camera = true;
+boolean	camera = false;
 boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
 int score = 0;
 int life = 4;
 int level = 1;
-
+int start_flag;
+boolean GameOver = false;
+boolean Pause = false;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
 
@@ -57,7 +59,7 @@ object_icecream icecream3(-145.0, 0.0, -3.0);
 
 object_cloud cloud1(-65.0, 0.0, -3.0);
 object_cloud cloud2(-120.0, 0.0, -3.0);
-cloud_road cr1(-145.0, 0.0, -3.0);
+object_cloud cloud3(-145.0, 0.0, -3.0);
 
 object_candy candy1(-40.0, 0.0, -3.0);
 object_candy candy2(-80.0, 0.0, -3.0);
@@ -118,20 +120,24 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 	return bitmapImage;
 }
 
+// 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader1;
 unsigned char* bitmapImage_1 = LoadBitmapFile("background.bmp", &bitmapInfoHeader1);
-// 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader2;
 unsigned char* bitmapImage_2 = LoadBitmapFile("GameOver.bmp", &bitmapInfoHeader2);
 BITMAPINFOHEADER bitmapInfoHeader3;
 unsigned char* bitmapImage_3 = LoadBitmapFile("Pause.bmp", &bitmapInfoHeader3);
 BITMAPINFOHEADER bitmapInfoHeader4;
-unsigned char* bitmapImage_4 = LoadBitmapFile("Start.bmp", &bitmapInfoHeader4);
+unsigned char* bitmapImage_4 = LoadBitmapFile("Start_1.bmp", &bitmapInfoHeader4);
 BITMAPINFOHEADER bitmapInfoHeader5;
-unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
+unsigned char* bitmapImage_5 = LoadBitmapFile("Start_2.bmp", &bitmapInfoHeader5);
+BITMAPINFOHEADER bitmapInfoHeader6;
+unsigned char* bitmapImage_6 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader6);
 
 void init(void) {
-	//int z = -156;
+	start_flag = 0;
+
+	//int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -139,7 +145,7 @@ void init(void) {
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
 	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -2.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
+	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -176,7 +182,7 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 }
 
 void Modeling_Score() { // 점수판 만들기
-	glColor3f(189.0/255.0, 236.0 /255.0, 182.0 /255.0);
+	glColor3f(189.0 / 255.0, 236.0 / 255.0, 182.0 / 255.0);
 	//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
 	//	camera_distance = (p1.x + p2.x) / 2;
 	//gluLookAt(camera_distance + 2, 4, 1.5, camera_distance, 0, 0, 0, 0, 1.0); // 시점
@@ -197,7 +203,7 @@ void Modeling_Score() { // 점수판 만들기
 		glEnd();
 
 	}
-	
+
 }
 
 void Drawchar() {
@@ -268,66 +274,7 @@ void Drawchar() {
 	glTranslated(p2.x, p2.y - 0.15, p2.z - 0.9);
 	glutSolidCube(0.2);
 	glPopMatrix();
-	////로라/////
-	glPushMatrix();
-	glTranslated(-155, 0.0, -0.5);
-	glColor3f(1.0, 1.0, 1.0);
-	glutSolidSphere(Radius, 30, 30);
-	glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(139.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
-	glTranslated(-155, 0.0, -2.8);
-	glutSolidCone(0.7, 2.0, 30, 30);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(139.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
-	glTranslated(-155, 0.15, -2.8);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155, 0.15, -3.0);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155, 0.15, -3.2);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155, 0.15, -3.4);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(139.0 / 255.0, 0.0/ 255.0, 255.0 / 255.0);
-	glTranslated(-155, -0.15, -2.8);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155, -0.15, -3.0);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155,-0.15,-3.2);
-	glutSolidCube(0.2);
-	glPopMatrix();
-
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glTranslated(-155,-0.15,-3.4);
-	glutSolidCube(0.2);
-	glPopMatrix();
 
 }
 
@@ -435,7 +382,7 @@ void Collision_Player_To_Player() {
 void jump() {
 	float z1 = p1.z;
 	float z2 = p2.z;
-	
+
 	//////////p1캐릭터 점프//////////
 	if (p1Jump == true && z1 <= p1jumpMax) {
 		velocity1.z = jumpUp;
@@ -461,7 +408,7 @@ void jump() {
 		}
 	}
 
-	if (z2 > p2jumpMax|| (p2Jump == false && z2 > bt)) {
+	if (z2 > p2jumpMax || (p2Jump == false && z2 > bt)) {
 		p2Jump = false;
 		velocity2.z = jumpDown;
 	}
@@ -511,18 +458,18 @@ void roadModeling(void) {
 
 	a = road0.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	b = road1.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	c= road2.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	d= road3.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	e= road4.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	f= road5.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	g= road6.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	h= road7.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	i= road8.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	j= road9.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	k= road10.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	l= road11.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	m= road12.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	n= road13.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	c = road2.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	d = road3.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	e = road4.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	f = road5.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	g = road6.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	h = road7.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	i = road8.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	j = road9.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	k = road10.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	l = road11.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	m = road12.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	n = road13.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	o = road14.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 	p = road15.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
@@ -531,7 +478,7 @@ void roadModeling(void) {
 			life--;
 			return;
 		}
-			
+
 
 	}
 
@@ -618,9 +565,11 @@ void objectModeling(void) {
 	cookie4.draw_cookie();
 	cookie4.check_players_To_distance(p1.x, p2.x);
 	cookie4.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
-	
-	cr1.draw_cloud();
-	cr1.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+	cloud3.draw_cloud();
+	cloud3.draw_button();
+	cloud3.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	cloud3.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	candy5.draw_candy();
 	candy5.check_players_To_distance(p1.x, p2.x);
@@ -641,14 +590,14 @@ void cameraSet() {
 			camera_distance = (p1.x + p2.x) / 2;
 		gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
 	}
-	
+
 }
 void Level_up() {
 	if (p1.x <= p2.x) { // p1이 더 앞
 		if (p1.x <= -55.8 && level != 2)
-			level=2;
+			level = 2;
 		if (p1.x <= -117.0 && level != 3)
-			level=3;
+			level = 3;
 	}
 	else { // p2가 더 앞
 		if (p2.x <= -55.8 && level != 2)
@@ -666,23 +615,51 @@ void RenderScene(void) { // 변경 화면
 	p1.z += velocity1.z;
 	p2.z += velocity2.z;
 	jump();
-
-	if (a== 0&&level == 1) {
-	     PlaySound(TEXT("lv.1.wav"), 0, SND_ASYNC | SND_LOOP);
-		 a++;
-	
+	if (life <= 0) {
+		GameOver = true;
 	}
-	else if (b==0&&level == 2) {
+	if (a == 0 && level == 1) {
+		PlaySound(TEXT("lv.1.wav"), 0, SND_ASYNC | SND_LOOP);
+		a++;
+
+	}
+	else if (b == 0 && level == 2) {
 		//sndPlaySound(vbStringNull, SND_ASYNC);
 		PlaySound(TEXT("lv.2.wav"), 0, SND_ASYNC | SND_ALIAS);
 		b++;
 
 	}
-	else if (c==0&&level == 3) {
+	else if (c == 0 && level == 3) {
 		sndPlaySoundA("lv.3.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
 		c++;
 
 	}
+	if (start_flag == 0) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력_ 1
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glRasterPos3i(4, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader4.biWidth, bitmapInfoHeader4.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_4);
+	}
+	if (start_flag == 1) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 5);
+		glRasterPos3i(4, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader5.biWidth, bitmapInfoHeader5.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_5);
+	}
+	if (GameOver == true) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+		glRasterPos3i(camera_distance, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader2.biWidth, bitmapInfoHeader2.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_2);
+	}
+	if (start_flag % 2 && start_flag >= 2) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
+		glRasterPos3i(camera_distance + 5, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader3.biWidth, bitmapInfoHeader3.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_3);
+	}
+
+
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -699,7 +676,7 @@ void RenderScene(void) { // 변경 화면
 		cameraSet();
 		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
 		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
-		
+
 	}
 	else {
 		//left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;
@@ -742,7 +719,6 @@ void RenderScene(void) { // 변경 화면
 
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-	//glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10);
 	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -775,11 +751,11 @@ void RenderScene(void) { // 변경 화면
 		text1 = "Level : " + to_string(level) + "  (mane's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 
 	else if (level == 2) {
-		glColor3f(49.0/255.0, 22.0/255.0, 125.0/255.0);
+		glColor3f(49.0 / 255.0, 22.0 / 255.0, 125.0 / 255.0);
 		text1 = "Level : " + to_string(level) + "  (nox's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 	}
 	else if (level == 3) {
-		glColor3f(121.0/255.0, 21.0/255.0, 11.0/255.0);
+		glColor3f(121.0 / 255.0, 21.0 / 255.0, 11.0 / 255.0);
 		text1 = "Level : " + to_string(level) + "  (Rolar's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
 	}
 	//glColor3f(0.2, 0.2, 0.2);
@@ -799,43 +775,48 @@ void RenderScene(void) { // 변경 화면
 	glutSwapBuffers();
 	glFlush();
 }
+
 void SpecialKey(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_LEFT:
-		if (camera_distance + 4.95 >= p1.x + 0.5) {
-			p1.x += moveDistance;
-			//cout << p1.x << endl;
-			//cout << center << endl << endl;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key) {
+		case GLUT_KEY_LEFT:
+			if (camera_distance + 4.95 >= p1.x + 0.5) {
+				p1.x += moveDistance;
+				//cout << p1.x << endl;
+				//cout << center << endl << endl;
+			}
+
+			p1Left = true;
+			p1Right = false;
+			//camera_distance += 0.1;
+			break;
+		case GLUT_KEY_RIGHT:
+			if (camera_distance - 4.95 <= p1.x - 0.5) {
+				p1.x -= moveDistance;
+
+				//cout << p1.x << endl;
+			}
+			p1Left = false;
+			p1Right = true;
+			//camera_distance -= 0.1;
+			break;
+
+			//p1Jump()
+		case GLUT_KEY_UP:
+			if (!p1Jump) { p1Jump = true; }
+			//   else p1Jump = false;
+			break;
+
+			//viewport 분할
+		case GLUT_KEY_INSERT: camera = !(camera); break;
+
+		default:
+			p1Left = false;
+			p1Right = false;
+			break;
 		}
-
-		p1Left = true;
-		p1Right = false;
-		//camera_distance += 0.1;
-		break;
-	case GLUT_KEY_RIGHT:
-		if (camera_distance - 4.95 <= p1.x - 0.5) {
-			p1.x -= moveDistance;
-
-			//cout << p1.x << endl;
-		}
-		p1Left = false;
-		p1Right = true;
-		//camera_distance -= 0.1;
-		break;
-
-		//p1Jump()
-	case GLUT_KEY_UP:
-		if (!p1Jump) { p1Jump = true; }
-		//   else p1Jump = false;
-		break;
-
-		//viewport 분할
-	case GLUT_KEY_INSERT: camera = !(camera); break;
-	default:
-		p1Left = false;
-		p1Right = false;
-		break;
 	}
+
 	glutPostRedisplay();
 
 }
@@ -844,21 +825,41 @@ void Keyboard(unsigned char key, int x, int y) {
 	switch (key)
 	{
 	case 'a':
-		if (camera_distance + 4.95 >= p2.x + 0.5)
-			p2.x += moveDistance;
-		p2Left = true;
-		p2Right = false;
+		if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+			if (camera_distance + 4.95 >= p2.x + 0.5)
+				p2.x += moveDistance;
+			p2Left = true;
+			p2Right = false;
+		}
+
 		break;
 	case 'd':
-		if (camera_distance - 4.95 <= p2.x - 0.5)
-			p2.x -= moveDistance;
-		p2Left = false;
-		p2Right = true;
+		if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+			if (camera_distance - 4.95 <= p2.x - 0.5)
+				p2.x -= moveDistance;
+			p2Left = false;
+			p2Right = true;
+		}
+
 		break;
-	case 'w':
+	case 'w':if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
 		if (!p2Jump) p2Jump = true;
+	}
+
+			break;
+			//else p2Jump = false; break;
+	case 13: // enter (시작 유무)
+		start_flag++;
 		break;
-		//else p2Jump = false; break;
+	case 27: // 종료 ESC
+		exit(0);
+		break;
+	case 32: // 일시정지 SpaceBar
+		if (start_flag >= 2) {
+			start_flag++;
+			break;
+		}
+
 	default:
 		p2Left = false;
 		p2Right = false;
@@ -868,36 +869,42 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 
 void SpecialKeyUp(int key, int x, int y) {
-	switch (key)
-	{
-	case GLUT_KEY_LEFT:
-		p1Left = false;
-		p1Right = false;
-		break;
-	case GLUT_KEY_RIGHT:
-		p1Left = false;
-		p1Right = false;
-		break;
-	default:
-		break;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key)
+		{
+		case GLUT_KEY_LEFT:
+			p1Left = false;
+			p1Right = false;
+			break;
+		case GLUT_KEY_RIGHT:
+			p1Left = false;
+			p1Right = false;
+			break;
+		default:
+			break;
+		}
 	}
+
 }
 
 void KeyboardUp(unsigned char key, int x, int y) {
-	switch (key)
-	{
-	case 'a':
-		p2Left = false;
-		p2Right = false;
-		break;
-	case 'd':
-		p2Left = false;
-		p2Right = false;
-		break;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key)
+		{
+		case 'a':
+			p2Left = false;
+			p2Right = false;
+			break;
+		case 'd':
+			p2Left = false;
+			p2Right = false;
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
+
 	glutPostRedisplay();
 }
 

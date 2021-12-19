@@ -6,6 +6,14 @@
 #include <iostream>
 using namespace std;
 
+//static GLuint	grasstexture;
+
+
+
+// 전체 배경화면
+//static BITMAPINFOHEADER bitmapInfoHeader10;
+//static unsigned char* bitmapImage_10 = LoadBitmapFile("grass.bmp", &bitmapInfoHeader10);
+
 // 1. 일반 길 //
 class generalRoad {
 private:
@@ -19,18 +27,50 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
+
+		//glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_TEXTURE_2D);
+
+		//glGenTextures(1, &grasstexture);
+		//glBindTexture(GL_TEXTURE_2D, grasstexture);
+
+
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		////   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+		////glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader10.biWidth,
+		//	bitmapInfoHeader10.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_10);
 	}
 
 	void draw_generalRoad() {
+		/*glShadeModel(GL_FLAT);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);*/
+
+		glColor3f(0.56, 0.47, 0.29);
+		/*glBindTexture(GL_TEXTURE_2D, grasstexture);*/
+
 		glPushMatrix();
 		glTranslatef(x, y, z);
 
-		glColor3f(0.56, 0.47, 0.29);
 
 		glBegin(GL_QUADS);
+
+		/*glTexCoord2f(0.0, 0.0);*/
 		glVertex3f(0.0, y + 10.0, -0.5);
+
+		//glTexCoord2f(1.0, 0.0);
 		glVertex3f(-10.0, y + 10.0, -0.5);
+
+		//glTexCoord2f(1.0, 1.0);
 		glVertex3f(-10.0, y + 10.0, -1.0);
+
+		//glTexCoord2f(0.0, 1.0);
 		glVertex3f(0.0, y + 10.0, -1.0);
 		glEnd();
 
@@ -67,7 +107,8 @@ public:
 		glVertex3f(-10.0, y + 10.0, -1.0);
 		glVertex3f(-10.0, y - 1, -1.0);
 		glVertex3f(0.0, y - 1, -1.0);
-		glEnd();
+		glEnd();/*
+		glBindTexture(GL_TEXTURE_2D, 0);*/
 
 		glPopMatrix();
 

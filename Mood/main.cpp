@@ -42,40 +42,6 @@ boolean GameOver;
 boolean Pause;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
-
-
-
-object_pepero pepero1(-20.0, 0.0, -3.0);
-
-object_pocachip pocachip1(-8.0, 0.0, -2.5);
-object_pocachip pocachip2(-25.0, 0.0, -2.5);
-object_pocachip pocachip3(-50.0, 0.0, -2.5);
-
-object_cookie cookie1(-90.0, 0.0, -3.0);
-object_cookie cookie2(-137.0, 0.0, -3.0);
-object_cookie cookie3(-139.0, 0.0, -3.0);
-object_cookie cookie4(-141.0, 0.0, -3.0);
-
-object_icecream icecream1(-43.0, 0.0, -3.0);
-object_icecream icecream2(-100.0, 0.0, -3.0);
-object_icecream icecream3(-145.0, 0.0, -3.0);
-
-object_cloud cloud1(-65.0, 0.0, -3.0);
-object_cloud cloud2(-120.0, 0.0, -3.0);
-object_cloud cloud3(-145.0, 0.0, -3.0);
-
-object_candy candy1(-40.0, 0.0, -3.0);
-object_candy candy2(-80.0, 0.0, -3.0);
-object_candy candy3(-115.0, 0.0, -3.0);
-object_candy candy4(-138.0, 0.0, -3.0);
-object_candy candy5(-150.0, 0.0, -2.0);
-
-position p1, p2, velocity1, velocity2;
-static int a = 0;
-static int b = 0;
-static int c = 0;
-GLuint	texture;
-
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
 	BITMAPFILEHEADER bitmapFileHeader;
@@ -122,6 +88,40 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 	fclose(filePtr);
 	return bitmapImage;
 }
+
+
+object_pepero pepero1(-20.0, 0.0, -3.0);
+
+object_pocachip pocachip1(-8.0, 0.0, -2.5);
+object_pocachip pocachip2(-25.0, 0.0, -2.5);
+object_pocachip pocachip3(-50.0, 0.0, -2.5);
+
+object_cookie cookie1(-90.0, 0.0, -3.0);
+object_cookie cookie2(-137.0, 0.0, -3.0);
+object_cookie cookie3(-139.0, 0.0, -3.0);
+object_cookie cookie4(-141.0, 0.0, -3.0);
+
+object_icecream icecream1(-43.0, 0.0, -3.0);
+object_icecream icecream2(-100.0, 0.0, -3.0);
+object_icecream icecream3(-145.0, 0.0, -3.0);
+
+object_cloud cloud1(-65.0, 0.0, -3.0);
+object_cloud cloud2(-120.0, 0.0, -3.0);
+object_cloud cloud3(-145.0, 0.0, -3.0);
+
+object_candy candy1(-40.0, 0.0, -3.0);
+object_candy candy2(-80.0, 0.0, -3.0);
+object_candy candy3(-115.0, 0.0, -3.0);
+object_candy candy4(-138.0, 0.0, -3.0);
+object_candy candy5(-150.0, 0.0, -2.0);
+
+position p1, p2, velocity1, velocity2;
+static int a = 0;
+static int b = 0;
+static int c = 0;
+GLuint	texture;
+
+
 
 // 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader1;
@@ -177,7 +177,6 @@ void init(void) {
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
 
 	glEnable(GL_DEPTH_TEST);
-
 	glEnable(GL_TEXTURE_2D);
 
 	glGenTextures(1, &texture);

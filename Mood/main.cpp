@@ -29,14 +29,16 @@ float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 
-boolean	camera = true;
+boolean	camera = false;
 boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
 int score = 0;
 int life = 4;
 int level = 1;
-
+int start_flag;
+boolean GameOver = false;
+boolean Pause = false;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
 
@@ -118,19 +120,23 @@ unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfo
 	return bitmapImage;
 }
 
+// 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader1;
 unsigned char* bitmapImage_1 = LoadBitmapFile("background.bmp", &bitmapInfoHeader1);
-// 전체 배경화면
 BITMAPINFOHEADER bitmapInfoHeader2;
 unsigned char* bitmapImage_2 = LoadBitmapFile("GameOver.bmp", &bitmapInfoHeader2);
 BITMAPINFOHEADER bitmapInfoHeader3;
 unsigned char* bitmapImage_3 = LoadBitmapFile("Pause.bmp", &bitmapInfoHeader3);
 BITMAPINFOHEADER bitmapInfoHeader4;
-unsigned char* bitmapImage_4 = LoadBitmapFile("Start.bmp", &bitmapInfoHeader4);
+unsigned char* bitmapImage_4 = LoadBitmapFile("Start_1.bmp", &bitmapInfoHeader4);
 BITMAPINFOHEADER bitmapInfoHeader5;
-unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
+unsigned char* bitmapImage_5 = LoadBitmapFile("Start_2.bmp", &bitmapInfoHeader5);
+BITMAPINFOHEADER bitmapInfoHeader6;
+unsigned char* bitmapImage_6 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader6);
 
 void init(void) {
+	start_flag = 0;
+
 	//int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
@@ -609,7 +615,9 @@ void RenderScene(void) { // 변경 화면
 	p1.z += velocity1.z;
 	p2.z += velocity2.z;
 	jump();
-
+	if (life <= 0) {
+		GameOver = true;
+	}
 	if (a== 0&&level == 1) {
 	     PlaySound(TEXT("lv.1.wav"), 0, SND_ASYNC | SND_LOOP);
 		 a++;
@@ -626,6 +634,33 @@ void RenderScene(void) { // 변경 화면
 		c++;
 
 	}
+	if (start_flag == 0) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력_ 1
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glRasterPos3i(4, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader4.biWidth, bitmapInfoHeader4.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_4);
+	}
+	if (start_flag == 1) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 5);
+		glRasterPos3i(4, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader5.biWidth, bitmapInfoHeader5.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_5);
+	}
+	if (GameOver == true) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+		glRasterPos3i(camera_distance, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader2.biWidth, bitmapInfoHeader2.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_2);
+	}
+	if (start_flag % 2 && start_flag >= 2) { // 
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
+		glRasterPos3i(camera_distance + 5, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader3.biWidth, bitmapInfoHeader3.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_3);
+	}
+
+	
+
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -741,106 +776,136 @@ void RenderScene(void) { // 변경 화면
 	glutSwapBuffers();
 	glFlush();
 }
+
 void SpecialKey(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_LEFT:
-		if (camera_distance + 4.95 >= p1.x + 0.5) {
-			p1.x += moveDistance;
-			//cout << p1.x << endl;
-			//cout << center << endl << endl;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key) {
+		case GLUT_KEY_LEFT:
+			if (camera_distance + 4.95 >= p1.x + 0.5) {
+				p1.x += moveDistance;
+				//cout << p1.x << endl;
+				//cout << center << endl << endl;
+			}
+
+			p1Left = true;
+			p1Right = false;
+			//camera_distance += 0.1;
+			break;
+		case GLUT_KEY_RIGHT:
+			if (camera_distance - 4.95 <= p1.x - 0.5) {
+				p1.x -= moveDistance;
+
+				//cout << p1.x << endl;
+			}
+			p1Left = false;
+			p1Right = true;
+			//camera_distance -= 0.1;
+			break;
+
+			//p1Jump()
+		case GLUT_KEY_UP:
+			if (!p1Jump) { p1Jump = true; }
+			//   else p1Jump = false;
+			break;
+
+			//viewport 분할
+		case GLUT_KEY_INSERT: camera = !(camera); break;
+
+		default:
+			p1Left = false;
+			p1Right = false;
+			break;
 		}
-
-		p1Left = true;
-		p1Right = false;
-		//camera_distance += 0.1;
-		break;
-	case GLUT_KEY_RIGHT:
-		if (camera_distance - 4.95 <= p1.x - 0.5) {
-			p1.x -= moveDistance;
-
-			//cout << p1.x << endl;
-		}
-		p1Left = false;
-		p1Right = true;
-		//camera_distance -= 0.1;
-		break;
-
-		//p1Jump()
-	case GLUT_KEY_UP:
-		if (!p1Jump) { p1Jump = true; }
-		//   else p1Jump = false;
-		break;
-
-		//viewport 분할
-	case GLUT_KEY_INSERT: camera = !(camera); break;
-
-	default:
-		p1Left = false;
-		p1Right = false;
-		break;
 	}
+
 	glutPostRedisplay();
 
 }
 
 void Keyboard(unsigned char key, int x, int y) {
-	switch (key)
-	{
-	case 'a':
-		if (camera_distance + 4.95 >= p2.x + 0.5)
-			p2.x += moveDistance;
-		p2Left = true;
-		p2Right = false;
-		break;
-	case 'd':
-		if (camera_distance - 4.95 <= p2.x - 0.5)
-			p2.x -= moveDistance;
-		p2Left = false;
-		p2Right = true;
-		break;
-	case 'w':
-		if (!p2Jump) p2Jump = true;
-		break;
-		//else p2Jump = false; break;
-	default:
-		p2Left = false;
-		p2Right = false;
-		break;
-	}
+		switch (key)
+		{
+		case 'a':
+			if (start_flag >=2 && GameOver == false && !(start_flag % 2)) {
+				if (camera_distance + 4.95 >= p2.x + 0.5)
+					p2.x += moveDistance;
+				p2Left = true;
+				p2Right = false;
+			}
+
+			break;
+		case 'd':
+			if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+				if (camera_distance - 4.95 <= p2.x - 0.5)
+					p2.x -= moveDistance;
+				p2Left = false;
+				p2Right = true;
+			}
+
+			break;
+		case 'w':if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+			if (!p2Jump) p2Jump = true;
+		}
+
+				break;
+			//else p2Jump = false; break;
+		case 13: // enter (시작 유무)
+				start_flag++;
+				break;
+		case 27: // 종료 ESC
+			exit(0);
+			break;
+		case 32: // 일시정지 SpaceBar
+			if (start_flag >= 2) {
+start_flag++;
+			break;
+			}
+			
+		default:
+			p2Left = false;
+			p2Right = false;
+			break;
+		}	
 	glutPostRedisplay();
 }
 
 void SpecialKeyUp(int key, int x, int y) {
-	switch (key)
-	{
-	case GLUT_KEY_LEFT:
-		p1Left = false;
-		p1Right = false;
-		break;
-	case GLUT_KEY_RIGHT:
-		p1Left = false;
-		p1Right = false;
-		break;
-	default:
-		break;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key)
+		{
+		case GLUT_KEY_LEFT:
+			p1Left = false;
+			p1Right = false;
+			break;
+		case GLUT_KEY_RIGHT:
+			p1Left = false;
+			p1Right = false;
+			break;
+		default:
+			break;
+		}
 	}
+	
 }
 
 void KeyboardUp(unsigned char key, int x, int y) {
-	switch (key)
-	{
-	case 'a':
-		p2Left = false;
-		p2Right = false;
-		break;
-	case 'd':
-		p2Left = false;
-		p2Right = false;
-		break;
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		switch (key)
+		{
+		case 'a':
+			p2Left = false;
+			p2Right = false;
+			break;
+		case 'd':
+			p2Left = false;
+			p2Right = false;
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
+	
 	glutPostRedisplay();
 }
 

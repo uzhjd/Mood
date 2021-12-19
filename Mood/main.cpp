@@ -26,6 +26,8 @@ const float timeFactor = 2000;
 
 float lightPositionR[] = { camera_distance+3, 2.0f, 15.0f, 1.0f }; //mane
 float light_ambient[] = { 254.0/255.0,214.0/255.0, 125.0/255.0, 0.0 };
+float light_diffuse[] = { 254.0 / 255.0,214.0 / 255.0, 125.0 / 255.0, 0.0 };
+float light_specular[] = { 254.0 / 255.0,214.0 / 255.0, 125.0 / 255.0, 0.0 };
 
 float lightPositionR_2[] = { camera_distance + 3, 2.0f, 5.0f, 1.0f }; // nox
 float light_ambient_2[] = { 79.0 / 255.0, 160.0 / 255.0, 252.0 / 255.0, 0.0 };
@@ -42,8 +44,6 @@ float light_ambient_1[] = { 255.0,255.0, 255.0, 0.0 };
 float light_diffuse1[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular1[] = { 1.0, 1.0, 1.0, 0.0 };
 
-float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
-float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 
 float ambient0[] = { 0.0, 1.0, 1.0, 0.0 };
 
@@ -194,8 +194,8 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = -100.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = -102.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = -0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -610,6 +610,8 @@ void roadModeling(void) {
 void objectModeling(void) {
 	if (level == 1) {
 		glEnable(GL_LIGHT0);
+		glDisable(GL_LIGHT2);
+		glDisable(GL_LIGHT3);
 	}
 	else if (level == 2) {
 		glEnable(GL_LIGHT2);
@@ -751,28 +753,6 @@ void RenderScene(void) { // 변경 화면
 	jump();
 
 
-	if (lightOn) { // 전체광
-		glEnable(GL_LIGHT1);
-	}
-	else
-		glDisable(GL_LIGHT1);
-
-
-	if (level == 1) {
-		glEnable(GL_LIGHT0);
-	}
-	else if (level == 2) {
-		glEnable(GL_LIGHT2);
-		glDisable(GL_LIGHT0);
-		glDisable(GL_LIGHT3);
-	}
-	else if (level == 3) {
-		glEnable(GL_LIGHT3);
-		glDisable(GL_LIGHT2);
-		glDisable(GL_LIGHT0);
-	}
-
-
 	if (life <= 0) {
 		GameOver = true;
 	}
@@ -894,6 +874,9 @@ void RenderScene(void) { // 변경 화면
 	y = camera_distance * cos(camera_phi) * sin(camera_theta);
 	z = camera_distance * sin(camera_phi);
 
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT2);
+	glDisable(GL_LIGHT3);
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
@@ -911,7 +894,34 @@ void RenderScene(void) { // 변경 화면
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	Level_up();
+
+	if (lightOn) { // 전체광
+		glEnable(GL_LIGHT1);
+	}
+	else
+		glDisable(GL_LIGHT1);
+
+
+	if (level == 1) {
+		glEnable(GL_LIGHT0);
+		glDisable(GL_LIGHT2);
+		glDisable(GL_LIGHT3);
+	}
+	else if (level == 2) {
+		glEnable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHT3);
+	}
+	else if (level == 3) {
+		glEnable(GL_LIGHT3);
+		glDisable(GL_LIGHT2);
+		glDisable(GL_LIGHT0);
+	}
+
 	Modeling_Score();
+
+
+
 
 	Drawchar();
 	objectModeling();

@@ -617,7 +617,7 @@ void RenderScene(void) { // 변경 화면
 	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	//glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	axis();

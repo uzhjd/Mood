@@ -19,28 +19,31 @@ using namespace std;
 float	camera_distance;
 float	camera_theta, camera_phi;
 
-float p1jumpMax = 0.5, p2jumpMax = 0.5, bt = -3.0;
+float p1jumpMax, p2jumpMax, bt;
 const float timeFactor = 2000;
 
 #define PI 3.141592
 
-float	lightPositionR[] = { 2.0f, 0.0f, 8.0f, 1.0f };
+float lightPositionR[] = { 2.0f, 0.0f, 8.0f, 1.0f };
 float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
 float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
 
-boolean	camera = false;
-boolean p1Jump = false;
-boolean p2Jump = false;
+boolean	camera;
+boolean p1Jump;
+boolean p2Jump;
 float Radius, moveDistance, jumpUp, jumpDown;
-int score = 0;
-int life = 4;
-int level = 1;
+int score;
+int life;
+int level;
 int start_flag;
-boolean GameOver = false;
-boolean Pause = false;
+boolean GameClear;
+boolean GameOver;
+boolean Pause;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
+
+
 
 object_pepero pepero1(-20.0, 0.0, -3.0);
 
@@ -135,9 +138,32 @@ BITMAPINFOHEADER bitmapInfoHeader6;
 unsigned char* bitmapImage_6 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader6);
 
 void init(void) {
+	p1jumpMax = 0.5;
+	p2jumpMax = 0.5;
+	bt = -3.0;
+
+
+
+
+	camera = false;
+	p1Jump = false;
+	p2Jump = false;
+	
+	score = 0;
+	life = 4;
+	level = 1;
+	GameOver = false;
+	Pause = false;
+	GameClear = false;
+	
+	static int a = 0;
+	static int b = 0;
+	static int c = 0;
+
+
 	start_flag = 0;
 
-	//int z = -50;
+	//int z = -150;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -279,26 +305,6 @@ void Drawchar() {
 }
 
 
-void axis(void) {
-
-	glBegin(GL_LINES);
-	glColor3f(1.0, 0.0, 0.0); // x축   빨간색
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(100.0, 0.0, 0.0);
-
-	glColor3f(0.0, 1.0, 0.0); // y축 초록색
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(0.0, 100.0, 0.0);
-
-	glColor3f(0.0, 0.0, 1.0); // z축 파란색
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(0.0, 0.0, 100.0);
-	glEnd();
-
-
-
-
-}
 
 
 
@@ -635,31 +641,37 @@ void RenderScene(void) { // 변경 화면
 
 	}
 	if (start_flag == 0) { // 
-		glShadeModel(GL_FLAT);						// 시작 알림판 출력_ 1
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력_1
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		glRasterPos3i(4, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader4.biWidth, bitmapInfoHeader4.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_4);
 	}
 	if (start_flag == 1) { // 
-		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glShadeModel(GL_FLAT);						// 시작 알림판 출력_2
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 5);
 		glRasterPos3i(4, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader5.biWidth, bitmapInfoHeader5.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_5);
 	}
 	if (GameOver == true) { // 
-		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glShadeModel(GL_FLAT);						// 게임오버 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
-		glRasterPos3i(camera_distance, 2, -4.5);
+		glRasterPos3i(camera_distance + 5, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader2.biWidth, bitmapInfoHeader2.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_2);
 	}
 	if (start_flag % 2 && start_flag >= 2) { // 
-		glShadeModel(GL_FLAT);						// 시작 알림판 출력
+		glShadeModel(GL_FLAT);						// 일시정지 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
 		glRasterPos3i(camera_distance + 5, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader3.biWidth, bitmapInfoHeader3.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_3);
 	}
 
-
+	if (p1.x <= -153.0 || p2.x <= -153.0) {
+		GameClear = true;
+		glShadeModel(GL_FLAT);						// 클리어 알림판 출력
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 6);
+		glRasterPos3i(camera_distance + 4, 2, -4.5);
+		glDrawPixels(bitmapInfoHeader6.biWidth, bitmapInfoHeader6.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_6);
+	}
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
 		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
@@ -727,7 +739,6 @@ void RenderScene(void) { // 변경 화면
 	objectModeling();
 
 
-	axis();
 	Drawchar();
 	Collision_Player_To_Player();
 
@@ -777,7 +788,7 @@ void RenderScene(void) { // 변경 화면
 }
 
 void SpecialKey(int key, int x, int y) {
-	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
 		switch (key) {
 		case GLUT_KEY_LEFT:
 			if (camera_distance + 4.95 >= p1.x + 0.5) {
@@ -825,7 +836,7 @@ void Keyboard(unsigned char key, int x, int y) {
 	switch (key)
 	{
 	case 'a':
-		if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
 			if (camera_distance + 4.95 >= p2.x + 0.5)
 				p2.x += moveDistance;
 			p2Left = true;
@@ -834,7 +845,7 @@ void Keyboard(unsigned char key, int x, int y) {
 
 		break;
 	case 'd':
-		if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+		if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
 			if (camera_distance - 4.95 <= p2.x - 0.5)
 				p2.x -= moveDistance;
 			p2Left = false;
@@ -842,7 +853,7 @@ void Keyboard(unsigned char key, int x, int y) {
 		}
 
 		break;
-	case 'w':if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+	case 'w':if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
 		if (!p2Jump) p2Jump = true;
 	}
 
@@ -869,26 +880,32 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 
 void SpecialKeyUp(int key, int x, int y) {
-	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+	
 		switch (key)
 		{
+			
 		case GLUT_KEY_LEFT:
-			p1Left = false;
-			p1Right = false;
+			if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
+				p1Left = false;
+				p1Right = false;
+			}
 			break;
 		case GLUT_KEY_RIGHT:
-			p1Left = false;
-			p1Right = false;
+			if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
+				p1Left = false;
+				p1Right = false;
+			}
 			break;
+		case GLUT_KEY_END:		// 초기화
+			init();
 		default:
 			break;
 		}
 	}
 
-}
 
 void KeyboardUp(unsigned char key, int x, int y) {
-	if (start_flag >= 2 && GameOver == false && !(start_flag % 2)) {
+	if (start_flag >= 2 && GameOver == false && !(start_flag % 2) && GameClear == false) {
 		switch (key)
 		{
 		case 'a':

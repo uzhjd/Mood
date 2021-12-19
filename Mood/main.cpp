@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//#define score_height	40
+#define score_height	40
 #define	width 			700
 #define	height			700
 #define GRAVITY
@@ -25,10 +25,13 @@ const float timeFactor = 2000;
 #define PI 3.141592
 
 float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
-boolean	camera = false;
+boolean	camera = true;
 boolean p1Jump = false;
 boolean p2Jump = false;
 float Radius, moveDistance, jumpUp, jumpDown;
+int score = 0;
+int life = 4;
+int level = 1;
 
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
@@ -43,7 +46,9 @@ struct position {
 	float z;
 };
 position p1, p2, velocity1, velocity2;
-
+static int a = 0;
+static int b = 0;
+static int c = 0;
 GLuint	texture;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
@@ -106,7 +111,7 @@ BITMAPINFOHEADER bitmapInfoHeader5;
 unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
 void init(void) {
-
+	//int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -145,15 +150,35 @@ void MyReshape(int w, int h) { // 시점 및 초기화
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//glOrtho(-30.0, 30.0, -30.0, 30.0, 1.0, 150.0);
-	gluPerspective(60.0, 1.0, 1.0, 2000.0);
+	//gluPerspective(60.0, 1.0, 1.0, 2000.0);
 	//gluOrtho2D(left_, left_ + width, bottom, bottom + height);
 
 }
 
-//void Modeling_Score() { // 점수판 만들기
-//	glColor3f(0.8, 0.5, 0.5);
-//	glRectf(0, 0, width, score_height);
-//}
+void Modeling_Score() { // 점수판 만들기
+	glColor3f(189.0/255.0, 236.0 /255.0, 182.0 /255.0);
+	//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+	//	camera_distance = (p1.x + p2.x) / 2;
+	//gluLookAt(camera_distance + 2, 4, 1.5, camera_distance, 0, 0, 0, 0, 1.0); // 시점
+	if (camera) {
+		glBegin(GL_QUADS);
+		glVertex3f(camera_distance - 5, 7, -7);
+		glVertex3f(camera_distance - 5, 7, -3);
+		glVertex3f(camera_distance + 7, 1, -3);
+		glVertex3f(camera_distance + 7, 1, -7);
+		glEnd();
+	}
+	else {
+		glBegin(GL_QUADS);
+		glVertex3f(camera_distance - 5, 0, -5);
+		glVertex3f(camera_distance - 5, 0, -4.3);
+		glVertex3f(camera_distance + 5, 0, -4.3);
+		glVertex3f(camera_distance + 5, 0, -5);
+		glEnd();
+
+	}
+	
+}
 
 void Drawchar() {
 	//////////p1캐릭터//////////
@@ -245,6 +270,8 @@ void axis(void) {
 	glEnd();
 
 
+
+
 }
 
 
@@ -324,13 +351,7 @@ void Collision_Player_To_Player() {
 
 }
 
-void cameraSet() {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	if((p1.x + p2.x) / 2 <= 5 - 4.95)
-		camera_distance = (p1.x + p2.x) / 2;
-	gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
-}
+
 
 void jump() {
 	float z1 = p1.z;
@@ -408,57 +429,110 @@ void roadModeling(void) {
 	road13.draw_generalRoad();
 	road14.draw_generalRoad();
 	road15.draw_generalRoad();
+	bool a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
 
+	a = road0.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	b = road1.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	c= road2.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	d= road3.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	e= road4.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	f= road5.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	g= road6.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	h= road7.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	i= road8.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	j= road9.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	k= road10.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	l= road11.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	m= road12.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	n= road13.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	o = road14.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	p = road15.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
-	road0.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road1.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road2.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road3.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road4.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road5.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road6.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road7.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road8.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road9.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road10.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road11.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road12.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road13.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road14.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	road15.collisionRoad(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	for (int i = 'a'; i <= 'p'; i++) {
+		if (a) {
+			life--;
+			return;
+		}
+			
+
+	}
 
 	glutPostRedisplay();
+}
+
+void cameraSet() {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	if (camera) {
+		if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+			camera_distance = (p1.x + p2.x) / 2;
+		gluLookAt(camera_distance + 2, 4, 1.5, camera_distance, 0, 0, 0, 0, 1.0); // 시점
+	}
+
+	else {
+		if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+			camera_distance = (p1.x + p2.x) / 2;
+		gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+	}
+	
+}
+void Level_up() {
+	if (p1.x <= p2.x) { // p1이 더 앞
+		if (p1.x <= -55.8 && level != 2)
+			level=2;
+		if (p1.x <= -117.0 && level != 3)
+			level=3;
+	}
+	else { // p2가 더 앞
+		if (p2.x <= -55.8 && level != 2)
+			level = 2;
+		if (p2.x <= -117.0 && level != 3)
+			level = 3;
+	}
 }
 
 void RenderScene(void) { // 변경 화면
 	float	x, y, z;
 
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0, 1.0, 0.0, 0.0);
+	glClearColor(0.7, 0.9, 1.0, 1.0);
 	p1.z += velocity1.z;
 	p2.z += velocity2.z;
 	jump();
 
+	if (a== 0&&level == 1) {
+	     PlaySound(TEXT("lv.1.wav"), 0, SND_ASYNC | SND_LOOP);
+		 a++;
+	
+	}
+	else if (b==0&&level == 2) {
+		//sndPlaySound(vbStringNull, SND_ASYNC);
+		PlaySound(TEXT("lv.2.wav"), 0, SND_ASYNC | SND_ALIAS);
+		b++;
+
+	}
+	else if (c==0&&level == 3) {
+		sndPlaySoundA("lv.3.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
+		c++;
+
+	}
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
-		left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
-		glViewport(0, 0, width / 2, height);
+		//left_ = -5.0; right_ = 5.0;bottom_ = -5.0;top_ = 5.0;zNear_ = -5.0;zFar_ = 15.0;
+		glViewport(0, 0, width, height);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity(); // 클리핑 볼륨 설정.
-		glOrtho(left_, right_, bottom_, top_, zNear_, zFar_);
+		glOrtho(-5.0, 5.0, -5.0, 5.0, -5.0, 15.0);
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
-
-		glViewport(width / 2, 0, width, height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(left_, right_, bottom_, top_, zNear_, zFar_);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		gluLookAt(p2.x, p2.y, p2.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
-
+		//if ((p1.x + p2.x) / 2 <= 5 - 4.95)
+		//	camera_distance = (p1.x + p2.x) / 2;
+		//gluLookAt(camera_distance, p1.y + 4.0, 0.0, camera_distance, p1.y, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+		cameraSet();
+		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+		//gluLookAt(p1.x, p1.y, p1.z, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0); // 시점, 위치
+		
 	}
 	else {
 		//left_ = -50.0; right_ = 50.0;bottom_ = -50.0;top_ = 50.0;zNear_ = -10.0;zFar_ = 15.0;
@@ -491,12 +565,11 @@ void RenderScene(void) { // 변경 화면
 	glVertex3f(5.0, -1.7, 5.0);
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-
+	Level_up();
+	Modeling_Score();
 
 
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
-	//Modeling_Score();
 
 	axis();
 	Drawchar();
@@ -516,6 +589,31 @@ void RenderScene(void) { // 변경 화면
 
 	//cookie.draw_cookie();
 	//cookie.check_players_To_distance(p1.x, p2.x);
+	string text1;
+
+	if (level == 1)
+		text1 = "Level : " + to_string(level) + "  (mane's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
+
+	else if (level == 2) {
+		glColor3f(49.0/255.0, 22.0/255.0, 125.0/255.0);
+		text1 = "Level : " + to_string(level) + "  (nox's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
+	}
+	else if (level == 3) {
+		glColor3f(121.0/255.0, 21.0/255.0, 11.0/255.0);
+		text1 = "Level : " + to_string(level) + "  (Rolar's road)      " + "life : " + to_string(life); // 게임 진행중 점수판 출력
+	}
+	//glColor3f(0.2, 0.2, 0.2);
+
+	if (camera) {
+		glRasterPos3f(camera_distance + 6.3, 2, -3.1);
+
+	}
+	else {
+		glRasterPos3f(camera_distance + 4.8, 3, -4.6);
+	}
+	for (int i = 0; i < text1.size(); i++) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text1[i]);
+	}
 
 	glutPostRedisplay();
 	glutSwapBuffers();
@@ -535,8 +633,11 @@ void SpecialKey(int key, int x, int y) {
 		//camera_distance += 0.1;
 		break;
 	case GLUT_KEY_RIGHT:
-		if (camera_distance - 4.95 <= p1.x - 0.5)
+		if (camera_distance - 4.95 <= p1.x - 0.5) {
 			p1.x -= moveDistance;
+
+			//cout << p1.x << endl;
+		}
 		p1Left = false;
 		p1Right = true;
 		//camera_distance -= 0.1;
@@ -635,10 +736,5 @@ void main(int argc, char** argv) {
 	glutSpecialUpFunc(SpecialKeyUp);
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
-	//   
-	//   //if (you) {
-	//   //   sndPlaySoundA("music.wav", SND_ASYNC | SND_NODEFAULT | SND_LOOP);
-	////
-	//   //}
 	glutMainLoop();
 }

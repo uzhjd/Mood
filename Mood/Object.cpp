@@ -12,6 +12,37 @@ extern struct position {
 
 using namespace std;
 
+
+static position Normal(float v1[3], float v2[3], float v3[3])
+{
+	float v11[3], v22[3];
+	position out;
+	static const int x = 0;
+	static const int y = 1;
+	static const int z = 2;
+
+	// Calculate two vectors from the three points
+	v11[x] = v1[x] - v2[x];
+	v11[y] = v1[y] - v2[y];
+	v11[z] = v1[z] - v2[z];
+
+	v22[x] = v3[x] - v1[x];
+	v22[y] = v3[y] - v1[y];
+	v22[z] = v3[z] - v1[z];
+
+	float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+	float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+	v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+	v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+	out.x = v11[y] * v22[z] - v11[z] * v22[y];
+	out.y = v11[z] * v22[x] - v11[x] * v22[z];
+	out.z = v11[x] * v22[y] - v11[y] * v22[x];
+	// Normalize the vector (shorten length to one)
+	return out;
+}
+
 //빼빼로클래스//
 class object_pepero {
 private:
@@ -64,35 +95,7 @@ public:
 
 	}
 
-	position Normal(float v1[3], float v2[3], float v3[3])
-	{
-		float v11[3], v22[3];
-		position out;
-		static const int x = 0;
-		static const int y = 1;
-		static const int z = 2;
 
-		// Calculate two vectors from the three points
-		v11[x] = v1[x] - v2[x];
-		v11[y] = v1[y] - v2[y];
-		v11[z] = v1[z] - v2[z];
-
-		v22[x] = v3[x] - v1[x];
-		v22[y] = v3[y] - v1[y];
-		v22[z] = v3[z] - v1[z];
-
-		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-		out.x = v11[y] * v22[z] - v11[z] * v22[y];
-		out.y = v11[z] * v22[x] - v11[x] * v22[z];
-		out.z = v11[x] * v22[y] - v11[y] * v22[x];
-		// Normalize the vector (shorten length to one)
-		return out;
-	}
 
 	void draw_pepero() {
 		if (draw) {
@@ -422,35 +425,6 @@ public:
 		button = false;
 	}
 
-	position Normal(float v1[3], float v2[3], float v3[3])
-	{
-		float v11[3], v22[3];
-		position out;
-		static const int x = 0;
-		static const int y = 1;
-		static const int z = 2;
-
-		// Calculate two vectors from the three points
-		v11[x] = v1[x] - v2[x];
-		v11[y] = v1[y] - v2[y];
-		v11[z] = v1[z] - v2[z];
-
-		v22[x] = v3[x] - v1[x];
-		v22[y] = v3[y] - v1[y];
-		v22[z] = v3[z] - v1[z];
-
-		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-		out.x = v11[y] * v22[z] - v11[z] * v22[y];
-		out.y = v11[z] * v22[x] - v11[x] * v22[z];
-		out.z = v11[x] * v22[y] - v11[y] * v22[x];
-		// Normalize the vector (shorten length to one)
-		return out;
-	}
 
 	void draw_pocachip() {
 		if (button == false) {
@@ -588,10 +562,10 @@ public:
 		//cout << p1z << endl;
 		if (button == false) {
 			if (p1x + 0.5 >= (x - 3.0) && p1x - 0.5 <= x) {
-				if (z + 3.0 >= p1bottom && p1head >= z + 5.0) {
+				if (z + 3.0 >= p1bottom && p1head >= z + 4.5) {
 					p1z = (z + 3.0) + 2.0 * 0.5;
 				}
-				else if (p1bottom >= z-2.0  && p1bottom <= z + 3.0) {
+				else if (p1bottom >= z - 2.0 && p1bottom <= z + 3.0) {
 					if (p1x >= x) {
 						p1x = x + 0.5;
 					}
@@ -607,7 +581,7 @@ public:
 				if (z + 3.0 >= p2bottom && p2head >= z + 5.0) {
 					p2z = (z + 3.0) + 2.0 * 0.5;
 				}
-				else if (p2bottom >= z-2.0  && p2bottom <= z + 3.0) {
+				else if (p2bottom >= z - 2.0 && p2bottom <= z + 3.0) {
 					if (p2x >= x) {
 						p2x = x + 0.5;
 					}
@@ -765,36 +739,6 @@ public:
 		p1b2 = false;
 		p2b1 = false;
 		p2b2 = false;
-	}
-
-	position Normal(float v1[3], float v2[3], float v3[3])
-	{
-		float v11[3], v22[3];
-		position out;
-		static const int x = 0;
-		static const int y = 1;
-		static const int z = 2;
-
-		// Calculate two vectors from the three points
-		v11[x] = v1[x] - v2[x];
-		v11[y] = v1[y] - v2[y];
-		v11[z] = v1[z] - v2[z];
-
-		v22[x] = v3[x] - v1[x];
-		v22[y] = v3[y] - v1[y];
-		v22[z] = v3[z] - v1[z];
-
-		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-		out.x = v11[y] * v22[z] - v11[z] * v22[y];
-		out.y = v11[z] * v22[x] - v11[x] * v22[z];
-		out.z = v11[x] * v22[y] - v11[y] * v22[x];
-		// Normalize the vector (shorten length to one)
-		return out;
 	}
 
 	void draw_icecream() {
@@ -1206,36 +1150,6 @@ public:
 		p1b2 = false;
 		p2b1 = false;
 		p2b2 = false;
-	}
-
-	position Normal(float v1[3], float v2[3], float v3[3])
-	{
-		float v11[3], v22[3];
-		position out;
-		static const int x = 0;
-		static const int y = 1;
-		static const int z = 2;
-
-		// Calculate two vectors from the three points
-		v11[x] = v1[x] - v2[x];
-		v11[y] = v1[y] - v2[y];
-		v11[z] = v1[z] - v2[z];
-
-		v22[x] = v3[x] - v1[x];
-		v22[y] = v3[y] - v1[y];
-		v22[z] = v3[z] - v1[z];
-
-		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-		out.x = v11[y] * v22[z] - v11[z] * v22[y];
-		out.y = v11[z] * v22[x] - v11[x] * v22[z];
-		out.z = v11[x] * v22[y] - v11[y] * v22[x];
-		// Normalize the vector (shorten length to one)
-		return out;
 	}
 
 	void draw_cloud() {
@@ -1794,36 +1708,6 @@ public:
 
 	}
 
-	position Normal(float v1[3], float v2[3], float v3[3])
-	{
-		float v11[3], v22[3];
-		position out;
-		static const int x = 0;
-		static const int y = 1;
-		static const int z = 2;
-
-		// Calculate two vectors from the three points
-		v11[x] = v1[x] - v2[x];
-		v11[y] = v1[y] - v2[y];
-		v11[z] = v1[z] - v2[z];
-
-		v22[x] = v3[x] - v1[x];
-		v22[y] = v3[y] - v1[y];
-		v22[z] = v3[z] - v1[z];
-
-		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
-		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
-
-		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
-		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
-
-		out.x = v11[y] * v22[z] - v11[z] * v22[y];
-		out.y = v11[z] * v22[x] - v11[x] * v22[z];
-		out.z = v11[x] * v22[y] - v11[y] * v22[x];
-		// Normalize the vector (shorten length to one)
-		return out;
-	}
-
 	void draw_cloud() {
 		glPushMatrix();
 		glTranslatef(x, y, z + 1.0);
@@ -2096,5 +1980,51 @@ public:
 			}
 		}
 
+	}
+};
+
+class object_mini_cookie {
+private:
+	float x;
+	float y;
+	float z;
+	float cookieRadius = 0.2;
+	bool collision = false;
+
+public:
+	object_mini_cookie(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+		collision = false;
+
+	}
+
+	void draw_mini_cookie() {
+		if (!collision) {
+			glPushMatrix();
+			glTranslatef(x, y, z);
+			glutSolidSphere(cookieRadius, 30, 30);
+			glPopMatrix();
+
+		}
+
+		glutPostRedisplay();
+	}
+
+	void collision_mini_cookie(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z, int& life) {
+		float p1head = p1z + 1.4;
+		float p2head = p2z + 1.4;
+		if (!collision) {
+			if ((p1x - x < 0.5 + cookieRadius && p1x - x > 0.0 && p1z - 1.0 < z + cookieRadius) || (p2x - x < 0.5 + cookieRadius && p2z - 1.0 < z + cookieRadius && p2x - x > 0.0)) {
+				if (z + cookieRadius - p1head <= 0.0) {
+					//라이프감소코드 추가//
+					life += 1;
+					cout << "life:" << life << endl;
+					collision = true;
+				}
+
+			}
+		}
 	}
 };

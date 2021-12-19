@@ -57,7 +57,7 @@ object_icecream icecream3(-145.0, 0.0, -3.0);
 
 object_cloud cloud1(-65.0, 0.0, -3.0);
 object_cloud cloud2(-120.0, 0.0, -3.0);
-object_cloud cloud3(-145.0, 0.0, -3.0);
+cloud_road cr1(-145.0, 0.0, -3.0);
 
 object_candy candy1(-40.0, 0.0, -3.0);
 object_candy candy2(-80.0, 0.0, -3.0);
@@ -131,7 +131,7 @@ BITMAPINFOHEADER bitmapInfoHeader5;
 unsigned char* bitmapImage_5 = LoadBitmapFile("Clear.bmp", &bitmapInfoHeader5);
 
 void init(void) {
-	//int z = -50;
+	//int z = -156;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
@@ -268,7 +268,66 @@ void Drawchar() {
 	glTranslated(p2.x, p2.y - 0.15, p2.z - 0.9);
 	glutSolidCube(0.2);
 	glPopMatrix();
+	////로라/////
+	glPushMatrix();
+	glTranslated(-155, 0.0, -0.5);
+	glColor3f(1.0, 1.0, 1.0);
+	glutSolidSphere(Radius, 30, 30);
+	glPopMatrix();
 
+	glPushMatrix();
+	glColor3f(139.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+	glTranslated(-155, 0.0, -2.8);
+	glutSolidCone(0.7, 2.0, 30, 30);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(139.0 / 255.0, 0.0 / 255.0, 255.0 / 255.0);
+	glTranslated(-155, 0.15, -2.8);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155, 0.15, -3.0);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155, 0.15, -3.2);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155, 0.15, -3.4);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(139.0 / 255.0, 0.0/ 255.0, 255.0 / 255.0);
+	glTranslated(-155, -0.15, -2.8);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155, -0.15, -3.0);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155,-0.15,-3.2);
+	glutSolidCube(0.2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslated(-155,-0.15,-3.4);
+	glutSolidCube(0.2);
+	glPopMatrix();
 
 }
 
@@ -559,11 +618,9 @@ void objectModeling(void) {
 	cookie4.draw_cookie();
 	cookie4.check_players_To_distance(p1.x, p2.x);
 	cookie4.collision_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
-
-	cloud3.draw_cloud();
-	cloud3.draw_button();
-	cloud3.collision_button(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
-	cloud3.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+	
+	cr1.draw_cloud();
+	cr1.collision_cloud(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
 
 	candy5.draw_candy();
 	candy5.check_players_To_distance(p1.x, p2.x);
@@ -685,6 +742,7 @@ void RenderScene(void) { // 변경 화면
 
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	//glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10);
 	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -773,7 +831,6 @@ void SpecialKey(int key, int x, int y) {
 
 		//viewport 분할
 	case GLUT_KEY_INSERT: camera = !(camera); break;
-
 	default:
 		p1Left = false;
 		p1Right = false;

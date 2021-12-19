@@ -23,7 +23,16 @@ float p1jumpMax = 0.5, p2jumpMax = 0.5, bt = -3.0;
 
 #define PI 3.141592
 
-float	lightPositionR[] = { 0.0f, 0.0f, 5.0f, 1.0f };
+float	lightPositionR[] = { 2.0f, 0.0f, 8.0f, 1.0f };
+float light_ambient[] = { 1.0, 1.0, 1.0, 0.0 };
+float light_diffuse[] = { 1.0, 1.0, 1.0, 0.0 };
+float light_specular[] = { 1.0, 1.0, 1.0, 0.0 };
+
+
+float ambient0[] = { 1.0, 0.0, 1.0, 0.0 };
+float diffuse0[] = { 1.0, 0.0, 0.0, 0.0 };
+float specular0[] = { 1.0, 1.0, 1.0, 0.0 };
+
 boolean	camera = false;
 boolean p1Jump = false;
 boolean p2Jump = false;
@@ -58,11 +67,7 @@ object_candy candy4(-138.0, 0.0, -3.0);
 object_candy candy5(-150.0, 0.0, -2.0);
 
 
-struct position {
-	float x;
-	float y;
-	float z;
-};
+
 position p1, p2, velocity1, velocity2;
 
 GLuint	texture;
@@ -134,7 +139,7 @@ void init(void) {
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p1.x = -0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
 	p2.x =-1.0;p2.y = 0.0;p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
@@ -603,17 +608,24 @@ void RenderScene(void) { // 변경 화면
 	glEnd();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	//glEnable(GL_NORMALIZE);
 
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
-
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPositionR); // (lightPositionR[0], lightPositionR[1], lightPositionR[2]) in Camera Coordinates
-	//Modeling_Score();
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	//glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
 	axis();
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse0);
 	Drawchar();
 	Collision_Player_To_Player();
-
 	roadModeling();
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse0);
 	objectModeling();
 
 	glutPostRedisplay();
@@ -741,4 +753,5 @@ void main(int argc, char** argv) {
 	////
 	//   //}
 	glutMainLoop();
+
 }

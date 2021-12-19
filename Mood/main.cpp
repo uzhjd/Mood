@@ -163,15 +163,15 @@ void init(void) {
 
 	start_flag = 0;
 
-	int z = -20;
+	//int z = -150;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = z+0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = z+-2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = 0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
@@ -653,25 +653,61 @@ void RenderScene(void) { // 변경 화면
 		glDrawPixels(bitmapInfoHeader5.biWidth, bitmapInfoHeader5.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_5);
 	}
 	if (GameOver == true) {
-		cout << "dd";
 		glShadeModel(GL_FLAT);						// 게임오버 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
 		glRasterPos3i(camera_distance + 3.5, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader2.biWidth, bitmapInfoHeader2.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_2);
+
+		string text1 = to_string(level); // 레벨 및 포인트 출력
+		string text2 = to_string(life);
+		glColor3f(1.0, 1.0, 1.0);
+		glRasterPos3f(camera_distance - 3, 3, 0);
+		for (int i = 0; i < text1.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text1[i]);
+		}
+		glRasterPos3f(camera_distance - 2.7, 3, -0.8);
+		for (int i = 0; i < text2.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text2[i]);
+		}
 	}
-	if (start_flag % 2 && start_flag >= 2) { // 
+	if (start_flag % 2 && start_flag >= 2 && GameClear == false) { // 
 		glShadeModel(GL_FLAT);						// 일시정지 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 3);
-		glRasterPos3i(camera_distance + 5, 2, -4.5);
+		glRasterPos3i(camera_distance + 4.5, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader3.biWidth, bitmapInfoHeader3.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_3);
+
+		string text1 = to_string(level); // 레벨 및 포인트 출력
+		string text2 = to_string(life);
+		glColor3f(1.0, 1.0, 1.0);
+		glRasterPos3f(camera_distance - 0.5, 3, -2.8);
+		for (int i = 0; i < text1.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text1[i]);
+		}
+		glRasterPos3f(camera_distance - 0.5, 3, -3.3);
+		for (int i = 0; i < text2.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text2[i]);
+		}
 	}
 
 	if (p1.x <= -153.0 || p2.x <= -153.0) {
 		GameClear = true;
 		glShadeModel(GL_FLAT);						// 클리어 알림판 출력
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 6);
-		glRasterPos3i(camera_distance + 4, 2, -4.5);
+		glRasterPos3i(-148, 2, -4.5);
 		glDrawPixels(bitmapInfoHeader6.biWidth, bitmapInfoHeader6.biHeight, GL_RGB, GL_UNSIGNED_BYTE, bitmapImage_6);
+
+
+		string text1 = to_string(level); // 레벨 및 포인트 출력
+		string text2 = to_string(life);
+		glColor3f(1.0, 1.0, 1.0);
+		glRasterPos3f(-152.5, 3, 0);
+		for (int i = 0; i < text1.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text1[i]);
+		}
+		glRasterPos3f(-152.5, 3, -0.8);
+		for (int i = 0; i < text2.size(); i++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text2[i]);
+		}
 	}
 	////////////////화면 분할 코드(수정중)////////////////
 	if (camera) {
@@ -867,10 +903,13 @@ void Keyboard(unsigned char key, int x, int y) {
 		exit(0);
 		break;
 	case 32: // 일시정지 SpaceBar
-		if (start_flag >= 2) {
-			start_flag++;
-			break;
+		if (GameOver == false) {
+			if (start_flag >= 2) {
+				start_flag++;
+				break;
+			}
 		}
+		
 
 	default:
 		p2Left = false;

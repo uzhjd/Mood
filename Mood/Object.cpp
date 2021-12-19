@@ -2,15 +2,15 @@
 #include <gl/gl.h>
 #include <glut.h>
 #include <iostream>
-#include <string>
-#include<vector>
 #include<math.h>
-using namespace std;
+
 extern struct position {
 	float x;
 	float y;
 	float z;
 };
+
+using namespace std;
 
 //빼빼로클래스//
 class object_pepero {
@@ -591,7 +591,7 @@ public:
 				if (z + 3.0 >= p1bottom && p1head >= z + 5.0) {
 					p1z = (z + 3.0) + 2.0 * 0.5;
 				}
-				else if (p1bottom >= z - 1.0 && p1bottom <= z + 3.0) {
+				else if (p1bottom >= z-2.0  && p1bottom <= z + 3.0) {
 					if (p1x >= x) {
 						p1x = x + 0.5;
 					}
@@ -607,7 +607,7 @@ public:
 				if (z + 3.0 >= p2bottom && p2head >= z + 5.0) {
 					p2z = (z + 3.0) + 2.0 * 0.5;
 				}
-				else if (p2bottom >= z - 1.0 && p2bottom <= z + 3.0) {
+				else if (p2bottom >= z-2.0  && p2bottom <= z + 3.0) {
 					if (p2x >= x) {
 						p2x = x + 0.5;
 					}
@@ -1770,5 +1770,331 @@ public:
 				cout << "life: " << life << endl;
 			}
 		}
+	}
+};
+
+class cloud_road {
+private:
+	float x;
+	float y;
+	float z;
+	float vertex[24][3] = {
+		{0.0, 1.5, 0.0},{-1.5, 1.5, 0.0},{-1.5, 1.5, -0.5},{0.0, 1.5, -0.5},
+		{0.0, 1.5, 0.0},{0.0, -1.5, 0.0},{0.0, -1.5, -0.5},{0.0, 1.5, -0.5},
+		{0.0, -1.5, 0.0},{-1.5, -1.5, 0.0},{-1.5, -1.5, -0.5},{0.0, -1.5, -0.5},
+		{-1.5, 1.5, 0.0},{-1.5, -1.5, 0.0},{-1.5, -1.5, -0.5},{-1.5, 1.5, -0.5},
+		{0.0, 1.5, 0.0},{-1.5, 1.5, 0.0},{-1.5, -1.5, 0.0},{0.0, -1.5, 0.0},
+		{0.0, 1.5, -0.5},{-1.5, 1.5, -0.5},{-1.5, -1.5, -0.5},{0.0, -1.5, -0.5}
+	};
+public:
+	cloud_road(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+
+	}
+
+	position Normal(float v1[3], float v2[3], float v3[3])
+	{
+		float v11[3], v22[3];
+		position out;
+		static const int x = 0;
+		static const int y = 1;
+		static const int z = 2;
+
+		// Calculate two vectors from the three points
+		v11[x] = v1[x] - v2[x];
+		v11[y] = v1[y] - v2[y];
+		v11[z] = v1[z] - v2[z];
+
+		v22[x] = v3[x] - v1[x];
+		v22[y] = v3[y] - v1[y];
+		v22[z] = v3[z] - v1[z];
+
+		float len1 = sqrt(v11[x] * v11[x] + v11[y] * v11[y] + v11[z] * v11[z]);
+		float len2 = sqrt(v22[x] * v22[x] + v22[y] * v22[y] + v22[z] * v22[z]);
+
+		v11[x] = v11[x] / len1; v11[y] = v11[y] / len1; v11[z] = v11[z] / len1;
+		v22[x] = v22[x] / len2; v22[y] = v22[y] / len2; v22[z] = v22[z] / len2;
+
+		out.x = v11[y] * v22[z] - v11[z] * v22[y];
+		out.y = v11[z] * v22[x] - v11[x] * v22[z];
+		out.z = v11[x] * v22[y] - v11[y] * v22[x];
+		// Normalize the vector (shorten length to one)
+		return out;
+	}
+
+	void draw_cloud() {
+		glPushMatrix();
+		glTranslatef(x, y, z + 1.0);
+		glColor3f(0.0, 0.4, 0.5);
+		position v1 = Normal(vertex[0], vertex[1], vertex[2]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[0]);
+		glVertex3fv(vertex[1]);
+		glVertex3fv(vertex[2]);
+		glVertex3fv(vertex[3]);
+		glEnd();
+
+		v1 = Normal(vertex[4], vertex[5], vertex[6]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[4]);
+		glVertex3fv(vertex[5]);
+		glVertex3fv(vertex[6]);
+		glVertex3fv(vertex[7]);
+		glEnd();
+
+		v1 = Normal(vertex[8], vertex[9], vertex[10]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[8]);
+		glVertex3fv(vertex[9]);
+		glVertex3fv(vertex[10]);
+		glVertex3fv(vertex[11]);
+		glEnd();
+
+		v1 = Normal(vertex[12], vertex[13], vertex[14]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[12]);
+		glVertex3fv(vertex[13]);
+		glVertex3fv(vertex[14]);
+		glVertex3fv(vertex[15]);
+		glEnd();
+
+		v1 = Normal(vertex[16], vertex[17], vertex[18]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[16]);
+		glVertex3fv(vertex[17]);
+		glVertex3fv(vertex[18]);
+		glVertex3fv(vertex[19]);
+		glEnd();
+
+		v1 = Normal(vertex[20], vertex[21], vertex[22]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[20]);
+		glVertex3fv(vertex[21]);
+		glVertex3fv(vertex[22]);
+		glVertex3fv(vertex[23]);
+		glEnd();
+
+
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(x - 2.0, y, z + 1.5);
+		glColor3f(0.0, 0.4, 0.5);
+		v1 = Normal(vertex[0], vertex[1], vertex[2]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[0]);
+		glVertex3fv(vertex[1]);
+		glVertex3fv(vertex[2]);
+		glVertex3fv(vertex[3]);
+		glEnd();
+
+		v1 = Normal(vertex[4], vertex[5], vertex[6]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[4]);
+		glVertex3fv(vertex[5]);
+		glVertex3fv(vertex[6]);
+		glVertex3fv(vertex[7]);
+		glEnd();
+
+		v1 = Normal(vertex[8], vertex[9], vertex[10]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[8]);
+		glVertex3fv(vertex[9]);
+		glVertex3fv(vertex[10]);
+		glVertex3fv(vertex[11]);
+		glEnd();
+
+		v1 = Normal(vertex[12], vertex[13], vertex[14]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[12]);
+		glVertex3fv(vertex[13]);
+		glVertex3fv(vertex[14]);
+		glVertex3fv(vertex[15]);
+		glEnd();
+
+		v1 = Normal(vertex[16], vertex[17], vertex[18]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[16]);
+		glVertex3fv(vertex[17]);
+		glVertex3fv(vertex[18]);
+		glVertex3fv(vertex[19]);
+		glEnd();
+
+		v1 = Normal(vertex[20], vertex[21], vertex[22]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[20]);
+		glVertex3fv(vertex[21]);
+		glVertex3fv(vertex[22]);
+		glVertex3fv(vertex[23]);
+		glEnd();
+
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslatef(x - 4.0, y, z + 1.0);
+		glColor3f(0.0, 0.4, 0.5);
+		v1 = Normal(vertex[0], vertex[1], vertex[2]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[0]);
+		glVertex3fv(vertex[1]);
+		glVertex3fv(vertex[2]);
+		glVertex3fv(vertex[3]);
+		glEnd();
+
+		v1 = Normal(vertex[4], vertex[5], vertex[6]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[4]);
+		glVertex3fv(vertex[5]);
+		glVertex3fv(vertex[6]);
+		glVertex3fv(vertex[7]);
+		glEnd();
+
+		v1 = Normal(vertex[8], vertex[9], vertex[10]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[8]);
+		glVertex3fv(vertex[9]);
+		glVertex3fv(vertex[10]);
+		glVertex3fv(vertex[11]);
+		glEnd();
+
+		v1 = Normal(vertex[12], vertex[13], vertex[14]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[12]);
+		glVertex3fv(vertex[13]);
+		glVertex3fv(vertex[14]);
+		glVertex3fv(vertex[15]);
+		glEnd();
+
+		v1 = Normal(vertex[16], vertex[17], vertex[18]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[16]);
+		glVertex3fv(vertex[17]);
+		glVertex3fv(vertex[18]);
+		glVertex3fv(vertex[19]);
+		glEnd();
+
+		v1 = Normal(vertex[20], vertex[21], vertex[22]);
+		glBegin(GL_QUADS);
+		glNormal3f(v1.x, v1.y, v1.z);
+		glVertex3fv(vertex[20]);
+		glVertex3fv(vertex[21]);
+		glVertex3fv(vertex[22]);
+		glVertex3fv(vertex[23]);
+		glEnd();
+
+		glPopMatrix();
+
+		glutPostRedisplay();
+	}
+
+	void collision_cloud(float& p1x, float& p1y, float& p1z, float& p2x, float& p2y, float& p2z) {
+		float p1bottom = p1z - 1.0;
+		float p2bottom = p2z - 1.0;
+		float p1head = p1z + 1.4;
+		//cout << p1z << endl;
+			//1번째구름충돌//
+		if (p1x + 0.5 >= (x - 1.5) && p1x - 0.5 <= x) {
+			if (z + 1.0 >= p1bottom) {
+				p1z = (z + 1.0) + 2.0 * 0.5;
+			}
+
+			else if (p1x >= x && p1bottom <= z) {
+				p1x = x + 0.5;
+			}
+
+			else if (p1x <= x - 1.5 && p1bottom <= z) {
+				p1x = (x - 1.5) - 0.5;
+			}
+		}
+
+		if (p2x + 0.5 >= (x - 1.5) && p2x - 0.5 <= x) {
+			if (z + 1.0 >= p2bottom) {
+				p2z = (z + 1.0) + 2.0 * 0.5;
+			}
+
+			else if (p2x >= x && p2bottom <= z) {
+				p2x = x + 0.5;
+			}
+
+			else if (p2x <= x - 1.5 && p2bottom <= z) {
+				p2x = (x - 1.5) - 0.5;
+			}
+		}
+		//2번째구름충돌//
+		if (p1x + 0.5 >= (x - 3.5) && p1x - 0.5 <= (x - 2.0)) {
+			if (z + 1.5 >= p1bottom) {
+				p1z = (z + 1.5) + 2.0 * 0.5;
+			}
+
+			else if (p1x >= x - 2.0 && p1bottom <= z + 1.0) {
+				p1x = x - 2.0 + 0.5;
+			}
+
+			else if (p1x <= x - 3.5 && p1bottom <= z + 1.0) {
+				p1x = (x - 4.5) - 0.5;
+			}
+		}
+
+		if (p2x + 0.5 >= (x - 3.5) && p2x - 0.5 <= (x - 2.0)) {
+			if (z + 1.5 >= p2bottom) {
+				p2z = (z + 1.5) + 2.0 * 0.5;
+			}
+
+			else if (p2x >= x - 2.0 && p2bottom <= z + 1.0) {
+				p2x = x - 2.0 + 0.5;
+			}
+
+			else if (p2x <= x - 3.5 && p2bottom <= z + 1.0) {
+				p2x = (x - 3.5) - 0.5;
+			}
+		}
+		//3번째구름충돌//
+		if (p1x + 0.5 >= (x - 5.5) && p1x - 0.5 <= (x - 4.0)) {
+			if (z + 1.0 >= p1bottom) {
+				p1z = (z + 1.0) + 2.0 * 0.5;
+			}
+
+			else if (p1x >= x - 4.0 && p1bottom <= z + 1.0) {
+				p1x = x - 4.0 + 0.5;
+			}
+
+			else if (p1x <= x - 5.5 && p1bottom <= z + 1.0) {
+				p1x = (x - 5.5) - 0.5;
+			}
+		}
+
+		if (p2x + 0.5 >= (x - 5.5) && p2x - 0.5 <= (x - 4.0)) {
+			if (z + 1.0 >= p2bottom) {
+				p2z = (z + 1.0) + 2.0 * 0.5;
+			}
+
+			else if (p2x >= x - 4.0 && p2bottom <= z + 1.0) {
+				p2x = x - 4.0 + 0.5;
+			}
+
+			else if (p2x <= x - 5.5 && p2bottom <= z + 1.0) {
+				p2x = (x - 5.5) - 0.5;
+			}
+		}
+
 	}
 };

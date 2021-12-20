@@ -2123,6 +2123,7 @@ public:
 	void draw_mini_cookie() {
 		if (!collision) {
 			glPushMatrix();
+			glColor3f(0.5, 0.3, 0.6);
 			glTranslatef(x, y, z);
 			glutSolidSphere(cookieRadius, 30, 30);
 			glPopMatrix();

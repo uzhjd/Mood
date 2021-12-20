@@ -143,6 +143,7 @@ object_candy candy5(-150.0, 0.0, -2.0);
 cloud_road cr1(-145.0, 0.0, -3.0);
 
 object_mini_cookie minicookie1(-12.0, 0.0, 2.0);
+object_mini_cookie minicookie2(-30.0, 0.0, 2.0);
 
 position p1, p2, velocity1, velocity2;
 static int a = 0;
@@ -720,6 +721,12 @@ void objectModeling(void) {
 	candy5.draw_candy();
 	candy5.check_players_To_distance(p1.x, p2.x);
 	candy5.collision_candy(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	minicookie1.draw_mini_cookie();
+	minicookie1.collision_mini_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
+
+	//minicookie2.draw_mini_cookie();
+	//minicookie2.collision_mini_cookie(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, life);
 	
 }
 

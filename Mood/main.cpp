@@ -66,7 +66,7 @@ boolean Pause;
 boolean p1Left, p1Right, p2Left, p2Right;
 float left_, right_, top_, bottom_, zNear_, zFar_;
 
-bool lightOn = false;
+bool lightOn = true;
 
 unsigned char* LoadBitmapFile(const char* filename, BITMAPINFOHEADER* bitmapInfoHeader) { // 배경이미지
 	FILE* filePtr;
@@ -191,15 +191,14 @@ void init(void) {
 
 	start_flag = 0;
 
-	int z = -50;
 	Radius = 0.5;
 	camera_phi = PI / 6.0;
 	camera_theta = 0.0;
 	camera_distance = 4.0 * Radius;
 	velocity1 = { 0.0,0.0,0.0 };
 	velocity2 = { 0.0,0.0,0.0 };
-	p1.x = z+-0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
-	p2.x = z+-2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
+	p1.x = -0.0; p1.y = 0.0; p1.z = bt; //캐릭터 1 위치
+	p2.x = -2.0; p2.y = 0.0; p2.z = bt; //캐릭터 2 위치
 
 	p1Left = false; p1Right = false; p2Left = false; p2Right = false;
 	moveDistance = 0.1; jumpUp = 0.02; jumpDown = -0.003;
